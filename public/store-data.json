@@ -479,22 +479,26 @@
         {
           "name": "Magenta",
           "images": [
-            "/images/mens-casual-shorts-magenta-01.png",
-            "/images/mens-casual-shorts-magenta-02.png",
-            "/images/mens-casual-shorts-magenta-03.png",
-            "/images/mens-casual-shorts-magenta-04.png",
-            "/images/mens-casual-shorts-magenta-05.png",
-            "/images/mens-casual-shorts-magenta-06.png"
+            "/images/mens-casual-shorts-01.png",
+            "/images/mens-casual-shorts-02.png",
+            "/images/mens-casual-shorts-03.png",
+            "/images/mens-casual-shorts-04.png",
+            "/images/mens-casual-shorts-05.png",
+            "/images/mens-casual-shorts-06.png"
           ],
-          "image": "/images/mens-casual-shorts-magenta-01.png"
+          "image": "/images/mens-casual-shorts-01.png"
         },
         {
           "name": "Navy",
           "images": [
-            "/images/mens-casual-shorts-navy-01.png",
-            "/images/mens-casual-shorts-navy-02.png"
+            "/images/mens-casual-shorts-01.png",
+            "/images/mens-casual-shorts-02.png",
+            "/images/mens-casual-shorts-03.png",
+            "/images/mens-casual-shorts-04.png",
+            "/images/mens-casual-shorts-05.png",
+            "/images/mens-casual-shorts-06.png"
           ],
-          "image": "/images/mens-casual-shorts-navy-01.png"
+          "image": "/images/mens-casual-shorts-01.png"
         }
       ],
       "sizes": [

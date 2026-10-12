@@ -13,6 +13,7 @@ A responsive React storefront for pants, trousers, 3/4 pants and track pants. Th
 - A separate wholesale enquiry page and configurable quantity discount.
 - An admin editor at `/console/` for products, storefront visibility, prices, promotions, announcements, wholesale settings and WhatsApp contacts.
 - Product photos committed to `public/images/` and served by GitHub Pages; published store data is in `public/store-data.json`.
+- Each colour can have its own product photo gallery. Provide at least 6 photos per colour; portrait 1200 × 1500 px (4:5), JPEG or WebP, ideally under 1 MB per image, is recommended. Upload controls accept JPEG, PNG, WebP and AVIF files up to 4 MB each.
 - Privacy notice and terms templates. The seller must complete accurate business details and review disclosures before launch.
 
 Indian legal requirements depend on the seller, products, sales model and actual data practices. Have the final terms, privacy notice, tax treatment, product pricing and grievance disclosures reviewed by a qualified professional before accepting enquiries.
@@ -58,7 +59,7 @@ The `/console/` admin page itself does not require a login. It keeps edits in th
 
 1. Open `https://logeshgp.github.io/clothing-ecommerce-platform/console/`.
 2. Use **Products**, **Storefront** and **Offers & messages** to edit products, prices, stock, visibility flags, home hero, banner, announcements, promotions, wholesale settings, seller details and WhatsApp contacts. The shop defaults to **New arrivals** sort. Drafts stay in this browser; download the JSON before switching browsers or clearing site data.
-3. To select a photo, choose **Choose photo** beside a product, hero, banner or collection. The editor previews it and adds a unique timestamped `/images/...` path to the draft. Choose **Download photo with suggested filename** to get a copy ready for GitHub, then use **Upload photo on GitHub** to upload that downloaded copy.
+3. For a product colour, add at least 6 photos using the per-colour photo controls. Recommended product image size is 1200 × 1500 px (4:5), JPEG or WebP, ideally under 1 MB each; the editor accepts JPEG, PNG, WebP or AVIF up to 4 MB each. For hero, banner or collection images, choose **Choose photo**. The editor previews each photo and adds a unique timestamped `/images/...` path to the draft. Choose **Download photo with suggested filename** to get a copy ready for GitHub, then use **Upload photo on GitHub** to upload each downloaded copy.
 4. In GitHub's upload screen, commit each photo to `public/images/`. The image path is already added to the draft; the file itself must be uploaded and committed by you.
 5. In the admin page's **Publish** tab, choose **Download store data**. Upload it as `public/store-data.json` the first time. For later changes, open the existing file on GitHub, replace its contents with the downloaded JSON, and commit. Use a GitHub account with write permission to this repository; you can commit to `main` or create a pull request.
 6. If photos and data are uploaded in separate commits, wait for the deployment triggered by the last commit. In **Actions**, confirm that the Pages workflow completed before checking the storefront.

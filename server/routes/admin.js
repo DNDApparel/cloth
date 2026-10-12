@@ -22,10 +22,18 @@ function slugify(value) {
 
 function sanitizeProduct(input, existing) {
   const colors = (Array.isArray(input.colors) ? input.colors : [])
-    .map((color) => ({
-      name: clean(color.name, 40),
-      image: clean(color.image, 600),
-    }))
+    .map((color) => {
+      const images = Array.isArray(color.images)
+        ? color.images.slice(0, 12).map((image) => clean(image, 600)).filter(Boolean)
+        : [];
+      const legacyImage = clean(color.image, 600);
+      const gallery = images.length ? images : legacyImage ? [legacyImage] : [];
+      return {
+        name: clean(color.name, 40),
+        image: gallery[0] ?? '',
+        images: gallery,
+      };
+    })
     .filter((color) => color.name && color.image);
 
   const sizes = (Array.isArray(input.sizes) ? input.sizes : []).map((s) => clean(s, 8)).filter(Boolean);

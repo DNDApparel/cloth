@@ -5,7 +5,8 @@ import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
 import { useRecentlyViewed } from '../context/RecentlyViewedContext';
-import { colorNames, relatedProducts, sizesInStock, stockFor } from '../data/products';
+import { colorImages, colorNames, relatedProducts, sizesInStock, stockFor } from '../data/products';
+import { assetUrl } from '../api/client';
 import { formatPrice } from '../utils/format';
 import { bulkPrice } from '../utils/cart';
 import { ProductGallery } from '../components/product/ProductGallery';
@@ -16,7 +17,6 @@ import { QuickViewModal } from '../components/product/QuickViewModal';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
-import { ColorSwatchButton } from '../components/ui/ColorSwatch';
 import { QuantityStepper } from '../components/ui/QuantityStepper';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Skeleton } from '../components/ui/Skeleton';
@@ -142,7 +142,7 @@ export default function ProductDetail() {
       />
 
       <div className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-        <ProductGallery product={product} activeColor={color} onColorChange={setColor} />
+        <ProductGallery product={product} activeColor={color} />
 
         <div className="flex flex-col gap-6">
           <div className="space-y-3">
@@ -198,18 +198,30 @@ export default function ProductDetail() {
               Colour —{' '}
               <span className="font-normal normal-case tracking-normal text-ink-900">{color}</span>
             </p>
-            <div className="flex flex-wrap gap-2.5">
-              {colorNames(product).map((option) => (
-                <ColorSwatchButton
-                  key={option}
-                  color={option}
-                  selected={option === color}
-                  onSelect={(next) => {
-                    setColor(next);
-                    setSize(null);
-                  }}
-                />
-              ))}
+            <div className="flex flex-wrap gap-3" role="group" aria-label="Choose a colour">
+              {product.colors.map((option) => {
+                const thumbnail = colorImages(option)[0];
+                const selected = option.name === color;
+                return (
+                  <button
+                    key={option.name}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => {
+                      setColor(option.name);
+                      setSize(null);
+                    }}
+                    className={`flex min-w-24 items-center gap-2 rounded-xl border p-2 text-left text-sm transition-colors ${
+                      selected ? 'border-ink-900 bg-sand-100' : 'border-sand-300 hover:border-ink-700'
+                    }`}
+                  >
+                    {thumbnail && (
+                      <img src={assetUrl(thumbnail)} alt="" className="h-12 w-10 rounded-lg object-cover" />
+                    )}
+                    <span>{option.name}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

@@ -88,7 +88,10 @@ function priceCart(items, settings, promoCode, shippingMethodId) {
       size: clean(item.size, 10),
       quantity,
       price: product.price, // authoritative price from the database
-      image: product.colors?.find((c) => c.name === item.color)?.image ?? product.colors?.[0]?.image,
+      image: product.colors?.find((c) => c.name === item.color)?.images?.[0]
+        ?? product.colors?.find((c) => c.name === item.color)?.image
+        ?? product.colors?.[0]?.images?.[0]
+        ?? product.colors?.[0]?.image,
     });
   }
 
@@ -302,12 +305,18 @@ export async function handleOrders(req, res, pathname, session) {
     if (!row) return fail(res, 404, 'Order not found.');
 
     const order = JSON.parse(row.data);
-    if (order.status === 'paid') return send(res, 200, { order });
+    if (row.status === 'paid' || order.status === 'confirmed') return send(res, 200, { order });
 
     const gateway = getGateway();
     let result;
     try {
-      result = await gateway.confirm({ ...body, reference: order.payment.reference, orderId });
+      result = await gateway.confirm({
+        ...body,
+        reference: order.payment.reference,
+        orderId,
+        expectedAmount: row.total,
+        expectedCurrency: 'INR',
+      });
     } catch (error) {
       console.error('[checkout] confirm failed:', error.message);
       return fail(res, 502, 'We could not verify the payment. Please contact support.');

@@ -491,7 +491,14 @@ const RAW = [
 /** Expands a seed entry into the full product shape used by the app. */
 export function hydrateProduct(raw) {
   const sizes = raw.sizes?.length ? raw.sizes : SIZES;
-  const colors = raw.colors;
+  const colors = (raw.colors ?? []).map((color) => {
+    const images = Array.isArray(color.images)
+      ? color.images.filter((image) => typeof image === 'string' && image)
+      : color.image
+        ? [color.image]
+        : [];
+    return { ...color, images, image: color.image || images[0] || '' };
+  });
 
   return {
     ...raw,
@@ -542,13 +549,18 @@ export function sizesInStock(product, color) {
 }
 
 export function colorImage(product, color) {
-  return (
-    product.colors.find((c) => c.name === color)?.image ?? product.colors[0]?.image ?? ''
-  );
+  return colorImages(product.colors.find((c) => c.name === color))[0]
+    ?? colorImages(product.colors[0])[0]
+    ?? '';
+}
+
+export function colorImages(color) {
+  if (Array.isArray(color?.images) && color.images.length) return color.images;
+  return color?.image ? [color.image] : [];
 }
 
 export function primaryImage(product) {
-  return product.colors[0]?.image ?? '';
+  return colorImages(product.colors[0])[0] ?? '';
 }
 
 export function colorNames(product) {

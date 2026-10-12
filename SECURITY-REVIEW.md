@@ -29,7 +29,8 @@ have been applied and verified.
 | 15 | No `Content-Security-Policy` on API responses | CWE-1021 | Low | `server/security.js` | ✅ Fixed |
 | 16 | UPI demo used `demo@upi`, a syntactically valid VPA that may belong to a real person — users could send money to a stranger | CWE-1188 | High | `src/utils/upi.js` | ✅ Fixed |
 | 17 | UPI deep link built from store-controlled `storeName` with no sanitisation or amount ceiling | CWE-20 | Medium | `src/utils/upi.js` | ✅ Fixed |
-| 18 | `window.location.assign()` navigated the storefront itself to a `tez://` scheme; `buildGooglePayDemoUrl` could throw inside the click handler and blank the page | CWE-601 / CWE-248 | Medium | `src/pages/Checkout.jsx` | ✅ Fixed |
+| 18 | `window.location.assign()` navigated the storefront itself to a `tez://` scheme; `buildGooglePayDemoUrl` could throw inside the click handler and blank the page | CWE-601 / CWE-248 | Medium | `src/pages/Checkout.jsx` | ✅ Fixed; UPI option later removed |
+| 19 | Razorpay confirmation did not bind the fetched payment to the pending intent and authoritative amount/currency, and accepted `authorized` payments as paid | CWE-345 (Insufficient Verification of Data Authenticity) | High | `server/payments/razorpayGateway.js`, `server/routes/orders.js` | ✅ Fixed |
 
 ## Fix detail
 
@@ -60,16 +61,17 @@ and `ADMIN_ORIGINS` to be set.
 be marked paid without a real gateway. (Note: `/api/checkout/*` already returns
 410 in this branch, so this is defence in depth for when checkout is re-enabled.)
 
-**UPI demo (16, 17, 18).** The placeholder is now `demo@invalid-upi` — the
-handle contains a character UPI does not permit, so a payment app refuses it
-rather than silently routing to whoever owns `demo@upi`. A real payee can be
-set with `VITE_UPI_PAYEE_VPA` and is validated against the VPA grammar. Payee
-name and note are stripped of control characters and length-capped, the amount
-is capped at ₹10,00,000, and `URLSearchParams` percent-encodes everything so
-store-controlled text cannot inject extra UPI parameters such as
-`&pa=attacker@bank`. The link now opens via an anchor with
-`rel="noopener noreferrer"` instead of navigating the storefront, and build
-errors surface as a toast.
+**UPI demo (16, 17, 18).** The demo was hardened as described in the earlier
+review, then removed from the checkout. Checkout now offers WhatsApp enquiry
+only and does not initiate or claim online payment.
+
+**Razorpay settlement binding (19).** The confirmation route passes the
+database-stored order total and currency into verification. The gateway now
+requires the submitted Razorpay order ID to match the stored intent, then
+checks the fetched payment ID, associated order ID, amount and currency. Only
+`captured` payments can be settled; unsuccessful Razorpay lookups fail closed.
+Already-paid orders return their existing confirmation instead of decrementing
+stock again on a repeated confirmation request.
 
 ## Reviewed and found safe (no change needed)
 
@@ -107,5 +109,5 @@ errors surface as a toast.
    without this every client shares one rate-limit bucket).
 2. Confirm `ADMIN_EMAILS` and `BOOTSTRAP_PASSWORD` are set in the Render
    dashboard — the API now refuses to start in production without them.
-3. If the UPI demo should reach a real account, set `VITE_UPI_PAYEE_VPA`;
-   otherwise leave it unset and the link stays non-routable.
+3. Online payment is disabled in the storefront; checkout enquiries are sent
+   by the customer through WhatsApp.

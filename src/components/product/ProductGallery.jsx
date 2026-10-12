@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { colorNames } from '../../data/products';
+import { useEffect, useState } from 'react';
+import { colorImages, colorNames } from '../../data/products';
 import { assetUrl } from '../../api/client';
 import { classNames } from '../../utils/format';
 import { ChevronLeftIcon, ChevronRightIcon } from '../ui/Icons';
@@ -8,17 +8,25 @@ import { ChevronLeftIcon, ChevronRightIcon } from '../ui/Icons';
  * PDP gallery. Images are per-colourway, so selecting a colour upstream moves
  * the gallery to the matching shot.
  */
-export function ProductGallery({ product, activeColor, onColorChange }) {
+export function ProductGallery({ product, activeColor }) {
   const [zoomed, setZoomed] = useState(false);
   const [origin, setOrigin] = useState({ x: 50, y: 50 });
+  const [imageIndex, setImageIndex] = useState(0);
 
   const colors = colorNames(product);
-  const index = Math.max(0, colors.indexOf(activeColor));
-  const current = product.colors[index] ?? product.colors[0];
+  const colorIndex = Math.max(0, colors.indexOf(activeColor));
+  const current = product.colors[colorIndex] ?? product.colors[0];
+  const images = colorImages(current);
+  const selectedImageIndex = Math.min(imageIndex, Math.max(images.length - 1, 0));
+  const currentImage = images[selectedImageIndex] ?? '';
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [activeColor]);
 
   function step(direction) {
-    const next = (index + direction + colors.length) % colors.length;
-    onColorChange(colors[next]);
+    if (!images.length) return;
+    setImageIndex((selectedImageIndex + direction + images.length) % images.length);
   }
 
   function handleMouseMove(event) {
@@ -30,38 +38,37 @@ export function ProductGallery({ product, activeColor, onColorChange }) {
   }
 
   return (
-    <div className="flex flex-col-reverse gap-4 lg:flex-row">
-      {product.colors.length > 1 && (
-        <div className="flex gap-3 lg:flex-col" role="tablist" aria-label="Product images">
-          {product.colors.map((color, i) => (
+    <div className="flex flex-col gap-4">
+      {images.length > 1 && (
+        <div className="order-2 flex gap-3 overflow-x-auto pb-1" role="group" aria-label={`Photos of ${product.name} in ${current?.name}`}>
+          {images.map((image, i) => (
             <button
-              key={color.name}
+              key={`${image}-${i}`}
               type="button"
-              role="tab"
-              aria-selected={i === index}
-              aria-label={`${product.name} in ${color.name}`}
-              onClick={() => onColorChange(color.name)}
+              aria-pressed={i === selectedImageIndex}
+              aria-label={`Show photo ${i + 1} of ${product.name} in ${current?.name}`}
+              onClick={() => setImageIndex(i)}
               className={classNames(
-                'h-20 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all duration-200 lg:h-24 lg:w-20',
-                i === index ? 'border-ink-900' : 'border-transparent opacity-65 hover:opacity-100',
+                'h-20 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all duration-200 sm:h-24 sm:w-20',
+                i === selectedImageIndex ? 'border-ink-900' : 'border-transparent opacity-65 hover:opacity-100',
               )}
             >
-              <img src={assetUrl(color.image)} alt="" className="h-full w-full object-cover" />
+              <img src={assetUrl(image)} alt="" className="h-full w-full object-cover" />
             </button>
           ))}
         </div>
       )}
 
       <div
-        className="group relative flex-1 overflow-hidden rounded-3xl bg-sand-200"
+        className="group order-1 relative overflow-hidden rounded-3xl bg-sand-200"
         onMouseEnter={() => setZoomed(true)}
         onMouseLeave={() => setZoomed(false)}
         onMouseMove={handleMouseMove}
       >
         <div className="aspect-[4/5]">
           <img
-            src={assetUrl(current?.image)}
-            alt={`${product.name} in ${current?.name}`}
+            src={assetUrl(currentImage)}
+            alt={`${product.name} in ${current?.name}, photo ${selectedImageIndex + 1}`}
             className="h-full w-full object-cover transition-transform duration-500 ease-[var(--ease-out-soft)]"
             style={{
               transform: zoomed ? 'scale(1.6)' : 'scale(1)',
@@ -70,7 +77,7 @@ export function ProductGallery({ product, activeColor, onColorChange }) {
           />
         </div>
 
-        {product.colors.length > 1 && (
+        {images.length > 1 && (
           <>
             <GalleryArrow side="left" onClick={() => step(-1)} />
             <GalleryArrow side="right" onClick={() => step(1)} />
@@ -78,7 +85,7 @@ export function ProductGallery({ product, activeColor, onColorChange }) {
         )}
 
         <div className="pointer-events-none absolute bottom-4 left-4 rounded-full bg-sand-50/90 px-3 py-1.5 text-[11px] font-medium backdrop-blur">
-          {index + 1} / {product.colors.length} · {current?.name}
+          Photo {selectedImageIndex + 1} of {images.length} · {current?.name}
         </div>
       </div>
     </div>

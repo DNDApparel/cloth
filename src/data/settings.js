@@ -4,7 +4,7 @@
  */
 
 export const SEED_ANNOUNCEMENTS = [
-  { id: 'a-1', text: 'Everyday pants, trousers and track pants — made for movement.', active: true },
+  { id: 'a-1', text: 'Everyday pants, trousers, shorts and track pants — made for movement.', active: true },
   { id: 'a-2', text: 'Wholesale orders welcome — message us for bulk pricing.', active: true },
 ];
 

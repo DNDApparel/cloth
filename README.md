@@ -5,9 +5,10 @@ A responsive React storefront for pants, trousers, 3/4 pants and track pants. Th
 ## What is included
 
 - Product browsing, search, categories, sizing, cart and wishlist.
-- The initial published catalog shows exactly four products: one pants style, one trouser, one track pant and one 3/4 pant. More can be added in the admin page.
+- The initial published catalog includes pants, trousers, track pants, 3/4 pants and men’s casual wear shorts. More products can be added in the admin page.
 - Combined bag and wishlist view with per-item selection; only checked bag items go to the estimate and WhatsApp enquiry.
 - Product-level wholesale pricing: the configured discount applies once a single product reaches the minimum quantity, with one-piece and bulk totals shown on product detail.
+- Men’s Casual Wear Shorts are listed at ₹92 retail and ₹82 per piece wholesale when the store’s minimum wholesale quantity is met.
 - Feedback page at `/feedback`, which prepares a WhatsApp draft for the owner.
 - WhatsApp purchase enquiries: customers review and send a pre-filled draft; this website does not collect payment or claim an order is placed.
 - A separate wholesale enquiry page and configurable quantity discount.
@@ -66,7 +67,7 @@ The `/console/` admin page itself does not require a login. It keeps edits in th
 
 Opening the admin page does not require signing in. A GitHub account with repository write permission is still required on GitHub's own commit screen; no credential is embedded in the website. Changes become shared only after the files are committed and Pages redeploys. The initial sample catalogue remains as a fallback until the first `store-data.json` is committed.
 
-The sample catalogue currently covers four categories: pants, trousers, 3/4 pants and track pants. WhatsApp enquiries are enabled by default and point to `9361321260`; clicking the action opens a pre-filled WhatsApp draft for the customer to review and send. The admin editor can change that contact or disable WhatsApp.
+The sample catalogue covers pants, trousers, 3/4 pants, track pants and shorts. Men’s Casual Wear Shorts are listed at ₹92 retail and ₹82 per piece wholesale, subject to the configured minimum wholesale quantity. WhatsApp enquiries are enabled by default and point to `9361321260`; clicking the action opens a pre-filled WhatsApp draft for the customer to review and send. The admin editor can change that contact or disable WhatsApp.
 
 ## Optional API mode
 

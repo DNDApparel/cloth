@@ -456,6 +456,124 @@
           "inseam": 31.5
         }
       }
+    },
+    {
+      "id": "p-025",
+      "name": "Men’s Casual Wear Shorts",
+      "category": "shorts",
+      "gender": "men",
+      "price": 92,
+      "compareAt": null,
+      "wholesalePrice": 82,
+      "fit": "regular",
+      "fabric": "Performance mesh",
+      "tags": [
+        "new"
+      ],
+      "blurb": "Lightweight casual shorts designed for breathable, quick-drying everyday comfort.",
+      "released": "2026-10-12",
+      "sold": 0,
+      "rating": 4.8,
+      "reviews": 0,
+      "colors": [
+        {
+          "name": "Magenta",
+          "images": [
+            "/images/mens-casual-shorts-magenta-01.png",
+            "/images/mens-casual-shorts-magenta-02.png",
+            "/images/mens-casual-shorts-magenta-03.png",
+            "/images/mens-casual-shorts-magenta-04.png",
+            "/images/mens-casual-shorts-magenta-05.png",
+            "/images/mens-casual-shorts-magenta-06.png"
+          ],
+          "image": "/images/mens-casual-shorts-magenta-01.png"
+        },
+        {
+          "name": "Navy",
+          "images": [
+            "/images/mens-casual-shorts-navy-01.png",
+            "/images/mens-casual-shorts-navy-02.png"
+          ],
+          "image": "/images/mens-casual-shorts-navy-01.png"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock": {
+        "Magenta::XS": 40,
+        "Magenta::S": 41,
+        "Magenta::M": 16,
+        "Magenta::L": 26,
+        "Magenta::XL": 42,
+        "Magenta::XXL": 50,
+        "Navy::XS": 34,
+        "Navy::S": 21,
+        "Navy::M": 21,
+        "Navy::L": 1,
+        "Navy::XL": 19,
+        "Navy::XXL": 29
+      },
+      "slug": "p-025-men-s-casual-wear-shorts",
+      "care": [
+        "Machine wash cold",
+        "Do not use fabric softener",
+        "Hang dry"
+      ],
+      "details": [
+        "Performance mesh — regular fit",
+        "Designed in-house, made in limited runs",
+        "Check the size guide for garment measurements"
+      ],
+      "measurements": {
+        "XS": {
+          "chest": 36,
+          "waist": 28,
+          "hip": 36,
+          "length": 26,
+          "inseam": 27
+        },
+        "S": {
+          "chest": 38,
+          "waist": 30,
+          "hip": 38,
+          "length": 27,
+          "inseam": 28
+        },
+        "M": {
+          "chest": 40,
+          "waist": 32,
+          "hip": 40,
+          "length": 28,
+          "inseam": 29
+        },
+        "L": {
+          "chest": 42,
+          "waist": 34,
+          "hip": 42,
+          "length": 29,
+          "inseam": 30
+        },
+        "XL": {
+          "chest": 44,
+          "waist": 36,
+          "hip": 44,
+          "length": 30,
+          "inseam": 31
+        },
+        "XXL": {
+          "chest": 46,
+          "waist": 38,
+          "hip": 46,
+          "length": 31,
+          "inseam": 31.5
+        }
+      }
     }
   ],
   "categories": [
@@ -478,6 +596,11 @@
       "slug": "three-fourth",
       "name": "3/4 pants",
       "blurb": "Half-length, all-day. Made for warm months."
+    },
+    {
+      "slug": "shorts",
+      "name": "Shorts",
+      "blurb": "Men’s casual shorts for warm days and easy movement."
     }
   ],
   "collections": [
@@ -540,7 +663,7 @@
   "storyBlocks": [
     {
       "title": "Everyday styles",
-      "body": "Browse pants, trousers, three-quarter pants and track pants in the collection."
+      "body": "Browse pants, trousers, shorts, three-quarter pants and track pants in the collection."
     },
     {
       "title": "Product details",
@@ -548,14 +671,14 @@
     },
     {
       "title": "Made for everyday",
-      "body": "Explore pants, trousers, three-quarter styles and track pants for your daily rotation."
+      "body": "Explore pants, trousers, shorts, three-quarter styles and track pants for your daily rotation."
     }
   ],
   "promos": [],
   "announcements": [
     {
       "id": "a-1",
-      "text": "Everyday pants, trousers and track pants — made for movement.",
+      "text": "Everyday pants, trousers, shorts and track pants — made for movement.",
       "active": true
     },
     {
@@ -659,7 +782,7 @@
       "eyebrow": "Browse the collection",
       "titleLine1": "Good clothes.",
       "titleLine2": "Everyday fits.",
-      "body": "Browse pants, trousers, three-quarter pants and track pants. Select your options and send a purchase enquiry to the seller.",
+      "body": "Browse pants, trousers, shorts, three-quarter pants and track pants. Select your options and send a purchase enquiry to the seller.",
       "ctaLabel": "Meet your new uniform",
       "ctaTo": "/shop",
       "image": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1200&q=75"

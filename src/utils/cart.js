@@ -46,16 +46,27 @@ export function shippingCost(amount, methodId, methods = DEFAULT_SHIPPING_METHOD
   return method.price;
 }
 
-export function bulkPrice(price, settings) {
+export function bulkPrice(price, settings, wholesalePrice) {
   const bulk = settings?.bulkDiscount;
   const minQuantity = Math.max(1, Number(bulk?.minQuantity) || 10);
   const percent = Number(bulk?.percent) || 0;
-  const active = Boolean(bulk?.active && percent > 0);
-  const unitPrice = active ? round(price * (1 - percent / 100)) : round(price);
+  const hasWholesalePrice =
+    wholesalePrice !== null &&
+    wholesalePrice !== undefined &&
+    wholesalePrice !== '' &&
+    Number.isFinite(Number(wholesalePrice)) &&
+    Number(wholesalePrice) >= 0 &&
+    Number(wholesalePrice) < Number(price);
+  const active = Boolean(bulk?.active && (hasWholesalePrice || percent > 0));
+  const unitPrice = active
+    ? hasWholesalePrice
+      ? round(Number(wholesalePrice))
+      : round(price * (1 - percent / 100))
+    : round(price);
   return {
     active,
     minQuantity,
-    percent,
+    percent: price > 0 ? round((1 - unitPrice / price) * 100) : 0,
     unitPrice,
     savings: round(price - unitPrice),
   };
@@ -80,18 +91,39 @@ export function calculateTotals(items, { promo = null, shippingMethod = 'standar
     counts[line.productId] = (counts[line.productId] ?? 0) + line.quantity;
     return counts;
   }, {});
-  const qualifyingProducts = new Set(
-    Object.entries(quantitiesByProduct)
-      .filter(([, quantity]) => bulk?.active && Number(bulk?.percent) > 0 && quantity >= bulkMinQuantity)
-      .map(([productId]) => productId),
+  const qualifyingProducts = new Set(Object.entries(quantitiesByProduct)
+    .filter(([productId, quantity]) => {
+      const productLines = items.filter((line) => line.productId === productId);
+      const hasProductRate = productLines.some(
+        (line) =>
+          line.wholesalePrice !== null &&
+          line.wholesalePrice !== undefined &&
+          line.wholesalePrice !== '' &&
+          Number.isFinite(Number(line.wholesalePrice)) &&
+          Number(line.wholesalePrice) < line.price,
+      );
+      return bulk?.active && quantity >= bulkMinQuantity && (hasProductRate || Number(bulk?.percent) > 0);
+    })
+    .map(([productId]) => productId));
+  const qualifyingSubtotal = items.reduce(
+    (sum, line) => sum + (qualifyingProducts.has(line.productId) ? lineSubtotal(line) : 0),
+    0,
   );
-  const bulkDiscount = qualifyingProducts.size
-    ? round(items.reduce(
-        (discount, line) => discount + (qualifyingProducts.has(line.productId)
-          ? lineSubtotal(line) * (Number(bulk.percent) / 100)
-          : 0),
-        0,
-      ))
+  const bulkDiscount = round(items.reduce((discount, line) => {
+    if (!qualifyingProducts.has(line.productId)) return discount;
+    const hasProductRate =
+      line.wholesalePrice !== null &&
+      line.wholesalePrice !== undefined &&
+      line.wholesalePrice !== '' &&
+      Number.isFinite(Number(line.wholesalePrice)) &&
+      Number(line.wholesalePrice) < line.price;
+    const unitSavings = hasProductRate
+      ? line.price - Number(line.wholesalePrice)
+      : line.price * (Number(bulk.percent) / 100);
+    return discount + unitSavings * line.quantity;
+  }, 0));
+  const effectiveBulkPercent = qualifyingSubtotal > 0
+    ? round((bulkDiscount / qualifyingSubtotal) * 100)
     : 0;
   const bulkActive = bulkDiscount > 0;
   const afterBulk = Math.max(round(subtotal - bulkDiscount), 0);
@@ -108,7 +140,7 @@ export function calculateTotals(items, { promo = null, shippingMethod = 'standar
     subtotal,
     bulkDiscount,
     bulkLabel: bulkActive ? bulk.label : null,
-    bulkPercent: bulkActive ? bulk.percent : 0,
+    bulkPercent: bulkActive ? effectiveBulkPercent : 0,
     festiveDiscount,
     festiveLabel: festiveActive ? festive.label : null,
     festivePercent: festiveActive ? festive.percent : 0,

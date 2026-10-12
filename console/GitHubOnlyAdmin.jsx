@@ -176,6 +176,7 @@ export function GitHubOnlyAdmin() {
       category: store.categories[0]?.slug ?? 'pants',
       gender: 'unisex',
       price: 999,
+      wholesalePrice: null,
       compareAt: 1199,
       fit: 'regular',
       fabric: 'Combed cotton',
@@ -433,6 +434,7 @@ export function GitHubOnlyAdmin() {
                         <Field label="Product name" value={selectedProduct.name} onChange={(name) => updateProduct(selectedProduct.id, { name, slug: `${selectedProduct.id}-${slugify(name)}` })} />
                         <Field label="Product slug" value={selectedProduct.slug} onChange={(slug) => updateProduct(selectedProduct.id, { slug })} />
                         <Field label="Price (₹)" type="number" min="0" value={selectedProduct.price} onChange={(price) => updateProduct(selectedProduct.id, { price: numberValue(price) })} />
+                        <Field label="Wholesale unit price (₹, optional)" type="number" min="0" value={selectedProduct.wholesalePrice ?? ''} onChange={(value) => updateProduct(selectedProduct.id, { wholesalePrice: value === '' ? null : numberValue(value) })} />
                         <Field label="Compare-at price (₹)" type="number" min="0" value={selectedProduct.compareAt ?? ''} onChange={(compareAt) => updateProduct(selectedProduct.id, { compareAt: numberValue(compareAt) || null })} />
                         <SelectField label="Category" value={selectedProduct.category} onChange={(category) => updateProduct(selectedProduct.id, { category })}>
                           {store.categories.map((category) => <option key={category.slug} value={category.slug}>{category.name}</option>)}
@@ -982,6 +984,11 @@ function PhotoPicker({ label, image, onImage }) {
 
   function choosePhoto(file) {
     if (!file) return;
+    if (file.size > 4 * 1024 * 1024) {
+      setUploadFile(null);
+      setFileError('Each image must be 4 MB or smaller.');
+      return;
+    }
     if (!file.type.startsWith('image/')) {
       setUploadFile(null);
       setFileError('Choose an image file.');

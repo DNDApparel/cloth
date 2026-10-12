@@ -56,6 +56,10 @@ function sanitizeProduct(input, existing) {
     category: clean(input.category, 60),
     gender: ['men', 'women', 'unisex'].includes(input.gender) ? input.gender : 'unisex',
     price: Math.max(0, Number(input.price) || 0),
+    wholesalePrice: input.wholesalePrice !== null && input.wholesalePrice !== undefined && input.wholesalePrice !== '' &&
+      Number.isFinite(Number(input.wholesalePrice)) && Number(input.wholesalePrice) >= 0
+      ? Math.min(Number(input.wholesalePrice), Math.max(0, Number(input.price) || 0))
+      : null,
     compareAt: input.compareAt ? Math.max(0, Number(input.compareAt)) : null,
     fit: clean(input.fit, 30) || 'regular',
     fabric: clean(input.fabric, 60),

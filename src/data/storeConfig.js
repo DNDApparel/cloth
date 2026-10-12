@@ -22,7 +22,7 @@ export const DEFAULT_HOME_EDITORIAL = {
   eyebrow: 'Browse the collection',
   titleLine1: 'Good clothes.',
   titleLine2: 'Everyday fits.',
-  body: 'Browse pants, trousers, three-quarter pants and track pants. Select your options and send a purchase enquiry to the seller.',
+  body: 'Browse pants, trousers, shorts, three-quarter pants and track pants. Select your options and send a purchase enquiry to the seller.',
   ctaLabel: 'Meet your new uniform',
   ctaTo: '/shop',
   image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1200&q=75',

@@ -165,6 +165,7 @@ export function CartProvider({ children }) {
       const image = colorImage(product, line.color);
       if (
         product.price === line.price &&
+        product.wholesalePrice === line.wholesalePrice &&
         product.compareAt === line.compareAt &&
         image === line.image &&
         product.name === line.name
@@ -173,7 +174,14 @@ export function CartProvider({ children }) {
       }
 
       changed = true;
-      return { ...line, price: product.price, image, name: product.name, compareAt: product.compareAt };
+      return {
+        ...line,
+        price: product.price,
+        wholesalePrice: product.wholesalePrice,
+        image,
+        name: product.name,
+        compareAt: product.compareAt,
+      };
     });
 
     if (changed) dispatch({ type: 'syncPrices', items: next });
@@ -211,6 +219,7 @@ export function CartProvider({ children }) {
         slug: product.slug,
         name: product.name,
         price: product.price,
+        wholesalePrice: product.wholesalePrice,
         compareAt: product.compareAt,
         image: colorImage(product, color),
         category: product.category,

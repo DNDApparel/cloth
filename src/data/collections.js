@@ -56,7 +56,7 @@ export const BRAND_VALUES = [
 export const STORY_BLOCKS = [
   {
     title: 'Everyday styles',
-    body: 'Browse pants, trousers, three-quarter pants and track pants in the collection.',
+    body: 'Browse pants, trousers, shorts, three-quarter pants and track pants in the collection.',
   },
   {
     title: 'Product details',
@@ -64,6 +64,6 @@ export const STORY_BLOCKS = [
   },
   {
     title: 'Made for everyday',
-    body: 'Explore pants, trousers, three-quarter styles and track pants for your daily rotation.',
+    body: 'Explore pants, trousers, shorts, three-quarter styles and track pants for your daily rotation.',
   },
 ];

@@ -88,6 +88,14 @@ function priceCart(items, settings, promoCode, shippingMethodId) {
       size: clean(item.size, 10),
       quantity,
       price: product.price, // authoritative price from the database
+      wholesalePrice: product.wholesalePrice !== null &&
+        product.wholesalePrice !== undefined &&
+        product.wholesalePrice !== '' &&
+        Number.isFinite(Number(product.wholesalePrice))
+        && Number(product.wholesalePrice) >= 0
+        && Number(product.wholesalePrice) < Number(product.price)
+        ? Number(product.wholesalePrice)
+        : null,
       image: product.colors?.find((c) => c.name === item.color)?.images?.[0]
         ?? product.colors?.find((c) => c.name === item.color)?.image
         ?? product.colors?.[0]?.images?.[0]
@@ -99,10 +107,37 @@ function priceCart(items, settings, promoCode, shippingMethodId) {
 
   const itemCount = lines.reduce((sum, line) => sum + line.quantity, 0);
   const bulk = settings.bulkDiscount;
-  const bulkActive = Boolean(
-    bulk?.active && bulk.percent > 0 && itemCount >= (Number(bulk.minQuantity) || Infinity),
+  const bulkMinQuantity = Number(bulk?.minQuantity) || Infinity;
+  const quantitiesByProduct = lines.reduce((counts, line) => {
+    counts[line.productId] = (counts[line.productId] ?? 0) + line.quantity;
+    return counts;
+  }, {});
+  const qualifyingProducts = new Set(Object.entries(quantitiesByProduct)
+    .filter(([productId, quantity]) =>
+      bulk?.active &&
+      quantity >= bulkMinQuantity &&
+      (lines.some((line) =>
+        line.productId === productId &&
+        line.wholesalePrice !== null &&
+        Number.isFinite(Number(line.wholesalePrice)) &&
+        line.wholesalePrice < line.price,
+      ) ||
+        Number(bulk.percent) > 0),
+    )
+    .map(([productId]) => productId));
+  const qualifyingSubtotal = lines.reduce(
+    (sum, line) => sum + (qualifyingProducts.has(line.productId) ? line.price * line.quantity : 0),
+    0,
   );
-  const bulkDiscount = bulkActive ? round(subtotal * (bulk.percent / 100)) : 0;
+  const bulkDiscount = round(lines.reduce((discount, line) => {
+    if (!qualifyingProducts.has(line.productId)) return discount;
+    const unitSavings = line.wholesalePrice !== null
+      ? line.price - line.wholesalePrice
+      : line.price * (Number(bulk.percent) / 100);
+    return discount + unitSavings * line.quantity;
+  }, 0));
+  const bulkPercent = qualifyingSubtotal > 0 ? round((bulkDiscount / qualifyingSubtotal) * 100) : 0;
+  const bulkActive = bulkDiscount > 0;
   const afterBulk = Math.max(round(subtotal - bulkDiscount), 0);
   const festive = settings.festiveOffer;
   const festiveActive = Boolean(festive?.active && festive.percent > 0 && afterBulk > 0);
@@ -145,7 +180,7 @@ function priceCart(items, settings, promoCode, shippingMethodId) {
       subtotal,
       bulkDiscount,
       bulkLabel: bulkActive ? bulk.label : null,
-      bulkPercent: bulkActive ? bulk.percent : 0,
+      bulkPercent: bulkActive ? bulkPercent : 0,
       festiveDiscount,
       festiveLabel: festiveActive ? festive.label : null,
       festivePercent: festiveActive ? festive.percent : 0,

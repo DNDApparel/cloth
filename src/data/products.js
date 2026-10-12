@@ -486,6 +486,43 @@ const RAW = [
       { name: 'Slate', image: UNSPLASH('photo-1560243563-062bfc001d68') },
     ],
   },
+  {
+    id: 'p-025',
+    name: 'Men’s Casual Wear Shorts',
+    category: 'shorts',
+    gender: 'men',
+    price: 92,
+    compareAt: null,
+    wholesalePrice: 82,
+    fit: 'regular',
+    fabric: 'Performance mesh',
+    tags: ['new'],
+    blurb: 'Lightweight casual shorts designed for breathable, quick-drying everyday comfort.',
+    released: '2026-10-12',
+    sold: 0,
+    rating: 4.8,
+    reviews: 0,
+    colors: [
+      {
+        name: 'Magenta',
+        images: [
+          '/images/mens-casual-shorts-magenta-01.png',
+          '/images/mens-casual-shorts-magenta-02.png',
+          '/images/mens-casual-shorts-magenta-03.png',
+          '/images/mens-casual-shorts-magenta-04.png',
+          '/images/mens-casual-shorts-magenta-05.png',
+          '/images/mens-casual-shorts-magenta-06.png',
+        ],
+      },
+      {
+        name: 'Navy',
+        images: [
+          '/images/mens-casual-shorts-navy-01.png',
+          '/images/mens-casual-shorts-navy-02.png',
+        ],
+      },
+    ],
+  },
 ];
 
 /** Expands a seed entry into the full product shape used by the app. */
@@ -515,15 +552,17 @@ export function hydrateProduct(raw) {
       'Check the size guide for garment measurements',
     ],
     measurements: Object.fromEntries(sizes.map((s) => [s, MEASUREMENTS[s]])),
-    compareAt: Math.max(
-      Number(raw.compareAt) || Math.ceil((Number(raw.price) * 1.2) / 100) * 100,
-      Number(raw.price) + 1,
-    ),
+    compareAt: Object.hasOwn(raw, 'compareAt') && raw.compareAt === null
+      ? null
+      : Math.max(
+          Number(raw.compareAt) || Math.ceil((Number(raw.price) * 1.2) / 100) * 100,
+          Number(raw.price) + 1,
+        ),
     tags: raw.tags ?? [],
   };
 }
 
-const INITIAL_PRODUCT_IDS = new Set(['p-001', 'p-008', 'p-014', 'p-019']);
+const INITIAL_PRODUCT_IDS = new Set(['p-001', 'p-008', 'p-014', 'p-019', 'p-025']);
 export const SEED_PRODUCTS = RAW
   .filter((product) => INITIAL_PRODUCT_IDS.has(product.id))
   .map(hydrateProduct);

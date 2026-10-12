@@ -34,11 +34,10 @@ function seedCategories() {
 }
 
 function seedProducts() {
-  const count = db.prepare('SELECT COUNT(*) AS n FROM products').get().n;
-  if (count > 0) return;
-
   const insert = db.prepare(
-    'INSERT INTO products (id, slug, category, price, data, updated_at) VALUES (?, ?, ?, ?, ?, ?)',
+    `INSERT INTO products (id, slug, category, price, data, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?)
+     ON CONFLICT(id) DO NOTHING`,
   );
 
   SEED_PRODUCTS.forEach((product) => {
@@ -72,7 +71,7 @@ function seedProducts() {
     );
   });
 
-  console.log(`[seed] ${SEED_PRODUCTS.length} products`);
+  console.log(`[seed] checked ${SEED_PRODUCTS.length} sample products`);
 }
 
 function migrateLegacyPantsCatalog() {

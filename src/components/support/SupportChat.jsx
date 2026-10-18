@@ -9,6 +9,7 @@ import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
 import { FormField } from '../checkout/FormField';
 import { CheckIcon } from '../ui/Icons';
+import { ProductImage } from '../ui/ProductImage';
 
 const KINDS = [
   { value: 'query', label: 'Product question' },
@@ -142,9 +143,10 @@ export function SupportChat({ product }) {
       >
         <div className="space-y-5 p-6">
           <div className="flex items-center gap-3 rounded-2xl bg-sand-100 p-3">
-            <img
+            <ProductImage
               src={product.colors?.[0]?.image}
               alt=""
+              label=""
               className="h-14 w-12 shrink-0 rounded-lg object-cover"
             />
             <div className="min-w-0">

@@ -31,12 +31,14 @@ export default function Collections() {
               index === 0 ? 'md:col-span-2 md:aspect-[21/9]' : 'aspect-[4/3]'
             }`}
           >
-            <img
-              src={assetUrl(collection.image)}
-              alt=""
-              loading={index === 0 ? 'eager' : 'lazy'}
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
+            {collection.image && (
+              <img
+                src={assetUrl(collection.image)}
+                alt=""
+                loading={index === 0 ? 'eager' : 'lazy'}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-ink-900/20 to-transparent" />
 
             <div className="absolute inset-x-6 bottom-6 space-y-2 text-sand-50 sm:inset-x-8 sm:bottom-8">

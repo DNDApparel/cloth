@@ -6,13 +6,13 @@ import { useToast } from '../context/ToastContext';
 import { stockFor } from '../data/products';
 import { WishlistRow } from './Wishlist';
 import { formatPrice } from '../utils/format';
-import { assetUrl } from '../api/client';
 import { OrderSummary } from '../components/cart/OrderSummary';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
 import { QuantityStepper } from '../components/ui/QuantityStepper';
 import { HeartIcon, TrashIcon } from '../components/ui/Icons';
+import { ProductImage } from '../components/ui/ProductImage';
 
 export default function Cart() {
   const { items, selectedItems, totals, updateQuantity, removeItem, changeSize, setSelected, selectAll } = useCart();
@@ -72,7 +72,7 @@ export default function Cart() {
                     to={`/product/${line.slug}`}
                     className="h-40 w-32 shrink-0 overflow-hidden rounded-2xl bg-sand-200"
                   >
-                    <img src={assetUrl(line.image)} alt={line.name} className="h-full w-full object-cover" />
+                    <ProductImage src={line.image} alt={line.name} className="h-full w-full object-cover" />
                   </Link>
 
                   <div className="flex min-w-0 flex-1 flex-col gap-3">

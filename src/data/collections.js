@@ -1,4 +1,9 @@
-/** Curated edits surfaced on the home page and the /collections route. */
+/**
+ * Curated edits surfaced on the home page and the /collections route.
+ *
+ * `image` is intentionally empty until real photography is supplied — the UI
+ * falls back to a neutral placeholder rather than a stock photo.
+ */
 
 export const COLLECTIONS = [
   {
@@ -8,7 +13,7 @@ export const COLLECTIONS = [
     tagline: 'Wear your own rhythm.',
     description:
       'The pieces we reach for without thinking — easy forms, considered details, made for wherever the day goes.',
-    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=75',
+    image: '',
     productIds: ['p-001', 'p-008', 'p-014', 'p-019'],
   },
   {
@@ -18,7 +23,7 @@ export const COLLECTIONS = [
     tagline: 'Built to move with you.',
     description:
       'Track pants, training three-quarters and activewear made for days on the move.',
-    image: 'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=1400&q=75',
+    image: '',
     productIds: ['p-014'],
   },
   {
@@ -28,8 +33,8 @@ export const COLLECTIONS = [
     tagline: 'Comfort for warmer days.',
     description:
       'Easy-to-wear styles for warmer weather and everyday plans.',
-    image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=1400&q=75',
-    productIds: ['p-019'],
+    image: '',
+    productIds: ['p-019', 'p-025'],
   },
   {
     slug: 'soft-structure',
@@ -37,7 +42,7 @@ export const COLLECTIONS = [
     issue: '024',
     tagline: 'Comfort for every day.',
     description: 'Everyday styles in comfortable fits.',
-    image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=1400&q=75',
+    image: '',
     productIds: ['p-001', 'p-008'],
   },
 ];

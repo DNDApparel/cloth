@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { formatDate, formatPrice } from '../../utils/format';
-import { assetUrl } from '../../api/client';
 import { Button } from '../../components/ui/Button';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { ChevronRightIcon } from '../../components/ui/Icons';
+import { ProductImage } from '../../components/ui/ProductImage';
 
 export default function AccountOrders() {
   const { orders } = useAuth();
@@ -34,9 +34,9 @@ export default function AccountOrders() {
             >
               <div className="flex -space-x-3">
                 {order.items.slice(0, 3).map((line) => (
-                  <img
+                  <ProductImage
                     key={line.id}
-                    src={assetUrl(line.image)}
+                    src={line.image}
                     alt=""
                     className="h-16 w-13 rounded-lg border-2 border-sand-50 object-cover"
                   />

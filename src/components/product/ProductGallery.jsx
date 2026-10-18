@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { colorImages, colorNames } from '../../data/products';
-import { assetUrl } from '../../api/client';
 import { classNames } from '../../utils/format';
 import { ChevronLeftIcon, ChevronRightIcon } from '../ui/Icons';
+import { ProductImage } from '../ui/ProductImage';
 
 /**
  * PDP gallery. Images are per-colourway, so selecting a colour upstream moves
@@ -53,7 +53,7 @@ export function ProductGallery({ product, activeColor }) {
                 i === selectedImageIndex ? 'border-ink-900' : 'border-transparent opacity-65 hover:opacity-100',
               )}
             >
-              <img src={assetUrl(image)} alt="" className="h-full w-full object-cover" />
+              <ProductImage src={image} alt="" className="h-full w-full object-cover" />
             </button>
           ))}
         </div>
@@ -66,9 +66,10 @@ export function ProductGallery({ product, activeColor }) {
         onMouseMove={handleMouseMove}
       >
         <div className="aspect-[4/5]">
-          <img
-            src={assetUrl(currentImage)}
+          <ProductImage
+            src={currentImage}
             alt={`${product.name} in ${current?.name}, photo ${selectedImageIndex + 1}`}
+            label="Photos coming soon"
             className="h-full w-full object-cover transition-transform duration-500 ease-[var(--ease-out-soft)]"
             style={{
               transform: zoomed ? 'scale(1.6)' : 'scale(1)',
@@ -85,7 +86,9 @@ export function ProductGallery({ product, activeColor }) {
         )}
 
         <div className="pointer-events-none absolute bottom-4 left-4 rounded-full bg-sand-50/90 px-3 py-1.5 text-[11px] font-medium backdrop-blur">
-          Photo {selectedImageIndex + 1} of {images.length} · {current?.name}
+          {images.length
+            ? `Photo ${selectedImageIndex + 1} of ${images.length} · ${current?.name}`
+            : current?.name}
         </div>
       </div>
     </div>

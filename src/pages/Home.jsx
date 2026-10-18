@@ -41,7 +41,10 @@ export default function Home() {
       {visibility.hero !== false && <section className="dnd-container pt-6 pb-16 lg:pt-10" aria-labelledby="hero-title">
         <div className="relative overflow-hidden rounded-3xl bg-sand-200">
           <div className="absolute inset-0">
-            <img src={assetUrl(hero.image)} alt="" className="h-full w-full object-cover" />
+            {/* Decorative only — the sand backdrop stands in until a photo is set. */}
+            {hero.image && (
+              <img src={assetUrl(hero.image)} alt="" className="h-full w-full object-cover" />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-ink-900/75 via-ink-900/25 to-ink-900/10" />
           </div>
 
@@ -120,7 +123,7 @@ export default function Home() {
                 to={`/shop/${category.slug}`}
                 className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-sand-200"
               >
-                {sample && (
+                {sample && primaryImage(sample) && (
                   <img
                     src={assetUrl(primaryImage(sample))}
                     alt=""
@@ -177,12 +180,14 @@ export default function Home() {
       {visibility.editorial !== false && <section className="dnd-container py-16">
         <div className="grid overflow-hidden rounded-3xl bg-ink-900 text-sand-100 lg:grid-cols-2">
           <div className="min-h-72 bg-sand-200 lg:min-h-[32rem]">
-            <img
-              src={assetUrl(editorial.image)}
-              alt="Everyday essentials laid out"
-              loading="lazy"
-              className="h-full w-full object-cover"
-            />
+            {editorial.image && (
+              <img
+                src={assetUrl(editorial.image)}
+                alt="Everyday essentials laid out"
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            )}
           </div>
           <div className="flex flex-col justify-center gap-5 p-8 sm:p-12 lg:p-16">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-sand-400">
@@ -268,12 +273,14 @@ export default function Home() {
               to={`/collections/${collection.slug}`}
               className="group relative aspect-[16/10] overflow-hidden rounded-3xl bg-sand-200"
             >
-              <img
-                src={assetUrl(collection.image)}
-                alt=""
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+              {collection.image && (
+                <img
+                  src={assetUrl(collection.image)}
+                  alt=""
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-ink-900/75 to-transparent" />
               <div className="absolute inset-x-6 bottom-6 space-y-1.5 text-sand-50">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-sand-300">

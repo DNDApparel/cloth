@@ -20,15 +20,18 @@
       "colors": [
         {
           "name": "Bone",
-          "image": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         },
         {
           "name": "Ink",
-          "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         },
         {
           "name": "Olive",
-          "image": "https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         }
       ],
       "sizes": [
@@ -132,15 +135,18 @@
       "colors": [
         {
           "name": "Charcoal",
-          "image": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         },
         {
           "name": "Sand",
-          "image": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         },
         {
           "name": "Ink",
-          "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         }
       ],
       "sizes": [
@@ -245,15 +251,18 @@
       "colors": [
         {
           "name": "Oat",
-          "image": "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         },
         {
           "name": "Charcoal",
-          "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         },
         {
           "name": "Sage",
-          "image": "https://images.unsplash.com/photo-1562183241-b937e95585b6?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         }
       ],
       "sizes": [
@@ -351,8 +360,7 @@
       "fit": "relaxed",
       "fabric": "Linen blend",
       "tags": [
-        "sale",
-        "last-chance"
+        "sale"
       ],
       "blurb": "A breathable linen-blend three-quarter with a drawcord waist.",
       "released": "2026-04-02",
@@ -362,15 +370,18 @@
       "colors": [
         {
           "name": "Ecru",
-          "image": "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         },
         {
           "name": "Sage",
-          "image": "https://images.unsplash.com/photo-1565084888279-aca607ecce0c?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         },
         {
           "name": "Cocoa",
-          "image": "https://images.unsplash.com/photo-1560243563-062bfc001d68?auto=format&fit=crop&w=900&q=72"
+          "images": [],
+          "image": ""
         }
       ],
       "sizes": [
@@ -614,7 +625,7 @@
       "issue": "026",
       "tagline": "Wear your own rhythm.",
       "description": "The pieces we reach for without thinking — easy forms, considered details, made for wherever the day goes.",
-      "image": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=75",
+      "image": "",
       "productIds": [
         "p-001",
         "p-008",
@@ -628,7 +639,7 @@
       "issue": "027",
       "tagline": "Built to move with you.",
       "description": "Track pants, training three-quarters and activewear made for days on the move.",
-      "image": "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=1400&q=75",
+      "image": "",
       "productIds": [
         "p-014"
       ]
@@ -639,9 +650,10 @@
       "issue": "025",
       "tagline": "Comfort for warmer days.",
       "description": "Easy-to-wear styles for warmer weather and everyday plans.",
-      "image": "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=1400&q=75",
+      "image": "",
       "productIds": [
-        "p-019"
+        "p-019",
+        "p-025"
       ]
     },
     {
@@ -650,7 +662,7 @@
       "issue": "024",
       "tagline": "Comfort for every day.",
       "description": "Everyday styles in comfortable fits.",
-      "image": "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=1400&q=75",
+      "image": "",
       "productIds": [
         "p-001",
         "p-008"
@@ -757,7 +769,7 @@
       "bodyLine1": "Pants, trousers and track pants.",
       "bodyLine2": "Comfort for wherever the day goes.",
       "caption": "Shop direct. Ask us on WhatsApp.",
-      "image": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=75",
+      "image": "",
       "ctaLabel": "Shop the collection",
       "ctaTo": "/shop"
     },
@@ -789,7 +801,7 @@
       "body": "Browse pants, trousers, shorts, three-quarter pants and track pants. Select your options and send a purchase enquiry to the seller.",
       "ctaLabel": "Meet your new uniform",
       "ctaTo": "/shop",
-      "image": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1200&q=75"
+      "image": ""
     },
     "collectionsPage": {
       "eyebrow": "Curated edits",

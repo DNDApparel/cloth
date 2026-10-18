@@ -7,13 +7,13 @@ import { useToast } from '../context/ToastContext';
 import { colorImage, colorNames, sizesInStock, stockFor } from '../data/products';
 import { CATEGORY_MAP } from '../data/taxonomy';
 import { formatPrice } from '../utils/format';
-import { assetUrl } from '../api/client';
 import { SizePicker } from '../components/product/SizePicker';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
 import { ColorSwatchButton } from '../components/ui/ColorSwatch';
 import { TrashIcon } from '../components/ui/Icons';
+import { ProductImage } from '../components/ui/ProductImage';
 
 export default function Wishlist() {
   const wishlist = useWishlist();
@@ -105,8 +105,8 @@ export function WishlistRow({ product }) {
         to={`/product/${product.slug}`}
         className="h-48 w-36 shrink-0 overflow-hidden rounded-2xl bg-sand-200"
       >
-        <img
-          src={assetUrl(colorImage(product, color))}
+        <ProductImage
+          src={colorImage(product, color)}
           alt={`${product.name} in ${color}`}
           className="h-full w-full object-cover"
         />

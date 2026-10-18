@@ -5,9 +5,9 @@ import { useWishlist } from '../../context/WishlistContext';
 import { useCart } from '../../context/CartContext';
 import { primaryImage } from '../../data/products';
 import { formatDate, formatPrice } from '../../utils/format';
-import { assetUrl } from '../../api/client';
 import { Button } from '../../components/ui/Button';
 import { ArrowUpRightIcon } from '../../components/ui/Icons';
+import { ProductImage } from '../../components/ui/ProductImage';
 
 export default function AccountDashboard() {
   const { user, orders } = useAuth();
@@ -52,9 +52,9 @@ export default function AccountDashboard() {
 
             <div className="flex flex-wrap gap-2">
               {latestOrder.items.slice(0, 5).map((line) => (
-                <img
+                <ProductImage
                   key={line.id}
-                  src={assetUrl(line.image)}
+                  src={line.image}
                   alt={line.name}
                   className="h-20 w-16 rounded-lg object-cover"
                 />
@@ -127,7 +127,7 @@ export default function AccountDashboard() {
                   to={`/product/${product.slug}`}
                   className="h-24 w-20 overflow-hidden rounded-lg bg-sand-200"
                 >
-                  <img
+                  <ProductImage
                     src={primaryImage(product)}
                     alt={product.name}
                     className="h-full w-full object-cover"

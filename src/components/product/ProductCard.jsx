@@ -5,10 +5,10 @@ import { useToast } from '../../context/ToastContext';
 import { colorImage, colorNames, isInStock } from '../../data/products';
 import { CATEGORY_MAP } from '../../data/taxonomy';
 import { classNames, formatPrice } from '../../utils/format';
-import { assetUrl } from '../../api/client';
 import { Badge } from '../ui/Badge';
 import { ColorSwatch } from '../ui/ColorSwatch';
 import { HeartIcon } from '../ui/Icons';
+import { ProductImage } from '../ui/ProductImage';
 
 /**
  * Catalog tile. Hovering a colour dot previews that colourway without
@@ -42,8 +42,8 @@ export function ProductCard({ product, onQuickView, priority = false, layout = '
         className="group flex gap-5 rounded-2xl border border-transparent p-3 transition-colors hover:border-sand-300 hover:bg-sand-50"
       >
         <div className="relative aspect-[3/4] w-32 shrink-0 overflow-hidden rounded-xl bg-sand-200 sm:w-40">
-          <img
-            src={assetUrl(image)}
+          <ProductImage
+            src={image}
             alt={`${product.name} in ${activeColor}`}
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -72,8 +72,8 @@ export function ProductCard({ product, onQuickView, priority = false, layout = '
     <article className="group relative flex flex-col">
       <Link to={`/product/${product.slug}`} className="block">
         <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-sand-200">
-          <img
-            src={assetUrl(image)}
+          <ProductImage
+            src={image}
             alt={`${product.name} in ${activeColor}`}
             loading={priority ? 'eager' : 'lazy'}
             className="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-out-soft)] group-hover:scale-[1.04]"

@@ -4,11 +4,11 @@ import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useStore } from '../context/StoreContext';
 import { formatDate, formatPrice } from '../utils/format';
-import { assetUrl } from '../api/client';
 import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Skeleton } from '../components/ui/Skeleton';
 import { CheckIcon, PackageIcon, TruckIcon } from '../components/ui/Icons';
+import { ProductImage } from '../components/ui/ProductImage';
 
 export default function OrderConfirmation() {
   const { orderId } = useParams();
@@ -126,7 +126,7 @@ export default function OrderConfirmation() {
                   to={`/product/${line.slug}`}
                   className="h-20 w-16 shrink-0 overflow-hidden rounded-lg bg-sand-200"
                 >
-                  <img src={assetUrl(line.image)} alt="" className="h-full w-full object-cover" />
+                  <ProductImage src={line.image} alt="" className="h-full w-full object-cover" />
                 </Link>
                 <div className="min-w-0 flex-1">
                   <Link to={`/product/${line.slug}`} className="block truncate text-sm font-medium">

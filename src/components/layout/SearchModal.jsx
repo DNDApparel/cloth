@@ -8,6 +8,7 @@ import { CATEGORY_MAP } from '../../data/taxonomy';
 import { formatPrice } from '../../utils/format';
 import { Modal } from '../ui/Modal';
 import { SearchIcon } from '../ui/Icons';
+import { ProductImage } from '../ui/ProductImage';
 
 const SUGGESTIONS = ['T-shirt', 'Track pants', 'Trousers', '3/4 pants', 'Cotton', 'On sale'];
 
@@ -94,9 +95,10 @@ export function SearchModal({ open, onClose }) {
                   onClick={onClose}
                   className="flex items-center gap-4 rounded-xl p-2 transition-colors hover:bg-sand-100"
                 >
-                  <img
+                  <ProductImage
                     src={primaryImage(product)}
                     alt=""
+                    label=""
                     className="h-16 w-14 shrink-0 rounded-lg object-cover"
                   />
                   <div className="min-w-0 flex-1">

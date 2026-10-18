@@ -57,8 +57,8 @@ export const SEED_SETTINGS = {
     bodyLine1: 'Pants, trousers and track pants.',
     bodyLine2: 'Comfort for wherever the day goes.',
     caption: 'Shop direct. Ask us on WhatsApp.',
-    image:
-      'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=75',
+    // Add a hero photo from the admin console; blank renders a plain backdrop.
+    image: '',
     ctaLabel: 'Shop the collection',
     ctaTo: '/shop',
   },

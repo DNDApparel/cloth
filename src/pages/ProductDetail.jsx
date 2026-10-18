@@ -6,7 +6,6 @@ import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
 import { useRecentlyViewed } from '../context/RecentlyViewedContext';
 import { colorImages, colorNames, relatedProducts, sizesInStock, stockFor } from '../data/products';
-import { assetUrl } from '../api/client';
 import { formatPrice } from '../utils/format';
 import { bulkPrice } from '../utils/cart';
 import { ProductGallery } from '../components/product/ProductGallery';
@@ -21,6 +20,7 @@ import { QuantityStepper } from '../components/ui/QuantityStepper';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Skeleton } from '../components/ui/Skeleton';
 import { HeartIcon } from '../components/ui/Icons';
+import { ProductImage } from '../components/ui/ProductImage';
 
 /** Replaces {token} placeholders in admin-authored copy. */
 function fill(template, values) {
@@ -216,7 +216,7 @@ export default function ProductDetail() {
                     }`}
                   >
                     {thumbnail && (
-                      <img src={assetUrl(thumbnail)} alt="" className="h-12 w-10 rounded-lg object-cover" />
+                      <ProductImage src={thumbnail} alt="" className="h-12 w-10 rounded-lg object-cover" />
                     )}
                     <span>{option.name}</span>
                   </button>

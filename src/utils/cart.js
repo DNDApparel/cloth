@@ -46,9 +46,33 @@ export function shippingCost(amount, methodId, methods = DEFAULT_SHIPPING_METHOD
   return method.price;
 }
 
-export function bulkPrice(price, settings, wholesalePrice) {
+/** True when a product carries its own per-piece wholesale rate. */
+function hasRate(wholesalePrice, price) {
+  return (
+    wholesalePrice !== null &&
+    wholesalePrice !== undefined &&
+    wholesalePrice !== '' &&
+    Number.isFinite(Number(wholesalePrice)) &&
+    Number(wholesalePrice) >= 0 &&
+    Number(wholesalePrice) < Number(price)
+  );
+}
+
+/**
+ * Minimum pieces that unlock the wholesale rate.
+ *
+ * Each product can override the store-wide default, because the seller quotes
+ * a different minimum order quantity per style.
+ */
+export function minBulkQuantity(settings, productMinQuantity) {
+  const perProduct = Number(productMinQuantity);
+  if (Number.isFinite(perProduct) && perProduct >= 1) return Math.floor(perProduct);
+  return Math.max(1, Number(settings?.bulkDiscount?.minQuantity) || 10);
+}
+
+export function bulkPrice(price, settings, wholesalePrice, productMinQuantity) {
   const bulk = settings?.bulkDiscount;
-  const minQuantity = Math.max(1, Number(bulk?.minQuantity) || 10);
+  const minQuantity = minBulkQuantity(settings, productMinQuantity);
   const percent = Number(bulk?.percent) || 0;
   const hasWholesalePrice =
     wholesalePrice !== null &&
@@ -94,15 +118,11 @@ export function calculateTotals(items, { promo = null, shippingMethod = 'standar
   const qualifyingProducts = new Set(Object.entries(quantitiesByProduct)
     .filter(([productId, quantity]) => {
       const productLines = items.filter((line) => line.productId === productId);
-      const hasProductRate = productLines.some(
-        (line) =>
-          line.wholesalePrice !== null &&
-          line.wholesalePrice !== undefined &&
-          line.wholesalePrice !== '' &&
-          Number.isFinite(Number(line.wholesalePrice)) &&
-          Number(line.wholesalePrice) < line.price,
-      );
-      return bulk?.active && quantity >= bulkMinQuantity && (hasProductRate || Number(bulk?.percent) > 0);
+      const hasProductRate = productLines.some((line) => hasRate(line.wholesalePrice, line.price));
+      // Each style has its own minimum order quantity; fall back to the
+      // store-wide default when a product does not set one.
+      const required = minBulkQuantity(settings, productLines[0]?.bulkMinQuantity);
+      return bulk?.active && quantity >= required && (hasProductRate || Number(bulk?.percent) > 0);
     })
     .map(([productId]) => productId));
   const qualifyingSubtotal = items.reduce(
@@ -111,12 +131,7 @@ export function calculateTotals(items, { promo = null, shippingMethod = 'standar
   );
   const bulkDiscount = round(items.reduce((discount, line) => {
     if (!qualifyingProducts.has(line.productId)) return discount;
-    const hasProductRate =
-      line.wholesalePrice !== null &&
-      line.wholesalePrice !== undefined &&
-      line.wholesalePrice !== '' &&
-      Number.isFinite(Number(line.wholesalePrice)) &&
-      Number(line.wholesalePrice) < line.price;
+    const hasProductRate = hasRate(line.wholesalePrice, line.price);
     const unitSavings = hasProductRate
       ? line.price - Number(line.wholesalePrice)
       : line.price * (Number(bulk.percent) / 100);

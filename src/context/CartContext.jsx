@@ -166,6 +166,7 @@ export function CartProvider({ children }) {
       if (
         product.price === line.price &&
         product.wholesalePrice === line.wholesalePrice &&
+        product.bulkMinQuantity === line.bulkMinQuantity &&
         product.compareAt === line.compareAt &&
         image === line.image &&
         product.name === line.name
@@ -178,6 +179,7 @@ export function CartProvider({ children }) {
         ...line,
         price: product.price,
         wholesalePrice: product.wholesalePrice,
+        bulkMinQuantity: product.bulkMinQuantity,
         image,
         name: product.name,
         compareAt: product.compareAt,
@@ -220,6 +222,7 @@ export function CartProvider({ children }) {
         name: product.name,
         price: product.price,
         wholesalePrice: product.wholesalePrice,
+        bulkMinQuantity: product.bulkMinQuantity,
         compareAt: product.compareAt,
         image: colorImage(product, color),
         category: product.category,

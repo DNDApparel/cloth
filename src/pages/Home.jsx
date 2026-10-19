@@ -199,7 +199,7 @@ export default function Home() {
               {editorial.titleLine2 ?? 'Everyday fits.'}
             </h2>
             <p className="max-w-md text-sm leading-relaxed text-sand-300">
-              {editorial.body ?? 'Browse pants, trousers, three-quarter pants and track pants. Select your options and send a purchase enquiry to the seller.'}
+              {editorial.body ?? 'Browse pants, shorts and track pants. Select your options and send a purchase enquiry to the seller.'}
             </p>
 
             <dl className="grid gap-5 pt-2 sm:grid-cols-3">

@@ -2,9 +2,7 @@
 
 export const CATEGORIES = [
   { slug: 'pants', name: 'Pants', blurb: 'Everyday pants made for comfortable movement.' },
-  { slug: 'trousers', name: 'Trousers', blurb: 'Cut once, worn a thousand times.' },
   { slug: 'track-pants', name: 'Track pants', blurb: 'Built to move, comfortable enough to stay in.' },
-  { slug: 'three-fourth', name: '3/4 pants', blurb: 'Half-length, all-day. Made for warm months.' },
   { slug: 'shorts', name: 'Shorts', blurb: 'Men’s casual shorts for warm days and easy movement.' },
 ];
 
@@ -100,20 +98,10 @@ export const MEASUREMENT_COLUMNS = {
     { key: 'hip', label: 'Hip' },
     { key: 'inseam', label: 'Inseam' },
   ],
-  trousers: [
-    { key: 'waist', label: 'Waist' },
-    { key: 'hip', label: 'Hip' },
-    { key: 'inseam', label: 'Inseam' },
-  ],
   'track-pants': [
     { key: 'waist', label: 'Waist' },
     { key: 'hip', label: 'Hip' },
     { key: 'inseam', label: 'Inseam' },
-  ],
-  'three-fourth': [
-    { key: 'waist', label: 'Waist' },
-    { key: 'hip', label: 'Hip' },
-    { key: 'length', label: 'Length' },
   ],
   shorts: [
     { key: 'waist', label: 'Waist' },

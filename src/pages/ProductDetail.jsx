@@ -109,7 +109,12 @@ export default function ProductDetail() {
   const saved = wishlist.has(product.id);
   const category = categoryMap[product.category];
   const festive = settings.festiveOffer;
-  const bulkPricing = bulkPrice(product.price, settings, product.wholesalePrice);
+  const bulkPricing = bulkPrice(
+    product.price,
+    settings,
+    product.wholesalePrice,
+    product.bulkMinQuantity,
+  );
 
   function handleAddToBag() {
     if (!size) {
@@ -180,7 +185,19 @@ export default function ProductDetail() {
                 <p className="mt-1 text-xs text-ink-600">
                   {bulkPricing.minQuantity} pieces total {formatPrice(bulkPricing.unitPrice * bulkPricing.minQuantity)} · save {formatPrice(bulkPricing.savings * bulkPricing.minQuantity)}
                 </p>
+                {product.bulkNote && (
+                  <p className="mt-1 text-xs text-ink-600">{product.bulkNote}</p>
+                )}
               </div>
+            )}
+
+            {/* Minimum order quantity still matters when no wholesale rate is
+                published yet, so surface it on its own. */}
+            {!bulkPricing.active && product.bulkMinQuantity > 1 && (
+              <p className="max-w-md text-xs text-ink-600">
+                Wholesale enquiries welcome from {product.bulkMinQuantity} pieces — ask the seller
+                for a quote.
+              </p>
             )}
 
             {festive?.active && (

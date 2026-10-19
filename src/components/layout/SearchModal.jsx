@@ -10,7 +10,7 @@ import { Modal } from '../ui/Modal';
 import { SearchIcon } from '../ui/Icons';
 import { ProductImage } from '../ui/ProductImage';
 
-const SUGGESTIONS = ['T-shirt', 'Track pants', 'Trousers', '3/4 pants', 'Cotton', 'On sale'];
+const SUGGESTIONS = ['Shorts', 'Track pants', 'Pants', 'Lycra', 'Cotton', 'On sale'];
 
 export function SearchModal({ open, onClose }) {
   const [query, setQuery] = useState('');
@@ -47,7 +47,7 @@ export function SearchModal({ open, onClose }) {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search for tees, trousers, track pants…"
+            placeholder="Search for pants, shorts, track pants…"
             autoComplete="off"
             className="w-full bg-transparent text-lg outline-none placeholder:text-sand-400"
           />

@@ -4,7 +4,7 @@
  */
 
 export const SEED_ANNOUNCEMENTS = [
-  { id: 'a-1', text: 'Everyday pants, trousers, shorts and track pants — made for movement.', active: true },
+  { id: 'a-1', text: 'Everyday pants, shorts and track pants — made for movement.', active: true },
   { id: 'a-2', text: 'Wholesale orders welcome — message us for bulk pricing.', active: true },
 ];
 
@@ -54,7 +54,7 @@ export const SEED_SETTINGS = {
     eyebrow: 'Everyday clothing · Wholesale available',
     titleLine1: 'Find your',
     titleLine2: 'everyday fit.',
-    bodyLine1: 'Pants, trousers and track pants.',
+    bodyLine1: 'Pants, shorts and track pants.',
     bodyLine2: 'Comfort for wherever the day goes.',
     caption: 'Shop direct. Ask us on WhatsApp.',
     // Add a hero photo from the admin console; blank renders a plain backdrop.

@@ -14,7 +14,7 @@ export const COLLECTIONS = [
     description:
       'The pieces we reach for without thinking — easy forms, considered details, made for wherever the day goes.',
     image: '',
-    productIds: ['p-001', 'p-008', 'p-014', 'p-019'],
+    productIds: ['p-101', 'p-102', 'p-103', 'p-104', 'p-105'],
   },
   {
     slug: 'move-well',
@@ -22,9 +22,9 @@ export const COLLECTIONS = [
     issue: '027',
     tagline: 'Built to move with you.',
     description:
-      'Track pants, training three-quarters and activewear made for days on the move.',
+      'Track pants and zip-pocket styles made for days on the move.',
     image: '',
-    productIds: ['p-014'],
+    productIds: ['p-105', 'p-104'],
   },
   {
     slug: 'warm-month-staples',
@@ -34,7 +34,7 @@ export const COLLECTIONS = [
     description:
       'Easy-to-wear styles for warmer weather and everyday plans.',
     image: '',
-    productIds: ['p-019', 'p-025'],
+    productIds: ['p-101', 'p-102'],
   },
   {
     slug: 'soft-structure',
@@ -43,7 +43,7 @@ export const COLLECTIONS = [
     tagline: 'Comfort for every day.',
     description: 'Everyday styles in comfortable fits.',
     image: '',
-    productIds: ['p-001', 'p-008'],
+    productIds: ['p-103', 'p-104'],
   },
 ];
 
@@ -51,17 +51,17 @@ export const COLLECTIONS_BY_SLUG = Object.fromEntries(COLLECTIONS.map((c) => [c.
 
 /** Short brand values rendered in the scrolling strip on the home page. */
 export const BRAND_VALUES = [
-  'Pants and trousers.',
+  'Pants, shorts and track pants.',
   'Everyday styles.',
   'Find your fit.',
-  'Track pants and three-quarter pants.',
+  'Track pants and everyday shorts.',
   'Wholesale enquiries welcome.',
 ];
 
 export const STORY_BLOCKS = [
   {
     title: 'Everyday styles',
-    body: 'Browse pants, trousers, shorts, three-quarter pants and track pants in the collection.',
+    body: 'Browse pants, shorts and track pants in the collection.',
   },
   {
     title: 'Product details',
@@ -69,6 +69,6 @@ export const STORY_BLOCKS = [
   },
   {
     title: 'Made for everyday',
-    body: 'Explore pants, trousers, shorts, three-quarter styles and track pants for your daily rotation.',
+    body: 'Explore pants, shorts and track pants for your daily rotation.',
   },
 ];

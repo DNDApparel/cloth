@@ -4,15 +4,16 @@ import { MEASUREMENTS, SIZES } from './taxonomy.js';
 import { seededRandom } from '../utils/format.js';
 
 /**
- * Seed catalog — one product per category, priced in rupees.
+ * Seed catalog.
  *
  * Products are stored in a flat, admin-editable shape: colours carry their own
  * image list and stock is a plain `"Colour::Size" -> number` map, so every
  * field can be edited from the admin console without derived data going stale.
  *
- * Only the shorts have photography so far. Every other product ships with an
- * empty `images` array on purpose — the UI renders a neutral placeholder until
- * real photos are uploaded through the admin console.
+ * Pricing: `price` is the single-piece retail rate and `wholesalePrice` is the
+ * per-piece rate once the buyer reaches `bulkMinQuantity` of that product.
+ * Only the first colour of each product is photographed so far — the rest
+ * render a neutral placeholder until more shots are supplied.
  */
 
 const CARE_BY_FABRIC = {
@@ -25,6 +26,7 @@ const CARE_BY_FABRIC = {
   'Tencel™ lyocell': ['Machine wash cold, gentle cycle', 'Hang dry', 'Cool iron on reverse'],
   'Performance mesh': ['Machine wash cold', 'Do not use fabric softener', 'Hang dry'],
   'Poly-cotton knit': ['Machine wash cold', 'Tumble dry low', 'Do not bleach'],
+  'Lycra blend': ['Machine wash cold', 'Do not bleach', 'Hang dry away from direct sun'],
 };
 
 /** Deterministic stock so "only 2 left" warnings stay stable between reloads. */
@@ -41,126 +43,141 @@ function seedStock(productId, colors, sizes) {
   return stock;
 }
 
-const SHORTS_PHOTOS = [
-  '/images/mens-casual-shorts-01.png',
-  '/images/mens-casual-shorts-02.png',
-  '/images/mens-casual-shorts-03.png',
-  '/images/mens-casual-shorts-04.png',
-  '/images/mens-casual-shorts-05.png',
-  '/images/mens-casual-shorts-06.png',
-];
-
 const RAW = [
-  // --------------------------------------------------------------------- Pants
+  // -------------------------------------------------------------------- Shorts
   {
-    id: 'p-001',
-    name: 'Everyday Cotton Chino',
-    category: 'pants',
-    gender: 'unisex',
-    price: 1299,
-    compareAt: 1699,
-    fit: 'relaxed',
-    fabric: 'Combed cotton',
-    tags: ['sale'],
-    blurb: 'A dependable straight-leg cotton chino with a comfortable mid rise.',
-    released: '2026-07-02',
-    sold: 3180,
-    rating: 4.7,
-    reviews: 512,
+    id: 'p-101',
+    name: 'Adidas Zip-Pocket Shorts',
+    category: 'shorts',
+    gender: 'men',
+    price: 85,
+    compareAt: null,
+    wholesalePrice: 69,
+    bulkMinQuantity: 25,
+    fit: 'regular',
+    fabric: 'Poly-cotton knit',
+    tags: ['new'],
+    blurb: 'Everyday knit shorts with a zip security pocket and a contrast drawcord.',
+    released: '2026-10-19',
+    sold: 0,
+    rating: 4.8,
+    reviews: 0,
     colors: [
-      { name: 'Bone', images: [] },
-      { name: 'Ink', images: [] },
+      { name: 'Ink', images: ['/images/shorts-adidas.jpg'] },
+      { name: 'Navy', images: [] },
+      { name: 'Charcoal', images: [] },
       { name: 'Olive', images: [] },
+      { name: 'Slate', images: [] },
+    ],
+  },
+  {
+    id: 'p-102',
+    name: 'Tigers Side-Stripe Shorts',
+    category: 'shorts',
+    gender: 'men',
+    price: 100,
+    compareAt: null,
+    wholesalePrice: 75,
+    bulkMinQuantity: 30,
+    fit: 'regular',
+    fabric: 'Poly-cotton knit',
+    tags: ['new'],
+    blurb: 'Twin side stripes, a zip pocket and a soft knit body built for warm days.',
+    released: '2026-10-19',
+    sold: 0,
+    rating: 4.8,
+    reviews: 0,
+    colors: [
+      { name: 'Olive', images: ['/images/shorts-tigers.jpg'] },
+      { name: 'Moss', images: [] },
+      { name: 'Ink', images: [] },
+      { name: 'Navy', images: [] },
+      { name: 'Charcoal', images: [] },
+      { name: 'Sand', images: [] },
     ],
   },
 
-  // ----------------------------------------------------------------- Trousers
+  // --------------------------------------------------------------------- Pants
   {
-    id: 'p-008',
-    name: 'Studio Straight Trouser',
-    category: 'trousers',
-    gender: 'unisex',
-    price: 2499,
+    id: 'p-103',
+    name: 'Lycra Stretch Pant',
+    category: 'pants',
+    gender: 'men',
+    price: 130,
+    compareAt: null,
+    wholesalePrice: 95,
+    bulkMinQuantity: 10,
+    // Wholesale is quoted per size on this style — 10 pieces each in XL and XXL.
+    bulkNote: 'Wholesale rate applies to XL and XXL, minimum 10 pieces per size.',
     fit: 'regular',
-    fabric: 'Stretch twill',
-    tags: [],
-    blurb: 'A clean straight leg with a mid rise and just enough stretch.',
-    released: '2026-04-11',
-    sold: 2240,
+    fabric: 'Lycra blend',
+    tags: ['new'],
+    blurb: 'A smooth lycra-blend pant with a clean straight leg and an elasticated waist.',
+    released: '2026-10-19',
+    sold: 0,
     rating: 4.8,
-    reviews: 389,
+    reviews: 0,
     colors: [
-      { name: 'Charcoal', images: [] },
-      { name: 'Sand', images: [] },
+      { name: 'Slate', images: ['/images/pant-lycra-grey.jpg'] },
+      { name: 'Maroon', images: ['/images/pant-lycra-maroon.jpg'] },
       { name: 'Ink', images: [] },
+      { name: 'Navy', images: [] },
+      { name: 'Charcoal', images: [] },
+    ],
+  },
+  {
+    id: 'p-104',
+    name: 'Wild Life Zip-Pocket Pant',
+    category: 'pants',
+    gender: 'men',
+    price: 140,
+    compareAt: null,
+    wholesalePrice: 95,
+    bulkMinQuantity: 25,
+    fit: 'regular',
+    fabric: 'Brushed fleece',
+    tags: ['new'],
+    blurb: 'A brushed fleece pant with a zip security pocket and a straight, easy leg.',
+    released: '2026-10-19',
+    sold: 0,
+    rating: 4.8,
+    reviews: 0,
+    colors: [
+      { name: 'Charcoal', images: ['/images/pant-wild-life.jpg'] },
+      { name: 'Ink', images: [] },
+      { name: 'Navy', images: [] },
+      { name: 'Slate', images: [] },
+      { name: 'Moss', images: [] },
     ],
   },
 
   // -------------------------------------------------------------- Track pants
   {
-    id: 'p-014',
-    name: 'Loop Terry Track Pant',
+    id: 'p-105',
+    name: 'Polar Deer Side-Stripe Track Pant',
     category: 'track-pants',
-    gender: 'unisex',
-    price: 1899,
-    fit: 'relaxed',
-    fabric: 'Cotton terry',
-    tags: [],
-    blurb: 'A tapered terry track pant with a ribbed waist that stays put.',
-    released: '2026-07-16',
-    sold: 1760,
-    rating: 4.7,
-    reviews: 268,
-    colors: [
-      { name: 'Oat', images: [] },
-      { name: 'Charcoal', images: [] },
-      { name: 'Sage', images: [] },
-    ],
-  },
-
-  // ------------------------------------------------------------- 3/4 pants
-  {
-    id: 'p-019',
-    name: 'Basin Relaxed 3/4 Pant',
-    category: 'three-fourth',
-    gender: 'unisex',
-    price: 1499,
-    compareAt: 1899,
-    fit: 'relaxed',
-    fabric: 'Linen blend',
-    tags: ['sale'],
-    blurb: 'A breathable linen-blend three-quarter with a drawcord waist.',
-    released: '2026-04-02',
-    sold: 1320,
-    rating: 4.3,
-    reviews: 167,
-    colors: [
-      { name: 'Ecru', images: [] },
-      { name: 'Sage', images: [] },
-      { name: 'Cocoa', images: [] },
-    ],
-  },
-
-  // -------------------------------------------------------------------- Shorts
-  {
-    id: 'p-025',
-    name: 'Men’s Casual Wear Shorts',
-    category: 'shorts',
     gender: 'men',
-    price: 92,
+    price: 140,
     compareAt: null,
-    wholesalePrice: 82,
+    // TODO: confirm the per-piece wholesale rate for this style — the minimum
+    // order quantity is 30 but no wholesale price has been supplied yet.
+    wholesalePrice: null,
+    bulkMinQuantity: 30,
     fit: 'regular',
-    fabric: 'Performance mesh',
+    fabric: 'Poly-cotton knit',
     tags: ['new'],
-    blurb: 'Lightweight casual shorts designed for breathable, quick-drying everyday comfort.',
-    released: '2026-10-12',
+    blurb: 'Twin side stripes and zip pockets on a tapered, everyday track pant.',
+    released: '2026-10-19',
     sold: 0,
     rating: 4.8,
     reviews: 0,
     colors: [
-      { name: 'Magenta', images: [...SHORTS_PHOTOS] },
-      { name: 'Navy', images: [...SHORTS_PHOTOS] },
+      { name: 'Navy', images: ['/images/pant-polar-deer.jpg'] },
+      { name: 'Ink', images: [] },
+      { name: 'Charcoal', images: [] },
+      { name: 'Slate', images: [] },
+      { name: 'Maroon', images: [] },
+      { name: 'Olive', images: [] },
     ],
   },
 ];

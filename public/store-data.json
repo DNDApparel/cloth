@@ -1,30 +1,639 @@
 {
   "products": [
     {
-      "id": "p-001",
-      "name": "Everyday Cotton Chino",
-      "category": "pants",
-      "gender": "unisex",
-      "price": 1299,
-      "compareAt": 1699,
-      "fit": "relaxed",
-      "fabric": "Combed cotton",
+      "id": "p-101",
+      "name": "Adidas Zip-Pocket Shorts",
+      "category": "shorts",
+      "gender": "men",
+      "price": 85,
+      "compareAt": null,
+      "wholesalePrice": 69,
+      "bulkMinQuantity": 25,
+      "fit": "regular",
+      "fabric": "Poly-cotton knit",
       "tags": [
-        "sale"
+        "new"
       ],
-      "blurb": "A dependable straight-leg cotton chino with a comfortable mid rise.",
-      "released": "2026-07-02",
-      "sold": 3180,
-      "rating": 4.7,
-      "reviews": 512,
+      "blurb": "Everyday knit shorts with a zip security pocket and a contrast drawcord.",
+      "released": "2026-10-19",
+      "sold": 0,
+      "rating": 4.8,
+      "reviews": 0,
       "colors": [
         {
-          "name": "Bone",
+          "name": "Ink",
+          "images": [
+            "/images/shorts-adidas.jpg"
+          ],
+          "image": "/images/shorts-adidas.jpg"
+        },
+        {
+          "name": "Navy",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Charcoal",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Olive",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Slate",
+          "images": [],
+          "image": ""
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock": {
+        "Ink::XS": 42,
+        "Ink::S": 46,
+        "Ink::M": 22,
+        "Ink::L": 33,
+        "Ink::XL": 42,
+        "Ink::XXL": 47,
+        "Navy::XS": 37,
+        "Navy::S": 2,
+        "Navy::M": 42,
+        "Navy::L": 1,
+        "Navy::XL": 24,
+        "Navy::XXL": 27,
+        "Charcoal::XS": 32,
+        "Charcoal::S": 46,
+        "Charcoal::M": 1,
+        "Charcoal::L": 44,
+        "Charcoal::XL": 34,
+        "Charcoal::XXL": 33,
+        "Olive::XS": 21,
+        "Olive::S": 24,
+        "Olive::M": 19,
+        "Olive::L": 51,
+        "Olive::XL": 48,
+        "Olive::XXL": 53,
+        "Slate::XS": 46,
+        "Slate::S": 49,
+        "Slate::M": 35,
+        "Slate::L": 27,
+        "Slate::XL": 35,
+        "Slate::XXL": 24
+      },
+      "slug": "p-101-adidas-zip-pocket-shorts",
+      "care": [
+        "Machine wash cold",
+        "Tumble dry low",
+        "Do not bleach"
+      ],
+      "details": [
+        "Poly-cotton knit — regular fit",
+        "Designed in-house, made in limited runs",
+        "Check the size guide for garment measurements"
+      ],
+      "measurements": {
+        "XS": {
+          "chest": 36,
+          "waist": 28,
+          "hip": 36,
+          "length": 26,
+          "inseam": 27
+        },
+        "S": {
+          "chest": 38,
+          "waist": 30,
+          "hip": 38,
+          "length": 27,
+          "inseam": 28
+        },
+        "M": {
+          "chest": 40,
+          "waist": 32,
+          "hip": 40,
+          "length": 28,
+          "inseam": 29
+        },
+        "L": {
+          "chest": 42,
+          "waist": 34,
+          "hip": 42,
+          "length": 29,
+          "inseam": 30
+        },
+        "XL": {
+          "chest": 44,
+          "waist": 36,
+          "hip": 44,
+          "length": 30,
+          "inseam": 31
+        },
+        "XXL": {
+          "chest": 46,
+          "waist": 38,
+          "hip": 46,
+          "length": 31,
+          "inseam": 31.5
+        }
+      }
+    },
+    {
+      "id": "p-102",
+      "name": "Tigers Side-Stripe Shorts",
+      "category": "shorts",
+      "gender": "men",
+      "price": 100,
+      "compareAt": null,
+      "wholesalePrice": 75,
+      "bulkMinQuantity": 30,
+      "fit": "regular",
+      "fabric": "Poly-cotton knit",
+      "tags": [
+        "new"
+      ],
+      "blurb": "Twin side stripes, a zip pocket and a soft knit body built for warm days.",
+      "released": "2026-10-19",
+      "sold": 0,
+      "rating": 4.8,
+      "reviews": 0,
+      "colors": [
+        {
+          "name": "Olive",
+          "images": [
+            "/images/shorts-tigers.jpg"
+          ],
+          "image": "/images/shorts-tigers.jpg"
+        },
+        {
+          "name": "Moss",
           "images": [],
           "image": ""
         },
         {
           "name": "Ink",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Navy",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Charcoal",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Sand",
+          "images": [],
+          "image": ""
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock": {
+        "Olive::XS": 26,
+        "Olive::S": 29,
+        "Olive::M": 18,
+        "Olive::L": 29,
+        "Olive::XL": 1,
+        "Olive::XXL": 33,
+        "Moss::XS": 44,
+        "Moss::S": 44,
+        "Moss::M": 20,
+        "Moss::L": 0,
+        "Moss::XL": 44,
+        "Moss::XXL": 22,
+        "Ink::XS": 0,
+        "Ink::S": 19,
+        "Ink::M": 45,
+        "Ink::L": 36,
+        "Ink::XL": 37,
+        "Ink::XXL": 49,
+        "Navy::XS": 43,
+        "Navy::S": 29,
+        "Navy::M": 36,
+        "Navy::L": 28,
+        "Navy::XL": 45,
+        "Navy::XXL": 48,
+        "Charcoal::XS": 2,
+        "Charcoal::S": 45,
+        "Charcoal::M": 27,
+        "Charcoal::L": 37,
+        "Charcoal::XL": 33,
+        "Charcoal::XXL": 49,
+        "Sand::XS": 43,
+        "Sand::S": 28,
+        "Sand::M": 44,
+        "Sand::L": 35,
+        "Sand::XL": 44,
+        "Sand::XXL": 53
+      },
+      "slug": "p-102-tigers-side-stripe-shorts",
+      "care": [
+        "Machine wash cold",
+        "Tumble dry low",
+        "Do not bleach"
+      ],
+      "details": [
+        "Poly-cotton knit — regular fit",
+        "Designed in-house, made in limited runs",
+        "Check the size guide for garment measurements"
+      ],
+      "measurements": {
+        "XS": {
+          "chest": 36,
+          "waist": 28,
+          "hip": 36,
+          "length": 26,
+          "inseam": 27
+        },
+        "S": {
+          "chest": 38,
+          "waist": 30,
+          "hip": 38,
+          "length": 27,
+          "inseam": 28
+        },
+        "M": {
+          "chest": 40,
+          "waist": 32,
+          "hip": 40,
+          "length": 28,
+          "inseam": 29
+        },
+        "L": {
+          "chest": 42,
+          "waist": 34,
+          "hip": 42,
+          "length": 29,
+          "inseam": 30
+        },
+        "XL": {
+          "chest": 44,
+          "waist": 36,
+          "hip": 44,
+          "length": 30,
+          "inseam": 31
+        },
+        "XXL": {
+          "chest": 46,
+          "waist": 38,
+          "hip": 46,
+          "length": 31,
+          "inseam": 31.5
+        }
+      }
+    },
+    {
+      "id": "p-103",
+      "name": "Lycra Stretch Pant",
+      "category": "pants",
+      "gender": "men",
+      "price": 130,
+      "compareAt": null,
+      "wholesalePrice": 95,
+      "bulkMinQuantity": 10,
+      "bulkNote": "Wholesale rate applies to XL and XXL, minimum 10 pieces per size.",
+      "fit": "regular",
+      "fabric": "Lycra blend",
+      "tags": [
+        "new"
+      ],
+      "blurb": "A smooth lycra-blend pant with a clean straight leg and an elasticated waist.",
+      "released": "2026-10-19",
+      "sold": 0,
+      "rating": 4.8,
+      "reviews": 0,
+      "colors": [
+        {
+          "name": "Slate",
+          "images": [
+            "/images/pant-lycra-grey.jpg"
+          ],
+          "image": "/images/pant-lycra-grey.jpg"
+        },
+        {
+          "name": "Maroon",
+          "images": [
+            "/images/pant-lycra-maroon.jpg"
+          ],
+          "image": "/images/pant-lycra-maroon.jpg"
+        },
+        {
+          "name": "Ink",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Navy",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Charcoal",
+          "images": [],
+          "image": ""
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock": {
+        "Slate::XS": 24,
+        "Slate::S": 46,
+        "Slate::M": 34,
+        "Slate::L": 25,
+        "Slate::XL": 43,
+        "Slate::XXL": 18,
+        "Maroon::XS": 31,
+        "Maroon::S": 0,
+        "Maroon::M": 22,
+        "Maroon::L": 33,
+        "Maroon::XL": 35,
+        "Maroon::XXL": 1,
+        "Ink::XS": 2,
+        "Ink::S": 29,
+        "Ink::M": 35,
+        "Ink::L": 46,
+        "Ink::XL": 49,
+        "Ink::XXL": 49,
+        "Navy::XS": 27,
+        "Navy::S": 33,
+        "Navy::M": 2,
+        "Navy::L": 27,
+        "Navy::XL": 35,
+        "Navy::XXL": 50,
+        "Charcoal::XS": 30,
+        "Charcoal::S": 34,
+        "Charcoal::M": 2,
+        "Charcoal::L": 49,
+        "Charcoal::XL": 38,
+        "Charcoal::XXL": 32
+      },
+      "slug": "p-103-lycra-stretch-pant",
+      "care": [
+        "Machine wash cold",
+        "Do not bleach",
+        "Hang dry away from direct sun"
+      ],
+      "details": [
+        "Lycra blend — regular fit",
+        "Designed in-house, made in limited runs",
+        "Check the size guide for garment measurements"
+      ],
+      "measurements": {
+        "XS": {
+          "chest": 36,
+          "waist": 28,
+          "hip": 36,
+          "length": 26,
+          "inseam": 27
+        },
+        "S": {
+          "chest": 38,
+          "waist": 30,
+          "hip": 38,
+          "length": 27,
+          "inseam": 28
+        },
+        "M": {
+          "chest": 40,
+          "waist": 32,
+          "hip": 40,
+          "length": 28,
+          "inseam": 29
+        },
+        "L": {
+          "chest": 42,
+          "waist": 34,
+          "hip": 42,
+          "length": 29,
+          "inseam": 30
+        },
+        "XL": {
+          "chest": 44,
+          "waist": 36,
+          "hip": 44,
+          "length": 30,
+          "inseam": 31
+        },
+        "XXL": {
+          "chest": 46,
+          "waist": 38,
+          "hip": 46,
+          "length": 31,
+          "inseam": 31.5
+        }
+      }
+    },
+    {
+      "id": "p-104",
+      "name": "Wild Life Zip-Pocket Pant",
+      "category": "pants",
+      "gender": "men",
+      "price": 140,
+      "compareAt": null,
+      "wholesalePrice": 95,
+      "bulkMinQuantity": 25,
+      "fit": "regular",
+      "fabric": "Brushed fleece",
+      "tags": [
+        "new"
+      ],
+      "blurb": "A brushed fleece pant with a zip security pocket and a straight, easy leg.",
+      "released": "2026-10-19",
+      "sold": 0,
+      "rating": 4.8,
+      "reviews": 0,
+      "colors": [
+        {
+          "name": "Charcoal",
+          "images": [
+            "/images/pant-wild-life.jpg"
+          ],
+          "image": "/images/pant-wild-life.jpg"
+        },
+        {
+          "name": "Ink",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Navy",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Slate",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Moss",
+          "images": [],
+          "image": ""
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock": {
+        "Charcoal::XS": 0,
+        "Charcoal::S": 1,
+        "Charcoal::M": 26,
+        "Charcoal::L": 37,
+        "Charcoal::XL": 46,
+        "Charcoal::XXL": 29,
+        "Ink::XS": 38,
+        "Ink::S": 2,
+        "Ink::M": 43,
+        "Ink::L": 35,
+        "Ink::XL": 1,
+        "Ink::XXL": 35,
+        "Navy::XS": 40,
+        "Navy::S": 37,
+        "Navy::M": 46,
+        "Navy::L": 37,
+        "Navy::XL": 23,
+        "Navy::XXL": 50,
+        "Slate::XS": 48,
+        "Slate::S": 19,
+        "Slate::M": 33,
+        "Slate::L": 44,
+        "Slate::XL": 50,
+        "Slate::XXL": 0,
+        "Moss::XS": 0,
+        "Moss::S": 30,
+        "Moss::M": 44,
+        "Moss::L": 36,
+        "Moss::XL": 2,
+        "Moss::XXL": 38
+      },
+      "slug": "p-104-wild-life-zip-pocket-pant",
+      "care": [
+        "Machine wash cold inside out",
+        "Tumble dry low",
+        "Do not iron print"
+      ],
+      "details": [
+        "Brushed fleece — regular fit",
+        "Designed in-house, made in limited runs",
+        "Check the size guide for garment measurements"
+      ],
+      "measurements": {
+        "XS": {
+          "chest": 36,
+          "waist": 28,
+          "hip": 36,
+          "length": 26,
+          "inseam": 27
+        },
+        "S": {
+          "chest": 38,
+          "waist": 30,
+          "hip": 38,
+          "length": 27,
+          "inseam": 28
+        },
+        "M": {
+          "chest": 40,
+          "waist": 32,
+          "hip": 40,
+          "length": 28,
+          "inseam": 29
+        },
+        "L": {
+          "chest": 42,
+          "waist": 34,
+          "hip": 42,
+          "length": 29,
+          "inseam": 30
+        },
+        "XL": {
+          "chest": 44,
+          "waist": 36,
+          "hip": 44,
+          "length": 30,
+          "inseam": 31
+        },
+        "XXL": {
+          "chest": 46,
+          "waist": 38,
+          "hip": 46,
+          "length": 31,
+          "inseam": 31.5
+        }
+      }
+    },
+    {
+      "id": "p-105",
+      "name": "Polar Deer Side-Stripe Track Pant",
+      "category": "track-pants",
+      "gender": "men",
+      "price": 140,
+      "compareAt": null,
+      "wholesalePrice": null,
+      "bulkMinQuantity": 30,
+      "fit": "regular",
+      "fabric": "Poly-cotton knit",
+      "tags": [
+        "new"
+      ],
+      "blurb": "Twin side stripes and zip pockets on a tapered, everyday track pant.",
+      "released": "2026-10-19",
+      "sold": 0,
+      "rating": 4.8,
+      "reviews": 0,
+      "colors": [
+        {
+          "name": "Navy",
+          "images": [
+            "/images/pant-polar-deer.jpg"
+          ],
+          "image": "/images/pant-polar-deer.jpg"
+        },
+        {
+          "name": "Ink",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Charcoal",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Slate",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Maroon",
           "images": [],
           "image": ""
         },
@@ -43,505 +652,51 @@
         "XXL"
       ],
       "stock": {
-        "Bone::XS": 26,
-        "Bone::S": 2,
-        "Bone::M": 46,
-        "Bone::L": 37,
-        "Bone::XL": 32,
-        "Bone::XXL": 48,
-        "Ink::XS": 42,
-        "Ink::S": 34,
-        "Ink::M": 22,
+        "Navy::XS": 25,
+        "Navy::S": 39,
+        "Navy::M": 0,
+        "Navy::L": 20,
+        "Navy::XL": 31,
+        "Navy::XXL": 1,
+        "Ink::XS": 2,
+        "Ink::S": 17,
+        "Ink::M": 45,
         "Ink::L": 2,
-        "Ink::XL": 21,
-        "Ink::XXL": 0,
-        "Olive::XS": 43,
-        "Olive::S": 47,
-        "Olive::M": 39,
-        "Olive::L": 49,
-        "Olive::XL": 2,
-        "Olive::XXL": 41
+        "Ink::XL": 41,
+        "Ink::XXL": 33,
+        "Charcoal::XS": 35,
+        "Charcoal::S": 25,
+        "Charcoal::M": 18,
+        "Charcoal::L": 50,
+        "Charcoal::XL": 41,
+        "Charcoal::XXL": 52,
+        "Slate::XS": 27,
+        "Slate::S": 2,
+        "Slate::M": 21,
+        "Slate::L": 0,
+        "Slate::XL": 29,
+        "Slate::XXL": 48,
+        "Maroon::XS": 23,
+        "Maroon::S": 44,
+        "Maroon::M": 26,
+        "Maroon::L": 36,
+        "Maroon::XL": 42,
+        "Maroon::XXL": 43,
+        "Olive::XS": 1,
+        "Olive::S": 1,
+        "Olive::M": 23,
+        "Olive::L": 0,
+        "Olive::XL": 36,
+        "Olive::XXL": 0
       },
-      "slug": "p-001-everyday-cotton-chino",
-      "care": [
-        "Machine wash cold with like colours",
-        "Tumble dry low",
-        "Warm iron if needed"
-      ],
-      "details": [
-        "Combed cotton — relaxed fit",
-        "Designed in-house, made in limited runs",
-        "Check the size guide for garment measurements"
-      ],
-      "measurements": {
-        "XS": {
-          "chest": 36,
-          "waist": 28,
-          "hip": 36,
-          "length": 26,
-          "inseam": 27
-        },
-        "S": {
-          "chest": 38,
-          "waist": 30,
-          "hip": 38,
-          "length": 27,
-          "inseam": 28
-        },
-        "M": {
-          "chest": 40,
-          "waist": 32,
-          "hip": 40,
-          "length": 28,
-          "inseam": 29
-        },
-        "L": {
-          "chest": 42,
-          "waist": 34,
-          "hip": 42,
-          "length": 29,
-          "inseam": 30
-        },
-        "XL": {
-          "chest": 44,
-          "waist": 36,
-          "hip": 44,
-          "length": 30,
-          "inseam": 31
-        },
-        "XXL": {
-          "chest": 46,
-          "waist": 38,
-          "hip": 46,
-          "length": 31,
-          "inseam": 31.5
-        }
-      }
-    },
-    {
-      "id": "p-008",
-      "name": "Studio Straight Trouser",
-      "category": "trousers",
-      "gender": "unisex",
-      "price": 2499,
-      "fit": "regular",
-      "fabric": "Stretch twill",
-      "tags": [],
-      "blurb": "A clean straight leg with a mid rise and just enough stretch.",
-      "released": "2026-04-11",
-      "sold": 2240,
-      "rating": 4.8,
-      "reviews": 389,
-      "colors": [
-        {
-          "name": "Charcoal",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Sand",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Ink",
-          "images": [],
-          "image": ""
-        }
-      ],
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
-        "XXL"
-      ],
-      "stock": {
-        "Charcoal::XS": 19,
-        "Charcoal::S": 17,
-        "Charcoal::M": 24,
-        "Charcoal::L": 2,
-        "Charcoal::XL": 0,
-        "Charcoal::XXL": 0,
-        "Sand::XS": 17,
-        "Sand::S": 33,
-        "Sand::M": 46,
-        "Sand::L": 2,
-        "Sand::XL": 21,
-        "Sand::XXL": 46,
-        "Ink::XS": 25,
-        "Ink::S": 21,
-        "Ink::M": 37,
-        "Ink::L": 48,
-        "Ink::XL": 25,
-        "Ink::XXL": 31
-      },
-      "slug": "p-008-studio-straight-trouser",
-      "care": [
-        "Machine wash cold, gentle cycle",
-        "Hang dry",
-        "Cool iron on reverse"
-      ],
-      "details": [
-        "Stretch twill — regular fit",
-        "Designed in-house, made in limited runs",
-        "Check the size guide for garment measurements"
-      ],
-      "measurements": {
-        "XS": {
-          "chest": 36,
-          "waist": 28,
-          "hip": 36,
-          "length": 26,
-          "inseam": 27
-        },
-        "S": {
-          "chest": 38,
-          "waist": 30,
-          "hip": 38,
-          "length": 27,
-          "inseam": 28
-        },
-        "M": {
-          "chest": 40,
-          "waist": 32,
-          "hip": 40,
-          "length": 28,
-          "inseam": 29
-        },
-        "L": {
-          "chest": 42,
-          "waist": 34,
-          "hip": 42,
-          "length": 29,
-          "inseam": 30
-        },
-        "XL": {
-          "chest": 44,
-          "waist": 36,
-          "hip": 44,
-          "length": 30,
-          "inseam": 31
-        },
-        "XXL": {
-          "chest": 46,
-          "waist": 38,
-          "hip": 46,
-          "length": 31,
-          "inseam": 31.5
-        }
-      },
-      "compareAt": 3000
-    },
-    {
-      "id": "p-014",
-      "name": "Loop Terry Track Pant",
-      "category": "track-pants",
-      "gender": "unisex",
-      "price": 1899,
-      "fit": "relaxed",
-      "fabric": "Cotton terry",
-      "tags": [],
-      "blurb": "A tapered terry track pant with a ribbed waist that stays put.",
-      "released": "2026-07-16",
-      "sold": 1760,
-      "rating": 4.7,
-      "reviews": 268,
-      "colors": [
-        {
-          "name": "Oat",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Charcoal",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Sage",
-          "images": [],
-          "image": ""
-        }
-      ],
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
-        "XXL"
-      ],
-      "stock": {
-        "Oat::XS": 0,
-        "Oat::S": 25,
-        "Oat::M": 43,
-        "Oat::L": 34,
-        "Oat::XL": 28,
-        "Oat::XXL": 40,
-        "Charcoal::XS": 2,
-        "Charcoal::S": 40,
-        "Charcoal::M": 46,
-        "Charcoal::L": 17,
-        "Charcoal::XL": 46,
-        "Charcoal::XXL": 44,
-        "Sage::XS": 35,
-        "Sage::S": 29,
-        "Sage::M": 2,
-        "Sage::L": 46,
-        "Sage::XL": 24,
-        "Sage::XXL": 2
-      },
-      "slug": "p-014-loop-terry-track-pant",
-      "care": [
-        "Machine wash cold inside out",
-        "Tumble dry low",
-        "Avoid high heat"
-      ],
-      "details": [
-        "Cotton terry — relaxed fit",
-        "Designed in-house, made in limited runs",
-        "Check the size guide for garment measurements"
-      ],
-      "measurements": {
-        "XS": {
-          "chest": 36,
-          "waist": 28,
-          "hip": 36,
-          "length": 26,
-          "inseam": 27
-        },
-        "S": {
-          "chest": 38,
-          "waist": 30,
-          "hip": 38,
-          "length": 27,
-          "inseam": 28
-        },
-        "M": {
-          "chest": 40,
-          "waist": 32,
-          "hip": 40,
-          "length": 28,
-          "inseam": 29
-        },
-        "L": {
-          "chest": 42,
-          "waist": 34,
-          "hip": 42,
-          "length": 29,
-          "inseam": 30
-        },
-        "XL": {
-          "chest": 44,
-          "waist": 36,
-          "hip": 44,
-          "length": 30,
-          "inseam": 31
-        },
-        "XXL": {
-          "chest": 46,
-          "waist": 38,
-          "hip": 46,
-          "length": 31,
-          "inseam": 31.5
-        }
-      },
-      "compareAt": 2300
-    },
-    {
-      "id": "p-019",
-      "name": "Basin Relaxed 3/4 Pant",
-      "category": "three-fourth",
-      "gender": "unisex",
-      "price": 1499,
-      "compareAt": 1899,
-      "fit": "relaxed",
-      "fabric": "Linen blend",
-      "tags": [
-        "sale"
-      ],
-      "blurb": "A breathable linen-blend three-quarter with a drawcord waist.",
-      "released": "2026-04-02",
-      "sold": 1320,
-      "rating": 4.3,
-      "reviews": 167,
-      "colors": [
-        {
-          "name": "Ecru",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Sage",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Cocoa",
-          "images": [],
-          "image": ""
-        }
-      ],
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
-        "XXL"
-      ],
-      "stock": {
-        "Ecru::XS": 34,
-        "Ecru::S": 32,
-        "Ecru::M": 36,
-        "Ecru::L": 28,
-        "Ecru::XL": 40,
-        "Ecru::XXL": 30,
-        "Sage::XS": 21,
-        "Sage::S": 27,
-        "Sage::M": 18,
-        "Sage::L": 29,
-        "Sage::XL": 46,
-        "Sage::XXL": 23,
-        "Cocoa::XS": 17,
-        "Cocoa::S": 40,
-        "Cocoa::M": 18,
-        "Cocoa::L": 50,
-        "Cocoa::XL": 49,
-        "Cocoa::XXL": 47
-      },
-      "slug": "p-019-basin-relaxed-3-4-pant",
-      "care": [
-        "Machine wash cold, gentle cycle",
-        "Line dry to limit creasing",
-        "Iron while damp"
-      ],
-      "details": [
-        "Linen blend — relaxed fit",
-        "Designed in-house, made in limited runs",
-        "Check the size guide for garment measurements"
-      ],
-      "measurements": {
-        "XS": {
-          "chest": 36,
-          "waist": 28,
-          "hip": 36,
-          "length": 26,
-          "inseam": 27
-        },
-        "S": {
-          "chest": 38,
-          "waist": 30,
-          "hip": 38,
-          "length": 27,
-          "inseam": 28
-        },
-        "M": {
-          "chest": 40,
-          "waist": 32,
-          "hip": 40,
-          "length": 28,
-          "inseam": 29
-        },
-        "L": {
-          "chest": 42,
-          "waist": 34,
-          "hip": 42,
-          "length": 29,
-          "inseam": 30
-        },
-        "XL": {
-          "chest": 44,
-          "waist": 36,
-          "hip": 44,
-          "length": 30,
-          "inseam": 31
-        },
-        "XXL": {
-          "chest": 46,
-          "waist": 38,
-          "hip": 46,
-          "length": 31,
-          "inseam": 31.5
-        }
-      }
-    },
-    {
-      "id": "p-025",
-      "name": "Men’s Casual Wear Shorts",
-      "category": "shorts",
-      "gender": "men",
-      "price": 92,
-      "compareAt": null,
-      "wholesalePrice": 82,
-      "fit": "regular",
-      "fabric": "Performance mesh",
-      "tags": [
-        "new"
-      ],
-      "blurb": "Lightweight casual shorts designed for breathable, quick-drying everyday comfort.",
-      "released": "2026-10-12",
-      "sold": 0,
-      "rating": 4.8,
-      "reviews": 0,
-      "colors": [
-        {
-          "name": "Magenta",
-          "images": [
-            "/images/mens-casual-shorts-01.png",
-            "/images/mens-casual-shorts-02.png",
-            "/images/mens-casual-shorts-03.png",
-            "/images/mens-casual-shorts-04.png",
-            "/images/mens-casual-shorts-05.png",
-            "/images/mens-casual-shorts-06.png"
-          ],
-          "image": "/images/mens-casual-shorts-01.png"
-        },
-        {
-          "name": "Navy",
-          "images": [
-            "/images/mens-casual-shorts-01.png",
-            "/images/mens-casual-shorts-02.png",
-            "/images/mens-casual-shorts-03.png",
-            "/images/mens-casual-shorts-04.png",
-            "/images/mens-casual-shorts-05.png",
-            "/images/mens-casual-shorts-06.png"
-          ],
-          "image": "/images/mens-casual-shorts-01.png"
-        }
-      ],
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
-        "XXL"
-      ],
-      "stock": {
-        "Magenta::XS": 40,
-        "Magenta::S": 41,
-        "Magenta::M": 16,
-        "Magenta::L": 26,
-        "Magenta::XL": 42,
-        "Magenta::XXL": 50,
-        "Navy::XS": 34,
-        "Navy::S": 21,
-        "Navy::M": 21,
-        "Navy::L": 1,
-        "Navy::XL": 19,
-        "Navy::XXL": 29
-      },
-      "slug": "p-025-men-s-casual-wear-shorts",
+      "slug": "p-105-polar-deer-side-stripe-track-pant",
       "care": [
         "Machine wash cold",
-        "Do not use fabric softener",
-        "Hang dry"
+        "Tumble dry low",
+        "Do not bleach"
       ],
       "details": [
-        "Performance mesh — regular fit",
+        "Poly-cotton knit — regular fit",
         "Designed in-house, made in limited runs",
         "Check the size guide for garment measurements"
       ],
@@ -598,19 +753,9 @@
       "blurb": "Everyday pants made for comfortable movement."
     },
     {
-      "slug": "trousers",
-      "name": "Trousers",
-      "blurb": "Cut once, worn a thousand times."
-    },
-    {
       "slug": "track-pants",
       "name": "Track pants",
       "blurb": "Built to move, comfortable enough to stay in."
-    },
-    {
-      "slug": "three-fourth",
-      "name": "3/4 pants",
-      "blurb": "Half-length, all-day. Made for warm months."
     },
     {
       "slug": "shorts",
@@ -627,10 +772,11 @@
       "description": "The pieces we reach for without thinking — easy forms, considered details, made for wherever the day goes.",
       "image": "",
       "productIds": [
-        "p-001",
-        "p-008",
-        "p-014",
-        "p-019"
+        "p-101",
+        "p-102",
+        "p-103",
+        "p-104",
+        "p-105"
       ]
     },
     {
@@ -638,10 +784,11 @@
       "title": "Move Well",
       "issue": "027",
       "tagline": "Built to move with you.",
-      "description": "Track pants, training three-quarters and activewear made for days on the move.",
+      "description": "Track pants and zip-pocket styles made for days on the move.",
       "image": "",
       "productIds": [
-        "p-014"
+        "p-105",
+        "p-104"
       ]
     },
     {
@@ -652,8 +799,8 @@
       "description": "Easy-to-wear styles for warmer weather and everyday plans.",
       "image": "",
       "productIds": [
-        "p-019",
-        "p-025"
+        "p-101",
+        "p-102"
       ]
     },
     {
@@ -664,22 +811,22 @@
       "description": "Everyday styles in comfortable fits.",
       "image": "",
       "productIds": [
-        "p-001",
-        "p-008"
+        "p-103",
+        "p-104"
       ]
     }
   ],
   "brandValues": [
-    "Pants and trousers.",
+    "Pants, shorts and track pants.",
     "Everyday styles.",
     "Find your fit.",
-    "Track pants and three-quarter pants.",
+    "Track pants and everyday shorts.",
     "Wholesale enquiries welcome."
   ],
   "storyBlocks": [
     {
       "title": "Everyday styles",
-      "body": "Browse pants, trousers, shorts, three-quarter pants and track pants in the collection."
+      "body": "Browse pants, shorts and track pants in the collection."
     },
     {
       "title": "Product details",
@@ -687,14 +834,14 @@
     },
     {
       "title": "Made for everyday",
-      "body": "Explore pants, trousers, shorts, three-quarter styles and track pants for your daily rotation."
+      "body": "Explore pants, shorts and track pants for your daily rotation."
     }
   ],
   "promos": [],
   "announcements": [
     {
       "id": "a-1",
-      "text": "Everyday pants, trousers, shorts and track pants — made for movement.",
+      "text": "Everyday pants, shorts and track pants — made for movement.",
       "active": true
     },
     {
@@ -766,7 +913,7 @@
       "eyebrow": "Everyday clothing · Wholesale available",
       "titleLine1": "Find your",
       "titleLine2": "everyday fit.",
-      "bodyLine1": "Pants, trousers and track pants.",
+      "bodyLine1": "Pants, shorts and track pants.",
       "bodyLine2": "Comfort for wherever the day goes.",
       "caption": "Shop direct. Ask us on WhatsApp.",
       "image": "",
@@ -798,7 +945,7 @@
       "eyebrow": "Browse the collection",
       "titleLine1": "Good clothes.",
       "titleLine2": "Everyday fits.",
-      "body": "Browse pants, trousers, shorts, three-quarter pants and track pants. Select your options and send a purchase enquiry to the seller.",
+      "body": "Browse pants, shorts and track pants. Select your options and send a purchase enquiry to the seller.",
       "ctaLabel": "Meet your new uniform",
       "ctaTo": "/shop",
       "image": ""

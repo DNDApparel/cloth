@@ -146,8 +146,15 @@ export const api = {
 
 /** Turns a server-relative upload path into an absolute URL. */
 export function assetUrl(url) {
-  if (!url) return '';
+  if (typeof url !== 'string' || !url) return '';
+
+  // Image paths come from admin-editable store data, so only absolute http(s)
+  // URLs and site-relative paths are allowed through. Anything carrying a
+  // scheme (javascript:, data:, vbscript:) or a protocol-relative prefix is
+  // dropped rather than handed to the browser.
   if (/^https?:\/\//i.test(url)) return url;
+  if (url.startsWith('//') || /^[a-z][a-z0-9+.-]*:/i.test(url)) return '';
+
   if (API_BASE) return `${API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
   if (url.startsWith('/')) {
     return `${import.meta.env.BASE_URL}${url.replace(/^\/+/, '')}`;

@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
-import { calculateTotals, lineId } from '../utils/cart';
+import { MAX_LINE_QUANTITY, calculateTotals, lineId } from '../utils/cart';
 import { resolvePromoCode } from '../data/promoCodes';
 import { colorImage } from '../data/products';
 import { useStore } from './StoreContext';
@@ -14,7 +14,9 @@ function readInitialState() {
     if (stored) {
       const parsed = JSON.parse(stored);
       return {
-        items: Array.isArray(parsed.items) ? parsed.items : [],
+        items: Array.isArray(parsed.items)
+          ? parsed.items.map((item) => ({ ...item, selected: item.selected !== false }))
+          : [],
         promo: parsed.promo ?? null,
         shippingMethod: parsed.shippingMethod ?? 'standard',
       };
@@ -37,7 +39,11 @@ function cartReducer(state, action) {
           ...state,
           items: state.items.map((line) =>
             line.id === id
-              ? { ...line, quantity: Math.min(line.quantity + item.quantity, line.maxQuantity) }
+              ? {
+                  ...line,
+                  quantity: Math.min(line.quantity + item.quantity, line.maxQuantity),
+                  selected: true,
+                }
               : line,
           ),
         };
@@ -58,6 +64,20 @@ function cartReducer(state, action) {
         ),
       };
     }
+
+    case 'setSelected':
+      return {
+        ...state,
+        items: state.items.map((line) =>
+          line.id === action.id ? { ...line, selected: action.selected } : line,
+        ),
+      };
+
+    case 'selectAll':
+      return {
+        ...state,
+        items: state.items.map((line) => ({ ...line, selected: action.selected })),
+      };
 
     case 'remove':
       return { ...state, items: state.items.filter((line) => line.id !== action.id) };
@@ -143,25 +163,45 @@ export function CartProvider({ children }) {
       if (!product) return line;
 
       const image = colorImage(product, line.color);
-      if (product.price === line.price && image === line.image && product.name === line.name) {
+      if (
+        product.price === line.price &&
+        product.wholesalePrice === line.wholesalePrice &&
+        product.bulkMinQuantity === line.bulkMinQuantity &&
+        product.compareAt === line.compareAt &&
+        image === line.image &&
+        product.name === line.name
+      ) {
         return line;
       }
 
       changed = true;
-      return { ...line, price: product.price, image, name: product.name, compareAt: product.compareAt };
+      return {
+        ...line,
+        price: product.price,
+        wholesalePrice: product.wholesalePrice,
+        bulkMinQuantity: product.bulkMinQuantity,
+        image,
+        name: product.name,
+        compareAt: product.compareAt,
+      };
     });
 
     if (changed) dispatch({ type: 'syncPrices', items: next });
   }, [productsById, state.items, status]);
 
+  const selectedItems = useMemo(
+    () => state.items.filter((line) => line.selected !== false),
+    [state.items],
+  );
+
   const totals = useMemo(
     () =>
-      calculateTotals(state.items, {
+      calculateTotals(selectedItems, {
         promo: state.promo,
         shippingMethod: state.shippingMethod,
         settings,
       }),
-    [state.items, state.promo, state.shippingMethod, settings],
+    [selectedItems, state.promo, state.shippingMethod, settings],
   );
 
   // A promo can become invalid after items are removed or the admin disables it.
@@ -173,7 +213,7 @@ export function CartProvider({ children }) {
     }
   }, [state.promo, totals.subtotal, promos, status]);
 
-  const addItem = useCallback((product, { size, color, quantity = 1, maxQuantity = 10 }) => {
+  const addItem = useCallback((product, { size, color, quantity = 1, maxQuantity = MAX_LINE_QUANTITY }) => {
     dispatch({
       type: 'add',
       item: {
@@ -181,6 +221,8 @@ export function CartProvider({ children }) {
         slug: product.slug,
         name: product.name,
         price: product.price,
+        wholesalePrice: product.wholesalePrice,
+        bulkMinQuantity: product.bulkMinQuantity,
         compareAt: product.compareAt,
         image: colorImage(product, color),
         category: product.category,
@@ -188,6 +230,7 @@ export function CartProvider({ children }) {
         color,
         quantity,
         maxQuantity,
+        selected: true,
       },
     });
   }, []);
@@ -204,6 +247,9 @@ export function CartProvider({ children }) {
   const value = useMemo(
     () => ({
       items: state.items,
+      selectedItems,
+      bagItemCount: state.items.reduce((count, item) => count + item.quantity, 0),
+      selectedBagItemCount: selectedItems.reduce((count, item) => count + item.quantity, 0),
       promo: state.promo,
       shippingMethod: state.shippingMethod,
       totals,
@@ -212,6 +258,8 @@ export function CartProvider({ children }) {
       closeCart: () => setIsOpen(false),
       addItem,
       updateQuantity: (id, quantity) => dispatch({ type: 'updateQuantity', id, quantity }),
+      setSelected: (id, selected) => dispatch({ type: 'setSelected', id, selected }),
+      selectAll: (selected) => dispatch({ type: 'selectAll', selected }),
       removeItem: (id) => dispatch({ type: 'remove', id }),
       changeSize: (id, size, maxQuantity) => dispatch({ type: 'changeSize', id, size, maxQuantity }),
       applyPromo,
@@ -219,7 +267,7 @@ export function CartProvider({ children }) {
       setShippingMethod: (method) => dispatch({ type: 'setShippingMethod', method }),
       clearCart: () => dispatch({ type: 'clear' }),
     }),
-    [state.items, state.promo, state.shippingMethod, totals, isOpen, addItem, applyPromo],
+    [state.items, selectedItems, state.promo, state.shippingMethod, totals, isOpen, addItem, applyPromo],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

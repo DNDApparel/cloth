@@ -1,4 +1,9 @@
-/** Curated edits surfaced on the home page and the /collections route. */
+/**
+ * Curated edits surfaced on the home page and the /collections route.
+ *
+ * `image` is intentionally empty until real photography is supplied — the UI
+ * falls back to a neutral placeholder rather than a stock photo.
+ */
 
 export const COLLECTIONS = [
   {
@@ -8,8 +13,8 @@ export const COLLECTIONS = [
     tagline: 'Wear your own rhythm.',
     description:
       'The pieces we reach for without thinking — easy forms, considered details, made for wherever the day goes.',
-    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=75',
-    productIds: ['p-001', 'p-002', 'p-008', 'p-014', 'p-020'],
+    image: '',
+    productIds: ['p-101', 'p-102', 'p-103', 'p-104', 'p-105'],
   },
   {
     slug: 'move-well',
@@ -17,9 +22,9 @@ export const COLLECTIONS = [
     issue: '027',
     tagline: 'Built to move with you.',
     description:
-      'Track pants, training three-quarters and activewear made for days on the move.',
-    image: 'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=1400&q=75',
-    productIds: ['p-017', 'p-021', 'p-005', 'p-016', 'p-015'],
+      'Track pants and zip-pocket styles made for days on the move.',
+    image: '',
+    productIds: ['p-105', 'p-104'],
   },
   {
     slug: 'warm-month-staples',
@@ -28,8 +33,8 @@ export const COLLECTIONS = [
     tagline: 'Comfort for warmer days.',
     description:
       'Easy-to-wear styles for warmer weather and everyday plans.',
-    image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=1400&q=75',
-    productIds: ['p-012', 'p-019', 'p-022', 'p-006', 'p-004'],
+    image: '',
+    productIds: ['p-101', 'p-102'],
   },
   {
     slug: 'soft-structure',
@@ -37,8 +42,8 @@ export const COLLECTIONS = [
     issue: '024',
     tagline: 'Comfort for every day.',
     description: 'Everyday styles in comfortable fits.',
-    image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=1400&q=75',
-    productIds: ['p-009', 'p-018', 'p-003', 'p-011', 'p-013'],
+    image: '',
+    productIds: ['p-103', 'p-104'],
   },
 ];
 
@@ -46,17 +51,17 @@ export const COLLECTIONS_BY_SLUG = Object.fromEntries(COLLECTIONS.map((c) => [c.
 
 /** Short brand values rendered in the scrolling strip on the home page. */
 export const BRAND_VALUES = [
-  'Pants and trousers.',
+  'Pants, shorts and track pants.',
   'Everyday styles.',
   'Find your fit.',
-  'Track pants and three-quarter pants.',
+  'Track pants and everyday shorts.',
   'Wholesale enquiries welcome.',
 ];
 
 export const STORY_BLOCKS = [
   {
     title: 'Everyday styles',
-    body: 'Browse pants, trousers, three-quarter pants and track pants in the collection.',
+    body: 'Browse pants, shorts and track pants in the collection.',
   },
   {
     title: 'Product details',
@@ -64,6 +69,6 @@ export const STORY_BLOCKS = [
   },
   {
     title: 'Made for everyday',
-    body: 'Explore pants, trousers, three-quarter styles and track pants for your daily rotation.',
+    body: 'Explore pants, shorts and track pants for your daily rotation.',
   },
 ];

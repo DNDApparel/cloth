@@ -5,8 +5,9 @@ import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
 import { useRecentlyViewed } from '../context/RecentlyViewedContext';
-import { colorNames, relatedProducts, sizesInStock, stockFor } from '../data/products';
+import { colorImages, colorNames, relatedProducts, sizesInStock, stockFor } from '../data/products';
 import { formatPrice } from '../utils/format';
+import { MAX_LINE_QUANTITY, bulkPrice } from '../utils/cart';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { SizePicker } from '../components/product/SizePicker';
 import { SizeGuide } from '../components/product/SizeGuide';
@@ -15,11 +16,11 @@ import { QuickViewModal } from '../components/product/QuickViewModal';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
-import { ColorSwatchButton } from '../components/ui/ColorSwatch';
 import { QuantityStepper } from '../components/ui/QuantityStepper';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Skeleton } from '../components/ui/Skeleton';
 import { HeartIcon } from '../components/ui/Icons';
+import { ProductImage } from '../components/ui/ProductImage';
 
 /** Replaces {token} placeholders in admin-authored copy. */
 function fill(template, values) {
@@ -104,10 +105,16 @@ export default function ProductDetail() {
   const copy = product.copy ?? {};
   const globalCopy = settings.productCopy ?? {};
   const available = sizesInStock(product, color);
-  const maxQuantity = size ? Math.min(stockBySize[size] ?? 0, 10) : 10;
+  const maxQuantity = size ? Math.min(stockBySize[size] ?? 0, MAX_LINE_QUANTITY) : MAX_LINE_QUANTITY;
   const saved = wishlist.has(product.id);
   const category = categoryMap[product.category];
   const festive = settings.festiveOffer;
+  const bulkPricing = bulkPrice(
+    product.price,
+    settings,
+    product.wholesalePrice,
+    product.bulkMinQuantity,
+  );
 
   function handleAddToBag() {
     if (!size) {
@@ -140,7 +147,7 @@ export default function ProductDetail() {
       />
 
       <div className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-        <ProductGallery product={product} activeColor={color} onColorChange={setColor} />
+        <ProductGallery product={product} activeColor={color} />
 
         <div className="flex flex-col gap-6">
           <div className="space-y-3">
@@ -165,6 +172,34 @@ export default function ProductDetail() {
               )}
             </div>
 
+            {bulkPricing.active && (
+              <div className="max-w-md rounded-2xl border border-moss-500/30 bg-moss-500/10 p-4">
+                <p className="text-sm font-semibold text-moss-500">
+                  Buy {bulkPricing.minQuantity}+ of this product and get wholesale pricing
+                </p>
+                <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
+                  <span>1 piece: <strong>{formatPrice(product.price)}</strong></span>
+                  <span aria-hidden="true">·</span>
+                  <span>{bulkPricing.minQuantity}+ pieces: <strong>{formatPrice(bulkPricing.unitPrice)} each</strong></span>
+                </div>
+                <p className="mt-1 text-xs text-ink-600">
+                  {bulkPricing.minQuantity} pieces total {formatPrice(bulkPricing.unitPrice * bulkPricing.minQuantity)} · save {formatPrice(bulkPricing.savings * bulkPricing.minQuantity)}
+                </p>
+                {product.bulkNote && (
+                  <p className="mt-1 text-xs text-ink-600">{product.bulkNote}</p>
+                )}
+              </div>
+            )}
+
+            {/* Minimum order quantity still matters when no wholesale rate is
+                published yet, so surface it on its own. */}
+            {!bulkPricing.active && product.bulkMinQuantity > 1 && (
+              <p className="max-w-md text-xs text-ink-600">
+                Wholesale enquiries welcome from {product.bulkMinQuantity} pieces — ask the seller
+                for a quote.
+              </p>
+            )}
+
             {festive?.active && (
               <p className="inline-flex items-center gap-2 rounded-full bg-clay-400/20 px-3 py-1.5 text-xs font-semibold text-clay-500">
                 {festive.label} — extra {festive.percent}% off at checkout
@@ -180,18 +215,30 @@ export default function ProductDetail() {
               Colour —{' '}
               <span className="font-normal normal-case tracking-normal text-ink-900">{color}</span>
             </p>
-            <div className="flex flex-wrap gap-2.5">
-              {colorNames(product).map((option) => (
-                <ColorSwatchButton
-                  key={option}
-                  color={option}
-                  selected={option === color}
-                  onSelect={(next) => {
-                    setColor(next);
-                    setSize(null);
-                  }}
-                />
-              ))}
+            <div className="flex flex-wrap gap-3" role="group" aria-label="Choose a colour">
+              {product.colors.map((option) => {
+                const thumbnail = colorImages(option)[0];
+                const selected = option.name === color;
+                return (
+                  <button
+                    key={option.name}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => {
+                      setColor(option.name);
+                      setSize(null);
+                    }}
+                    className={`flex min-w-24 items-center gap-2 rounded-xl border p-2 text-left text-sm transition-colors ${
+                      selected ? 'border-ink-900 bg-sand-100' : 'border-sand-300 hover:border-ink-700'
+                    }`}
+                  >
+                    {thumbnail && (
+                      <ProductImage src={thumbnail} alt="" className="h-12 w-10 rounded-lg object-cover" />
+                    )}
+                    <span>{option.name}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

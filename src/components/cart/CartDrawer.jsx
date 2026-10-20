@@ -3,15 +3,16 @@ import { useCart } from '../../context/CartContext';
 import { useStore } from '../../context/StoreContext';
 import { stockFor } from '../../data/products';
 import { formatPrice } from '../../utils/format';
-import { assetUrl } from '../../api/client';
 import { Button, IconButton } from '../ui/Button';
 import { Drawer } from '../ui/Drawer';
 import { EmptyState } from '../ui/EmptyState';
 import { QuantityStepper } from '../ui/QuantityStepper';
 import { CloseIcon, TrashIcon } from '../ui/Icons';
+import { ProductImage } from '../ui/ProductImage';
+import { MAX_LINE_QUANTITY } from '../../utils/cart';
 
 export function CartDrawer() {
-  const { items, totals, isOpen, closeCart, updateQuantity, removeItem, changeSize } = useCart();
+  const { items, totals, selectedItems, bagItemCount, isOpen, closeCart, updateQuantity, removeItem, changeSize } = useCart();
   const { productsById } = useStore();
 
   return (
@@ -21,7 +22,7 @@ export function CartDrawer() {
           <p className="dnd-eyebrow">Your selection</p>
           <h2 className="mt-1 text-xl font-semibold">
             Your bag{' '}
-            <span className="ml-1 text-sm font-normal text-ink-500">({totals.itemCount})</span>
+            <span className="ml-1 text-sm font-normal text-ink-500">({bagItemCount})</span>
           </h2>
         </div>
         <IconButton label="Close bag" onClick={closeCart}>
@@ -54,7 +55,7 @@ export function CartDrawer() {
                     onClick={closeCart}
                     className="h-28 w-22 shrink-0 overflow-hidden rounded-xl bg-sand-200"
                   >
-                    <img src={assetUrl(line.image)} alt={line.name} className="h-full w-full object-cover" />
+                    <ProductImage src={line.image} alt={line.name} className="h-full w-full object-cover" />
                   </Link>
 
                   <div className="flex min-w-0 flex-1 flex-col gap-2">
@@ -89,7 +90,7 @@ export function CartDrawer() {
                               changeSize(
                                 line.id,
                                 nextSize,
-                                Math.min(stockFor(product, line.color, nextSize), 10),
+                                Math.min(stockFor(product, line.color, nextSize), MAX_LINE_QUANTITY),
                               );
                             }}
                             className="rounded-md border border-sand-300 bg-white px-1.5 py-0.5 text-xs"
@@ -119,12 +120,17 @@ export function CartDrawer() {
                         value={line.quantity}
                         onChange={(quantity) => updateQuantity(line.id, quantity)}
                         min={1}
-                        max={Math.min(stock || line.maxQuantity, 10)}
+                        max={Math.min(stock || line.maxQuantity, MAX_LINE_QUANTITY)}
                         size="sm"
                       />
                       <span className="text-sm font-semibold tabular-nums">
                         {formatPrice(line.price * line.quantity)}
                       </span>
+                      {line.compareAt > line.price && (
+                        <s className="text-xs text-ink-500">
+                          {formatPrice(line.compareAt * line.quantity)}
+                        </s>
+                      )}
                     </div>
                   </div>
                 </li>
@@ -173,9 +179,15 @@ export function CartDrawer() {
           </p>
 
           <div className="space-y-2">
-            <Button to="/checkout" onClick={closeCart} full>
-              Request on WhatsApp
-            </Button>
+            {selectedItems.length ? (
+              <Button to="/checkout" onClick={closeCart} full>
+                Continue with selected items
+              </Button>
+            ) : (
+              <Button to="/cart" onClick={closeCart} variant="outline" full>
+                Select bag items to continue
+              </Button>
+            )}
             <Button to="/cart" onClick={closeCart} variant="outline" full>
               View full bag
             </Button>

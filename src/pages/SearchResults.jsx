@@ -60,7 +60,7 @@ export default function SearchResults() {
             type="search"
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Try 'pants', 'trousers' or 'track pants'"
+            placeholder="Try 'pants', 'shorts' or 'track pants'"
             className="w-full bg-transparent outline-none placeholder:text-sand-400"
           />
         </div>

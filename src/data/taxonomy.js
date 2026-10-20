@@ -2,9 +2,8 @@
 
 export const CATEGORIES = [
   { slug: 'pants', name: 'Pants', blurb: 'Everyday pants made for comfortable movement.' },
-  { slug: 'trousers', name: 'Trousers', blurb: 'Cut once, worn a thousand times.' },
   { slug: 'track-pants', name: 'Track pants', blurb: 'Built to move, comfortable enough to stay in.' },
-  { slug: 'three-fourth', name: '3/4 pants', blurb: 'Half-length, all-day. Made for warm months.' },
+  { slug: 'shorts', name: 'Shorts', blurb: 'Men’s casual shorts for warm days and easy movement.' },
 ];
 
 export const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map((c) => [c.slug, c]));
@@ -59,6 +58,7 @@ export const COLOR_SWATCHES = {
   Ink: '#1a1a18',
   Plum: '#8c3f52',
   Maroon: '#6d2f3c',
+  Magenta: '#b10d66',
 };
 
 export const COLOR_NAMES = Object.keys(COLOR_SWATCHES);
@@ -71,7 +71,7 @@ export const SORT_OPTIONS = [
 ];
 
 /** Price slider bounds, in rupees. */
-export const PRICE_BOUNDS = { min: 499, max: 3999, step: 100 };
+export const PRICE_BOUNDS = { min: 0, max: 3999, step: 50 };
 
 export const TAGS = ['new', 'sale', 'last-chance'];
 
@@ -98,17 +98,12 @@ export const MEASUREMENT_COLUMNS = {
     { key: 'hip', label: 'Hip' },
     { key: 'inseam', label: 'Inseam' },
   ],
-  trousers: [
-    { key: 'waist', label: 'Waist' },
-    { key: 'hip', label: 'Hip' },
-    { key: 'inseam', label: 'Inseam' },
-  ],
   'track-pants': [
     { key: 'waist', label: 'Waist' },
     { key: 'hip', label: 'Hip' },
     { key: 'inseam', label: 'Inseam' },
   ],
-  'three-fourth': [
+  shorts: [
     { key: 'waist', label: 'Waist' },
     { key: 'hip', label: 'Hip' },
     { key: 'length', label: 'Length' },

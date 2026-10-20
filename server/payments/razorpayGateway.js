@@ -77,6 +77,11 @@ export class RazorpayGateway extends PaymentGateway {
       return { paid: false, error: 'Missing Razorpay confirmation fields.' };
     }
 
+    const expectedOrderId = String(payload.reference ?? '');
+    if (!expectedOrderId || razorpayOrderId !== expectedOrderId) {
+      return { paid: false, error: 'Payment does not match this order.' };
+    }
+
     const expected = createHmac('sha256', this.options.keySecret)
       .update(`${razorpayOrderId}|${razorpayPaymentId}`)
       .digest('hex');
@@ -85,18 +90,36 @@ export class RazorpayGateway extends PaymentGateway {
       return { paid: false, error: 'Payment signature verification failed.' };
     }
 
-    const response = await fetch(`https://api.razorpay.com/v1/payments/${razorpayPaymentId}`, {
-      headers: { Authorization: this.#authHeader },
-    });
+    const response = await fetch(
+      `https://api.razorpay.com/v1/payments/${encodeURIComponent(razorpayPaymentId)}`,
+      { headers: { Authorization: this.#authHeader } },
+    );
+    if (!response.ok) {
+      throw Object.assign(new Error('Could not retrieve Razorpay payment details.'), { status: 502 });
+    }
     const payment = await response.json();
 
-    const paid = ['captured', 'authorized'].includes(payment.status);
+    const amountMatches =
+      Number.isFinite(Number(payload.expectedAmount)) &&
+      Number.isFinite(Number(payment.amount)) &&
+      Number(payment.amount) === toMinorUnits(payload.expectedAmount);
+    const expectedCurrency = String(payload.expectedCurrency ?? '').toUpperCase();
+    const currencyMatches =
+      Boolean(expectedCurrency) &&
+      String(payment.currency ?? '').toUpperCase() === expectedCurrency;
+    const paymentOrderMatches = payment.order_id === expectedOrderId;
+    const paid =
+      payment.status === 'captured' &&
+      payment.id === razorpayPaymentId &&
+      paymentOrderMatches &&
+      amountMatches &&
+      currencyMatches;
     return {
       paid,
       reference: razorpayPaymentId,
       method: payment.method ?? 'card',
       last4: payment.card?.last4 ?? payment.vpa?.slice(-4) ?? '',
-      error: paid ? undefined : `Payment status: ${payment.status}`,
+      error: paid ? undefined : 'Payment details do not match this order or payment is not captured.',
       raw: payment,
     };
   }

@@ -4,7 +4,7 @@
  */
 
 export const SEED_ANNOUNCEMENTS = [
-  { id: 'a-1', text: 'Everyday pants, trousers and track pants — made for movement.', active: true },
+  { id: 'a-1', text: 'Everyday pants, shorts and track pants — made for movement.', active: true },
   { id: 'a-2', text: 'Wholesale orders welcome — message us for bulk pricing.', active: true },
 ];
 
@@ -38,8 +38,10 @@ export const SEED_SETTINGS = {
   },
 
   whatsapp: {
-    enabled: false,
-    contacts: [],
+    enabled: true,
+    contacts: [
+      { id: 'owner', label: 'Store owner', number: '9361321260', enabled: true },
+    ],
   },
 
   shippingMethods: [
@@ -52,11 +54,11 @@ export const SEED_SETTINGS = {
     eyebrow: 'Everyday clothing · Wholesale available',
     titleLine1: 'Find your',
     titleLine2: 'everyday fit.',
-    bodyLine1: 'Pants, trousers and track pants.',
+    bodyLine1: 'Pants, shorts and track pants.',
     bodyLine2: 'Comfort for wherever the day goes.',
     caption: 'Shop direct. Ask us on WhatsApp.',
-    image:
-      'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=75',
+    // Add a hero photo from the admin console; blank renders a plain backdrop.
+    image: '',
     ctaLabel: 'Shop the collection',
     ctaTo: '/shop',
   },

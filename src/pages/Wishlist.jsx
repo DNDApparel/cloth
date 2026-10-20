@@ -7,13 +7,14 @@ import { useToast } from '../context/ToastContext';
 import { colorImage, colorNames, sizesInStock, stockFor } from '../data/products';
 import { CATEGORY_MAP } from '../data/taxonomy';
 import { formatPrice } from '../utils/format';
-import { assetUrl } from '../api/client';
 import { SizePicker } from '../components/product/SizePicker';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
 import { ColorSwatchButton } from '../components/ui/ColorSwatch';
 import { TrashIcon } from '../components/ui/Icons';
+import { ProductImage } from '../components/ui/ProductImage';
+import { MAX_LINE_QUANTITY } from '../utils/cart';
 
 export default function Wishlist() {
   const wishlist = useWishlist();
@@ -68,7 +69,7 @@ export default function Wishlist() {
   );
 }
 
-function WishlistRow({ product }) {
+export function WishlistRow({ product }) {
   const colors = colorNames(product);
   const [color, setColor] = useState(colors[0]);
   const [size, setSize] = useState(null);
@@ -91,10 +92,9 @@ function WishlistRow({ product }) {
       size,
       color,
       quantity: 1,
-      maxQuantity: Math.min(stockBySize[size], 10),
+      maxQuantity: Math.min(stockBySize[size], MAX_LINE_QUANTITY),
     });
-    wishlist.remove(product.id);
-    notify(`${product.name} moved to your bag.`, {
+    notify(`${product.name} added to your bag.`, {
       tone: 'success',
       action: { label: 'View bag', onClick: openCart },
     });
@@ -106,8 +106,8 @@ function WishlistRow({ product }) {
         to={`/product/${product.slug}`}
         className="h-48 w-36 shrink-0 overflow-hidden rounded-2xl bg-sand-200"
       >
-        <img
-          src={assetUrl(colorImage(product, color))}
+        <ProductImage
+          src={colorImage(product, color)}
           alt={`${product.name} in ${color}`}
           className="h-full w-full object-cover"
         />
@@ -155,7 +155,7 @@ function WishlistRow({ product }) {
 
         <div className="mt-auto flex flex-wrap items-center gap-3 pt-1">
           <Button onClick={handleAdd} disabled={!available.length} size="sm">
-            {available.length ? 'Move to bag' : 'Sold out'}
+            {available.length ? 'Add to bag' : 'Sold out'}
           </Button>
           <button
             type="button"

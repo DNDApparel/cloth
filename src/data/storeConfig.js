@@ -22,10 +22,11 @@ export const DEFAULT_HOME_EDITORIAL = {
   eyebrow: 'Browse the collection',
   titleLine1: 'Good clothes.',
   titleLine2: 'Everyday fits.',
-  body: 'Browse pants, trousers, three-quarter pants and track pants. Select your options and send a purchase enquiry to the seller.',
+  body: 'Browse pants, shorts and track pants. Select your options and send a purchase enquiry to the seller.',
   ctaLabel: 'Meet your new uniform',
   ctaTo: '/shop',
-  image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1200&q=75',
+  // Add an editorial photo from the admin console; blank renders a plain panel.
+  image: '',
 };
 
 export const DEFAULT_COLLECTIONS_PAGE = {

@@ -8,8 +8,9 @@ import { CATEGORY_MAP } from '../../data/taxonomy';
 import { formatPrice } from '../../utils/format';
 import { Modal } from '../ui/Modal';
 import { SearchIcon } from '../ui/Icons';
+import { ProductImage } from '../ui/ProductImage';
 
-const SUGGESTIONS = ['T-shirt', 'Track pants', 'Trousers', '3/4 pants', 'Cotton', 'On sale'];
+const SUGGESTIONS = ['Shorts', 'Track pants', 'Pants', 'Lycra', 'Cotton', 'On sale'];
 
 export function SearchModal({ open, onClose }) {
   const [query, setQuery] = useState('');
@@ -46,7 +47,7 @@ export function SearchModal({ open, onClose }) {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search for tees, trousers, track pants…"
+            placeholder="Search for pants, shorts, track pants…"
             autoComplete="off"
             className="w-full bg-transparent text-lg outline-none placeholder:text-sand-400"
           />
@@ -94,9 +95,10 @@ export function SearchModal({ open, onClose }) {
                   onClick={onClose}
                   className="flex items-center gap-4 rounded-xl p-2 transition-colors hover:bg-sand-100"
                 >
-                  <img
+                  <ProductImage
                     src={primaryImage(product)}
                     alt=""
+                    label=""
                     className="h-16 w-14 shrink-0 rounded-lg object-cover"
                   />
                   <div className="min-w-0 flex-1">

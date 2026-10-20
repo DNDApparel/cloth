@@ -90,7 +90,9 @@ export function GitHubOnlyAdmin() {
       store.settings.hero?.image,
       store.settings.banner?.image,
       store.settings.homeEditorial?.image,
-      ...store.products.flatMap((product) => product.colors?.map((color) => color.image) ?? []),
+      ...store.products.flatMap((product) =>
+        product.colors?.flatMap((color) => color.images?.length ? color.images : [color.image]) ?? [],
+      ),
       ...store.collections.map((collection) => collection.image),
     ];
     return [...new Set(paths.filter((path) => typeof path === 'string' && path.startsWith('/images/')))];
@@ -173,12 +175,14 @@ export function GitHubOnlyAdmin() {
       name: 'New product',
       category: store.categories[0]?.slug ?? 'pants',
       gender: 'unisex',
-      price: 0,
+      price: 999,
+      wholesalePrice: null,
+      compareAt: 1199,
       fit: 'regular',
       fabric: 'Combed cotton',
       blurb: '',
       released: new Date().toISOString().slice(0, 10),
-      colors: [{ name: 'Black', image: '' }],
+      colors: [{ name: 'Black', image: '', images: [] }],
       sizes: ['S', 'M', 'L', 'XL'],
       stock: {},
       active: true,
@@ -192,7 +196,15 @@ export function GitHubOnlyAdmin() {
     updateStore((current) => ({
       ...current,
       products: current.products.map((product) =>
-        product.id === id ? { ...product, ...patch } : product,
+        product.id === id
+          ? {
+              ...product,
+              ...patch,
+              ...(patch.price !== undefined && Number(product.compareAt) <= Number(patch.price)
+                ? { compareAt: Math.ceil((Number(patch.price) * 1.2) / 100) * 100 }
+                : {}),
+            }
+          : product,
       ),
     }));
   }
@@ -201,9 +213,13 @@ export function GitHubOnlyAdmin() {
     const product = store.products.find((item) => item.id === id);
     if (!product) return;
     const previousName = product.colors[colorIndex]?.name;
-    const colors = product.colors.map((color, index) =>
-      index === colorIndex ? { ...color, ...patch } : color,
-    );
+    const colors = product.colors.map((color, index) => {
+      if (index !== colorIndex) return color;
+      const updated = { ...color, ...patch };
+      if (patch.images) updated.image = patch.images[0] ?? '';
+      else if (patch.image) updated.images = [...(color.images ?? (color.image ? [color.image] : [])), patch.image];
+      return updated;
+    });
     const stock = patch.name && patch.name !== previousName
       ? Object.fromEntries(Object.entries(product.stock ?? {}).map(([key, quantity]) => [
           key.startsWith(`${previousName}::`)
@@ -418,6 +434,7 @@ export function GitHubOnlyAdmin() {
                         <Field label="Product name" value={selectedProduct.name} onChange={(name) => updateProduct(selectedProduct.id, { name, slug: `${selectedProduct.id}-${slugify(name)}` })} />
                         <Field label="Product slug" value={selectedProduct.slug} onChange={(slug) => updateProduct(selectedProduct.id, { slug })} />
                         <Field label="Price (₹)" type="number" min="0" value={selectedProduct.price} onChange={(price) => updateProduct(selectedProduct.id, { price: numberValue(price) })} />
+                        <Field label="Wholesale unit price (₹, optional)" type="number" min="0" value={selectedProduct.wholesalePrice ?? ''} onChange={(value) => updateProduct(selectedProduct.id, { wholesalePrice: value === '' ? null : numberValue(value) })} />
                         <Field label="Compare-at price (₹)" type="number" min="0" value={selectedProduct.compareAt ?? ''} onChange={(compareAt) => updateProduct(selectedProduct.id, { compareAt: numberValue(compareAt) || null })} />
                         <SelectField label="Category" value={selectedProduct.category} onChange={(category) => updateProduct(selectedProduct.id, { category })}>
                           {store.categories.map((category) => <option key={category.slug} value={category.slug}>{category.name}</option>)}
@@ -456,7 +473,7 @@ export function GitHubOnlyAdmin() {
                           <button
                             type="button"
                             onClick={() => updateProduct(selectedProduct.id, {
-                              colors: [...selectedProduct.colors, { name: `Colour ${selectedProduct.colors.length + 1}`, image: '' }],
+                              colors: [...selectedProduct.colors, { name: `Colour ${selectedProduct.colors.length + 1}`, image: '', images: [] }],
                             })}
                             className={secondaryButton}
                           >
@@ -466,11 +483,46 @@ export function GitHubOnlyAdmin() {
                         {selectedProduct.colors.map((color, index) => (
                           <div key={`${selectedProduct.id}-${index}`} className="rounded-xl border border-sand-300 p-4">
                             <Field label="Colour name" value={color.name} onChange={(name) => updateProductColor(selectedProduct.id, index, { name })} />
-                            <PhotoPicker
-                              label={`${color.name} product photo`}
-                              image={color.image}
-                              onImage={(image) => updateProductColor(selectedProduct.id, index, { image })}
-                            />
+                            <p className="mt-2 text-xs text-ink-500">
+                              Add at least 6 photos for each colour. Recommended: portrait 4:5 images,
+                              1200 × 1500 px, JPEG or WebP, ideally under 1 MB each.
+                            </p>
+                            {(color.images?.length ? color.images : color.image ? [color.image] : ['']).map((image, photoIndex) => (
+                              <div key={`${selectedProduct.id}-${index}-${photoIndex}`} className="mt-3 flex items-start gap-3">
+                                <PhotoPicker
+                                  label={`${color.name} photo ${photoIndex + 1}`}
+                                  image={image}
+                                  onImage={(nextImage) => {
+                                    const currentImages = color.images?.length ? [...color.images] : color.image ? [color.image] : [];
+                                    if (nextImage) currentImages[photoIndex] = nextImage;
+                                    else currentImages.splice(photoIndex, 1);
+                                    updateProductColor(selectedProduct.id, index, { images: currentImages });
+                                  }}
+                                />
+                                {image && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const currentImages = color.images?.length ? [...color.images] : [color.image];
+                                      currentImages.splice(photoIndex, 1);
+                                      updateProductColor(selectedProduct.id, index, { images: currentImages });
+                                    }}
+                                    className="mt-4 text-sm text-red-700 underline"
+                                  >
+                                    Remove photo
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              onClick={() => updateProductColor(selectedProduct.id, index, {
+                                images: [...(color.images?.length ? color.images : color.image ? [color.image] : []), ''],
+                              })}
+                              className="mt-3 rounded-full border border-sand-300 px-3 py-2 text-sm"
+                            >
+                              Add photo
+                            </button>
                             <button
                               type="button"
                               onClick={() => removeProductColor(selectedProduct.id, index)}
@@ -932,6 +984,11 @@ function PhotoPicker({ label, image, onImage }) {
 
   function choosePhoto(file) {
     if (!file) return;
+    if (file.size > 4 * 1024 * 1024) {
+      setUploadFile(null);
+      setFileError('Each image must be 4 MB or smaller.');
+      return;
+    }
     if (!file.type.startsWith('image/')) {
       setUploadFile(null);
       setFileError('Choose an image file.');
@@ -980,6 +1037,15 @@ function PhotoPicker({ label, image, onImage }) {
         <div className="mt-3 rounded-xl bg-sand-100 p-3 text-sm">
           <p>Suggested filename: <code className="font-semibold">{image.split('/').at(-1)}</code></p>
           <p className="mt-1 text-ink-600">The image path is set in this draft. Make a copy with this exact filename on your device, then select that copy on GitHub.</p>
+          {uploadFile && (
+            <a
+              href={preview}
+              download={image.split('/').at(-1)}
+              className={`${secondaryButton} mt-3`}
+            >
+              Download photo with suggested filename
+            </a>
+          )}
           <a
             href={`${REPOSITORY}/upload/main/public/images`}
             target="_blank"

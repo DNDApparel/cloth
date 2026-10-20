@@ -5,13 +5,14 @@ import { useToast } from '../../context/ToastContext';
 import { colorImage, colorNames, sizesInStock, stockFor } from '../../data/products';
 import { CATEGORY_MAP } from '../../data/taxonomy';
 import { formatPrice } from '../../utils/format';
-import { assetUrl } from '../../api/client';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
+import { ProductImage } from '../ui/ProductImage';
 import { ColorSwatchButton } from '../ui/ColorSwatch';
 import { QuantityStepper } from '../ui/QuantityStepper';
 import { SizePicker } from './SizePicker';
 import { ArrowUpRightIcon } from '../ui/Icons';
+import { MAX_LINE_QUANTITY } from '../../utils/cart';
 
 /** Add-to-bag without leaving the grid. */
 export function QuickViewModal({ product, open, onClose }) {
@@ -37,7 +38,7 @@ export function QuickViewModal({ product, open, onClose }) {
   if (!product || !color) return null;
 
   const available = sizesInStock(product, color);
-  const maxQuantity = size ? Math.min(stockBySize[size] ?? 0, 10) : 10;
+  const maxQuantity = size ? Math.min(stockBySize[size] ?? 0, MAX_LINE_QUANTITY) : MAX_LINE_QUANTITY;
   const categoryName = CATEGORY_MAP[product.category]?.name ?? product.category;
 
   function handleAdd() {
@@ -57,8 +58,8 @@ export function QuickViewModal({ product, open, onClose }) {
     <Modal open={open} onClose={onClose} width="lg" title="Quick view">
       <div className="grid gap-8 p-6 md:grid-cols-2">
         <div className="overflow-hidden rounded-2xl bg-sand-200">
-          <img
-            src={assetUrl(colorImage(product, color))}
+          <ProductImage
+            src={colorImage(product, color)}
             alt={`${product.name} in ${color}`}
             className="aspect-[4/5] w-full object-cover"
           />

@@ -68,7 +68,9 @@ export function BannerPopup() {
       >
         {banner.image && (
           <div className="aspect-[16/9] w-full bg-sand-200">
-            <img src={assetUrl(banner.image)} alt="" className="h-full w-full object-cover" />
+            {banner.image && (
+              <img src={assetUrl(banner.image)} alt="" className="h-full w-full object-cover" />
+            )}
           </div>
         )}
 

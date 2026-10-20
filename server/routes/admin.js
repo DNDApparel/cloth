@@ -22,10 +22,18 @@ function slugify(value) {
 
 function sanitizeProduct(input, existing) {
   const colors = (Array.isArray(input.colors) ? input.colors : [])
-    .map((color) => ({
-      name: clean(color.name, 40),
-      image: clean(color.image, 600),
-    }))
+    .map((color) => {
+      const images = Array.isArray(color.images)
+        ? color.images.slice(0, 12).map((image) => clean(image, 600)).filter(Boolean)
+        : [];
+      const legacyImage = clean(color.image, 600);
+      const gallery = images.length ? images : legacyImage ? [legacyImage] : [];
+      return {
+        name: clean(color.name, 40),
+        image: gallery[0] ?? '',
+        images: gallery,
+      };
+    })
     .filter((color) => color.name && color.image);
 
   const sizes = (Array.isArray(input.sizes) ? input.sizes : []).map((s) => clean(s, 8)).filter(Boolean);
@@ -48,6 +56,10 @@ function sanitizeProduct(input, existing) {
     category: clean(input.category, 60),
     gender: ['men', 'women', 'unisex'].includes(input.gender) ? input.gender : 'unisex',
     price: Math.max(0, Number(input.price) || 0),
+    wholesalePrice: input.wholesalePrice !== null && input.wholesalePrice !== undefined && input.wholesalePrice !== '' &&
+      Number.isFinite(Number(input.wholesalePrice)) && Number(input.wholesalePrice) >= 0
+      ? Math.min(Number(input.wholesalePrice), Math.max(0, Number(input.price) || 0))
+      : null,
     compareAt: input.compareAt ? Math.max(0, Number(input.compareAt)) : null,
     fit: clean(input.fit, 30) || 'regular',
     fabric: clean(input.fabric, 60),

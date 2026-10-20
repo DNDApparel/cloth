@@ -10,7 +10,7 @@ import { OrderSummary } from '../components/cart/OrderSummary';
 import { Button } from '../components/ui/Button';
 
 export default function Checkout() {
-  const { items, totals } = useCart();
+  const { selectedItems, totals } = useCart();
   const { settings } = useStore();
   const { notify } = useToast();
   const [customer, setCustomer] = useState({ name: '', phone: '', note: '' });
@@ -19,14 +19,14 @@ export default function Checkout() {
 
   const recipients = useMemo(() => getWhatsAppContacts(settings), [settings]);
 
-  if (!items.length) return <Navigate to="/cart" replace />;
+  if (!selectedItems.length) return <Navigate to="/cart" replace />;
 
   function buildMessage() {
     const lines = [
       `Hello ${settings.storeName || 'Store'}, I would like to enquire about placing an order.`,
       '',
       '*Items requested*',
-      ...items.map(
+      ...selectedItems.map(
         (item, index) =>
           `${index + 1}. ${item.name} — ${item.color}, size ${item.size} × ${item.quantity} = ${formatPrice(item.price * item.quantity)}`,
       ),
@@ -85,8 +85,8 @@ export default function Checkout() {
           <section className="rounded-3xl border border-sand-300 bg-sand-50 p-6 sm:p-8">
             <h2 className="text-xl font-semibold">Your contact details</h2>
             <p className="mt-2 text-sm leading-relaxed text-ink-500">
-              No payment is collected here. Your order is only placed after the seller confirms
-              availability, the final quote and delivery details with you.
+              Send your purchase enquiry to the store on WhatsApp. Payment is arranged directly
+              with the seller; this website does not collect payment.
             </p>
 
             <form

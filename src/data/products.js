@@ -51,7 +51,7 @@ const RAW = [
   // -------------------------------------------------------------------- Shorts
   {
     id: 'p-101',
-    name: 'Adidas Zip-Pocket Shorts',
+    name: 'Zipped-Pocket Shorts',
     category: 'shorts',
     gender: 'men',
     price: 85,
@@ -76,7 +76,7 @@ const RAW = [
   },
   {
     id: 'p-102',
-    name: 'Tigers Side-Stripe Shorts',
+    name: 'Side-Striped Shorts',
     category: 'shorts',
     gender: 'men',
     price: 100,
@@ -131,7 +131,7 @@ const RAW = [
   },
   {
     id: 'p-104',
-    name: 'Wild Life Zip-Pocket Pant',
+    name: 'Zipped-Pocket Pant',
     category: 'pants',
     gender: 'men',
     price: 140,
@@ -158,7 +158,7 @@ const RAW = [
   // -------------------------------------------------------------- Track pants
   {
     id: 'p-105',
-    name: 'Polar Deer Side-Stripe Track Pant',
+    name: 'Side-Striped Track Pant',
     category: 'track-pants',
     gender: 'men',
     price: 140,

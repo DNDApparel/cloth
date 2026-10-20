@@ -13,7 +13,7 @@ export const COLLECTIONS = [
     tagline: 'Wear your own rhythm.',
     description:
       'The pieces we reach for without thinking — easy forms, considered details, made for wherever the day goes.',
-    image: '',
+    image: '/images/collection-everyday.jpg',
     productIds: ['p-101', 'p-102', 'p-103', 'p-104', 'p-105'],
   },
   {
@@ -23,7 +23,7 @@ export const COLLECTIONS = [
     tagline: 'Built to move with you.',
     description:
       'Track pants and zip-pocket styles made for days on the move.',
-    image: '',
+    image: '/images/collection-move-well.jpg',
     productIds: ['p-105', 'p-104'],
   },
   {
@@ -33,7 +33,7 @@ export const COLLECTIONS = [
     tagline: 'Comfort for warmer days.',
     description:
       'Easy-to-wear styles for warmer weather and everyday plans.',
-    image: '',
+    image: '/images/collection-warm-month.jpg',
     productIds: ['p-101', 'p-102'],
   },
   {
@@ -42,7 +42,7 @@ export const COLLECTIONS = [
     issue: '024',
     tagline: 'Comfort for every day.',
     description: 'Everyday styles in comfortable fits.',
-    image: '',
+    image: '/images/collection-soft-structure.jpg',
     productIds: ['p-103', 'p-104'],
   },
 ];

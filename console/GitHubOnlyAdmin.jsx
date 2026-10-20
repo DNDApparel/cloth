@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { hydrateProduct, SEED_PRODUCTS } from '../src/data/products';
 import { DEFAULT_STATIC_STORE, DEFAULT_VISIBILITY } from '../src/data/storeConfig';
+import { MAX_LINE_QUANTITY } from '../src/utils/cart';
 
 const REPOSITORY = 'https://github.com/logeshgp/clothing-ecommerce-platform';
 const PUBLISHED_FILE = 'store-data.json';
@@ -177,6 +178,8 @@ export function GitHubOnlyAdmin() {
       gender: 'unisex',
       price: 999,
       wholesalePrice: null,
+      bulkMinQuantity: 10,
+      bulkNote: '',
       compareAt: 1199,
       fit: 'regular',
       fabric: 'Combed cotton',
@@ -435,6 +438,8 @@ export function GitHubOnlyAdmin() {
                         <Field label="Product slug" value={selectedProduct.slug} onChange={(slug) => updateProduct(selectedProduct.id, { slug })} />
                         <Field label="Price (₹)" type="number" min="0" value={selectedProduct.price} onChange={(price) => updateProduct(selectedProduct.id, { price: numberValue(price) })} />
                         <Field label="Wholesale unit price (₹, optional)" type="number" min="0" value={selectedProduct.wholesalePrice ?? ''} onChange={(value) => updateProduct(selectedProduct.id, { wholesalePrice: value === '' ? null : numberValue(value) })} />
+                        <Field label="Wholesale minimum pieces" type="number" min="1" max={MAX_LINE_QUANTITY} value={selectedProduct.bulkMinQuantity ?? ''} onChange={(value) => updateProduct(selectedProduct.id, { bulkMinQuantity: value === '' ? null : Math.min(Math.max(numberValue(value), 1), MAX_LINE_QUANTITY) })} />
+                        <Field label="Wholesale note (optional)" value={selectedProduct.bulkNote ?? ''} onChange={(bulkNote) => updateProduct(selectedProduct.id, { bulkNote })} />
                         <Field label="Compare-at price (₹)" type="number" min="0" value={selectedProduct.compareAt ?? ''} onChange={(compareAt) => updateProduct(selectedProduct.id, { compareAt: numberValue(compareAt) || null })} />
                         <SelectField label="Category" value={selectedProduct.category} onChange={(category) => updateProduct(selectedProduct.id, { category })}>
                           {store.categories.map((category) => <option key={category.slug} value={category.slug}>{category.name}</option>)}

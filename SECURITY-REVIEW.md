@@ -111,3 +111,56 @@ stock again on a repeated confirmation request.
    dashboard — the API now refuses to start in production without them.
 3. Online payment is disabled in the storefront; checkout enquiries are sent
    by the customer through WhatsApp.
+
+---
+
+# Follow-up review — 20 Oct 2026
+
+Re-ran the full check after the catalogue rewrite, the gallery lightbox and the
+quantity-limit change.
+
+## Checks performed
+
+| Check | Result |
+|---|---|
+| Dangerous sinks (`dangerouslySetInnerHTML`, `innerHTML`, `eval`, `new Function`, `document.write`, `location.assign`, `location.href =`) | None |
+| Committed secrets (tokens, API keys, passwords) | None |
+| `npm audit --omit=dev` | 0 vulnerabilities |
+| `target="_blank"` without `rel="noopener noreferrer"` | None |
+| `JSON.parse` without a `try/catch` guard | None |
+| Outbound `fetch` destinations | Only same-origin `store-data.json` and the configured API base |
+| Admin-supplied image paths | Scheme-filtered by `assetUrl` |
+| Published `store-data.json` | Shape-validated before use |
+
+## Issues fixed in this pass
+
+| # | Issue | CWE | Severity | File | Status |
+|---|-------|-----|----------|------|--------|
+| 19 | `assetUrl` passed through any string that was not `http(s)`, so an admin-supplied `javascript:` or `data:` path would reach an `<img src>` / anchor | CWE-79 | Medium | `src/api/client.js` | Fixed |
+| 20 | Full-screen gallery viewer added without a focus trap or scroll lock | CWE-1021 | Low | `src/components/product/ProductGallery.jsx` | Fixed — portal dialog with `aria-modal`, Esc handling, scroll lock and focus restore |
+| 21 | 15 unreachable modules (account pages, auth context, support chat) still shipping in the bundle, widening the attack surface for no benefit | — | Low | 15 files | Fixed — deleted |
+
+## Reviewed and accepted
+
+- **Quantity ceiling raised 10 → 100.** Client-side only and advisory; the
+  seller confirms the real order on WhatsApp. No server-side quantity check
+  exists to bypass, because no order is transmitted.
+- **Seed stock set to the ceiling.** Intentional for a made-to-order wholesale
+  catalogue. It is display data, not an inventory ledger.
+- **Hero / editorial / collection imagery** is the store's own product
+  photography, copied from files already in `public/images/`. No third-party or
+  stock imagery is referenced anywhere, so there is nothing to licence.
+- **Console has no authentication.** By design — it holds no credential and
+  cannot write to the repository. Publishing goes through the user's own
+  authenticated GitHub session. Anyone can open `/console/` and edit a local
+  draft, but only someone with push access can publish it.
+- **`QuantityStepper` free-text input** strips non-digits on change and clamps
+  to `[min, max]` on commit, so no unbounded value reaches the cart reducer.
+
+## Outstanding
+
+- `src/data/products.js` — Side-Striped Track Pant (`p-105`) has no wholesale
+  rate. Marked `// TODO:` and surfaced on the product page as an enquiry
+  prompt rather than a price.
+- Confirm whether Zipped-Pocket Pant (`p-104`) should be ₹95 or ₹83 per piece
+  at wholesale.

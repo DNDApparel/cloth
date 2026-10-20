@@ -25,8 +25,8 @@ export const DEFAULT_HOME_EDITORIAL = {
   body: 'Browse pants, shorts and track pants. Select your options and send a purchase enquiry to the seller.',
   ctaLabel: 'Meet your new uniform',
   ctaTo: '/shop',
-  // Add an editorial photo from the admin console; blank renders a plain panel.
-  image: '',
+  // Own product photography — no licensing obligations.
+  image: '/images/editorial-banner.jpg',
 };
 
 export const DEFAULT_COLLECTIONS_PAGE = {

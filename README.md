@@ -5,7 +5,9 @@ A responsive React storefront for pants, trousers, 3/4 pants and track pants. Th
 ## What is included
 
 - Product browsing, search, categories, sizing, cart and wishlist.
-- The initial published catalog includes pants, trousers, track pants, 3/4 pants and men’s casual wear shorts. More products can be added in the admin page.
+- The published catalogue has five products across pants, track pants and shorts. More can be added in the admin page.
+- Each product carries its own retail price, wholesale unit price and wholesale minimum order quantity, because the minimum differs per style.
+- See [`CODE-GUIDE.md`](./CODE-GUIDE.md) for a file-by-file walkthrough of the codebase.
 - Combined bag and wishlist view with per-item selection; only checked bag items go to the estimate and WhatsApp enquiry.
 - Product-level wholesale pricing: the configured discount applies once a single product reaches the minimum quantity, with one-piece and bulk totals shown on product detail.
 - Men’s Casual Wear Shorts are listed at ₹92 retail and ₹82 per piece wholesale when the store’s minimum wholesale quantity is met.

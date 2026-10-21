@@ -10,7 +10,16 @@ const STORE_BASE_URL = import.meta.env.BASE_URL.replace(/console\/?$/, '');
 
 const INITIAL_STORE = DEFAULT_STATIC_STORE;
 
-const TABS = ['Overview', 'Products', 'Storefront', 'Offers & messages', 'Publish'];
+const TABS = ['Overview', 'Products', 'Home page', 'Offers & contact', 'Publish'];
+
+/** One-line orientation under the tab bar, so each section explains itself. */
+const TAB_HINTS = {
+  Overview: 'Store name, tagline and support email.',
+  Products: 'Add or edit products: price, wholesale rate, colours, sizes, stock and photos.',
+  'Home page': 'Hero, banner, home copy, categories, collections and footer seller details.',
+  'Offers & contact': 'Announcements, promo codes, wholesale defaults and WhatsApp numbers.',
+  Publish: 'Download your changes and commit them on GitHub to make them live.',
+};
 
 function withDefaults(data) {
   return {
@@ -376,6 +385,8 @@ export function GitHubOnlyAdmin() {
           ))}
         </nav>
 
+        <p className="text-sm text-ink-500">{TAB_HINTS[tab]}</p>
+
         {loading ? (
           <section className="rounded-2xl border border-sand-300 bg-white p-6" role="status">
             Loading store data…
@@ -393,7 +404,6 @@ export function GitHubOnlyAdmin() {
                   <Field label="Store name" value={store.settings.storeName} onChange={(value) => updateSettings({ storeName: value })} />
                   <Field label="Tagline" value={store.settings.tagline} onChange={(value) => updateSettings({ tagline: value })} />
                   <Field label="Support email" type="email" value={store.settings.supportEmail} onChange={(value) => updateSettings({ supportEmail: value })} />
-                  <Field label="Currency" value={store.settings.currency} onChange={(value) => updateSettings({ currency: value })} />
                 </div>
               </Section>
             )}
@@ -558,7 +568,7 @@ export function GitHubOnlyAdmin() {
               </div>
             )}
 
-            {tab === 'Storefront' && (
+            {tab === 'Home page' && (
               <div className="space-y-6">
                 <Section title="Show or hide storefront sections" description="These switches control customer-facing sections and routes.">
                   <div className="grid gap-3 sm:grid-cols-2">
@@ -725,10 +735,8 @@ export function GitHubOnlyAdmin() {
                   </div>
                 </Section>
 
-                <Section title="Prices and business details">
+                <Section title="Seller details" description="Shown in the storefront footer. Required for Indian e-commerce listings.">
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <Field label="Tax rate (for example 0.05 = 5%)" type="number" min="0" step="0.01" value={store.settings.taxRate} onChange={(taxRate) => updateSettings({ taxRate: numberValue(taxRate) })} />
-                    <Field label="Free shipping threshold (₹)" type="number" min="0" value={store.settings.freeShippingThreshold} onChange={(freeShippingThreshold) => updateSettings({ freeShippingThreshold: numberValue(freeShippingThreshold) })} />
                     {['sellerLegalName', 'businessAddress', 'gstin', 'grievanceOfficer', 'grievanceEmail', 'grievancePhone'].map((key) => (
                       <Field key={key} label={fieldLabel(key)} value={store.settings[key] ?? ''} onChange={(value) => updateSettings({ [key]: value })} />
                     ))}
@@ -737,7 +745,7 @@ export function GitHubOnlyAdmin() {
               </div>
             )}
 
-            {tab === 'Offers & messages' && (
+            {tab === 'Offers & contact' && (
               <div className="space-y-6">
                 <Section title="Announcements" description="Add messages to the rotating announcement bar.">
                   <button type="button" onClick={addAnnouncement} className={secondaryButton}>Add announcement</button>
@@ -772,47 +780,20 @@ export function GitHubOnlyAdmin() {
                   </div>
                 </Section>
 
-                <Section title="Wholesale orders">
-                  <Toggle label="Enable wholesale discount information" checked={store.settings.bulkDiscount?.active === true} onChange={(active) => updateSettings({ bulkDiscount: { ...store.settings.bulkDiscount, active } })} />
+                <Section title="Wholesale defaults" description="Fallback used only by products that have no wholesale price or minimum of their own. Set those per product on the Products tab.">
+                  <Toggle label="Show wholesale pricing on the storefront" checked={store.settings.bulkDiscount?.active === true} onChange={(active) => updateSettings({ bulkDiscount: { ...store.settings.bulkDiscount, active } })} />
                   <div className="mt-4 grid gap-4 sm:grid-cols-3">
-                    <Field label="Minimum pieces" type="number" min="1" value={store.settings.bulkDiscount?.minQuantity ?? 10} onChange={(value) => updateSettings({ bulkDiscount: { ...store.settings.bulkDiscount, minQuantity: numberValue(value) } })} />
-                    <Field label="Discount percent" type="number" min="0" max="100" value={store.settings.bulkDiscount?.percent ?? 0} onChange={(value) => updateSettings({ bulkDiscount: { ...store.settings.bulkDiscount, percent: numberValue(value) } })} />
+                    <Field label="Default minimum pieces" type="number" min="1" value={store.settings.bulkDiscount?.minQuantity ?? 10} onChange={(value) => updateSettings({ bulkDiscount: { ...store.settings.bulkDiscount, minQuantity: numberValue(value) } })} />
+                    <Field label="Default discount percent" type="number" min="0" max="100" value={store.settings.bulkDiscount?.percent ?? 0} onChange={(value) => updateSettings({ bulkDiscount: { ...store.settings.bulkDiscount, percent: numberValue(value) } })} />
                     <Field label="Offer label" value={store.settings.bulkDiscount?.label ?? ''} onChange={(label) => updateSettings({ bulkDiscount: { ...store.settings.bulkDiscount, label } })} />
                   </div>
                 </Section>
 
-                <Section title="Store-wide offer">
+                <Section title="Store-wide offer" description="An extra percentage off every bag, applied after wholesale pricing.">
                   <Toggle label="Enable festive offer" checked={store.settings.festiveOffer?.active === true} onChange={(active) => updateSettings({ festiveOffer: { ...store.settings.festiveOffer, active } })} />
                   <div className="mt-4 grid gap-4 sm:grid-cols-2">
                     <Field label="Offer label" value={store.settings.festiveOffer?.label ?? ''} onChange={(label) => updateSettings({ festiveOffer: { ...store.settings.festiveOffer, label } })} />
                     <Field label="Discount percent" type="number" min="0" max="100" value={store.settings.festiveOffer?.percent ?? 0} onChange={(value) => updateSettings({ festiveOffer: { ...store.settings.festiveOffer, percent: numberValue(value) } })} />
-                    <TextField label="Offer note" value={store.settings.festiveOffer?.note ?? ''} onChange={(note) => updateSettings({ festiveOffer: { ...store.settings.festiveOffer, note } })} />
-                  </div>
-                </Section>
-
-                <Section title="Shipping methods and prices">
-                  <button
-                    type="button"
-                    onClick={() => updateSettings({
-                      shippingMethods: [
-                        ...(store.settings.shippingMethods ?? []),
-                        { id: `shipping-${Date.now()}`, label: 'New delivery option', detail: '', price: 0, freeOverThreshold: false },
-                      ],
-                    })}
-                    className={secondaryButton}
-                  >
-                    Add delivery option
-                  </button>
-                  <div className="mt-4 space-y-3">
-                    {(store.settings.shippingMethods ?? []).map((method, index) => (
-                      <div key={method.id ?? index} className="grid gap-3 rounded-xl border border-sand-300 p-4 sm:grid-cols-2">
-                        <Field label="Delivery option" value={method.label ?? ''} onChange={(label) => updateSettings({ shippingMethods: store.settings.shippingMethods.map((item, itemIndex) => itemIndex === index ? { ...item, label } : item) })} />
-                        <Field label="Delivery estimate" value={method.detail ?? ''} onChange={(detail) => updateSettings({ shippingMethods: store.settings.shippingMethods.map((item, itemIndex) => itemIndex === index ? { ...item, detail } : item) })} />
-                        <Field label="Price (₹)" type="number" min="0" value={method.price ?? 0} onChange={(value) => updateSettings({ shippingMethods: store.settings.shippingMethods.map((item, itemIndex) => itemIndex === index ? { ...item, price: numberValue(value) } : item) })} />
-                        <Toggle label="Free over threshold" checked={method.freeOverThreshold === true} onChange={(freeOverThreshold) => updateSettings({ shippingMethods: store.settings.shippingMethods.map((item, itemIndex) => itemIndex === index ? { ...item, freeOverThreshold } : item) })} />
-                        <button type="button" onClick={() => updateSettings({ shippingMethods: store.settings.shippingMethods.filter((_, itemIndex) => itemIndex !== index) })} className="justify-self-start rounded-full border border-sand-300 px-3 py-2 text-sm">Remove delivery option</button>
-                      </div>
-                    ))}
                   </div>
                 </Section>
 

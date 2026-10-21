@@ -13,12 +13,6 @@
  */
 export const MAX_LINE_QUANTITY = 100;
 
-export const DEFAULT_SHIPPING_METHODS = [
-  { id: 'standard', label: 'Standard', detail: '4–6 business days', price: 79, freeOverThreshold: true },
-  { id: 'express', label: 'Express', detail: '2–3 business days', price: 149, freeOverThreshold: false },
-  { id: 'overnight', label: 'Overnight', detail: 'Next business day', price: 299, freeOverThreshold: false },
-];
-
 /** A cart line is identified by product + variant, so the same tee in two sizes stays separate. */
 export function lineId(productId, size, color) {
   return `${productId}::${size}::${color}`;
@@ -45,13 +39,6 @@ export function promoDiscount(amount, promo) {
   if (promo.type === 'percent') return round(amount * (promo.value / 100));
   if (promo.type === 'fixed') return Math.min(promo.value, amount);
   return 0;
-}
-
-export function shippingCost(amount, methodId, methods = DEFAULT_SHIPPING_METHODS, threshold = 1999) {
-  const method = methods.find((m) => m.id === methodId) ?? methods[0];
-  if (!method || amount <= 0) return 0;
-  if (method.freeOverThreshold && amount >= threshold) return 0;
-  return method.price;
 }
 
 /** True when a product carries its own per-piece wholesale rate. */

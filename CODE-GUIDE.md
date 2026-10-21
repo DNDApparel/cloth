@@ -197,9 +197,16 @@ Four curated edits. Each has a slug, title, issue number, description, a hero
 strip on the home page) and `STORY_BLOCKS` (three editorial paragraphs).
 
 ### `settings.js`
-Store-wide configuration: name, tagline, support email, tax rate, free-shipping
-threshold, `bulkDiscount` defaults, WhatsApp contacts, shipping methods, hero
-copy and image, banner. Every field is admin-editable.
+Store-wide configuration: name, tagline, support email, `bulkDiscount`
+defaults, WhatsApp contacts, hero copy and image, banner, and the seller /
+grievance details shown in the footer. Every field is admin-editable, and
+every field is rendered somewhere — there is no setting the console can change
+that the storefront ignores.
+
+Deliberately absent: tax rate, free-shipping threshold, shipping methods and
+currency. `calculateTotals` returns `tax: null` and `shipping: null` because
+delivery and tax are quoted by the seller on WhatsApp, and `formatPrice`
+hard-codes the rupee locale.
 
 ### `storeConfig.js`
 Assembles the published default. `DEFAULT_STATIC_STORE` merges products,
@@ -479,10 +486,19 @@ Why this shape: GitHub Pages cannot write files, and embedding a token in a
 public bundle would hand anyone write access to the repo. Exporting a file keeps
 the credential in the user's normal GitHub session.
 
-Tabs: Products, Storefront, Promotions, Announcements, Publish. Product fields
-include name, slug, price, **wholesale unit price**, **wholesale minimum
-pieces**, **wholesale note**, category, fabric, fit, sizes, colours, per-variant
-stock and photos.
+Five tabs, each with a one-line hint underneath the tab bar:
+
+| Tab | Contents |
+|---|---|
+| Overview | Store name, tagline, support email |
+| Products | Price, **wholesale rate**, **wholesale minimum pieces**, **wholesale note**, category, fabric, fit, sizes, colours, per-variant stock, photos |
+| Home page | Hero, banner, home copy, categories, collections, footer seller details |
+| Offers & contact | Announcements, promo codes, wholesale defaults, store-wide offer, WhatsApp numbers |
+| Publish | Download the file and commit it on GitHub |
+
+The **Wholesale defaults** section is the fallback for products that set no
+rate or minimum of their own — per-product values on the Products tab always
+win.
 
 `PhotoPicker` is indirect for the same reason — it suggests a filename, lets you
 download the renamed copy, and links to GitHub's upload page.

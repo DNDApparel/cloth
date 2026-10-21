@@ -19,15 +19,14 @@ export const SEED_SETTINGS = {
   grievanceEmail: '',
   grievancePhone: '',
 
-  currency: 'INR',
-  taxRate: 0.05, // 5% GST on apparel
-  freeShippingThreshold: 1999,
+  // Prices are quoted in rupees throughout; `formatPrice` hard-codes the
+  // locale. Tax and delivery are confirmed by the seller on WhatsApp, so the
+  // storefront deliberately carries no tax rate or shipping table.
 
   festiveOffer: {
     active: false,
     label: '',
     percent: 0,
-    note: '',
   },
 
   bulkDiscount: {
@@ -43,12 +42,6 @@ export const SEED_SETTINGS = {
       { id: 'owner', label: 'Store owner', number: '9361321260', enabled: true },
     ],
   },
-
-  shippingMethods: [
-    { id: 'standard', label: 'Standard', detail: '4–6 business days', price: 79, freeOverThreshold: true },
-    { id: 'express', label: 'Express', detail: '2–3 business days', price: 149, freeOverThreshold: false },
-    { id: 'overnight', label: 'Overnight', detail: 'Next business day', price: 299, freeOverThreshold: false },
-  ],
 
   hero: {
     eyebrow: 'Everyday clothing · Wholesale available',

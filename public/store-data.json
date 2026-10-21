@@ -860,14 +860,10 @@
     "grievanceOfficer": "",
     "grievanceEmail": "",
     "grievancePhone": "",
-    "currency": "INR",
-    "taxRate": 0.05,
-    "freeShippingThreshold": 1999,
     "festiveOffer": {
       "active": false,
       "label": "",
-      "percent": 0,
-      "note": ""
+      "percent": 0
     },
     "bulkDiscount": {
       "active": true,
@@ -886,29 +882,6 @@
         }
       ]
     },
-    "shippingMethods": [
-      {
-        "id": "standard",
-        "label": "Standard",
-        "detail": "4–6 business days",
-        "price": 79,
-        "freeOverThreshold": true
-      },
-      {
-        "id": "express",
-        "label": "Express",
-        "detail": "2–3 business days",
-        "price": 149,
-        "freeOverThreshold": false
-      },
-      {
-        "id": "overnight",
-        "label": "Overnight",
-        "detail": "Next business day",
-        "price": 299,
-        "freeOverThreshold": false
-      }
-    ],
     "hero": {
       "eyebrow": "Everyday clothing · Wholesale available",
       "titleLine1": "Find your",

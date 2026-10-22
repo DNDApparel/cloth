@@ -159,8 +159,10 @@ quantity-limit change.
 
 ## Outstanding
 
-- `src/data/products.js` — Side-Striped Track Pant (`p-105`) has no wholesale
-  rate. Marked `// TODO:` and surfaced on the product page as an enquiry
-  prompt rather than a price.
-- Confirm whether Zipped-Pocket Pant (`p-104`) should be ₹95 or ₹83 per piece
-  at wholesale.
+Nothing open. The two pricing questions raised in the previous pass have been
+answered by the seller and applied to `src/data/products.js`:
+
+- Side-Striped Track Pant (`p-105`) — ₹95 per piece from 25 pieces. The `TODO`
+  and the enquiry-prompt fallback on the product page are gone.
+- Zipped-Pocket Pant (`p-104`) — confirmed at ₹95 per piece; the ₹83 figure was
+  a mis-read and no change was needed.

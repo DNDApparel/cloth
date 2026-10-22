@@ -163,10 +163,8 @@ const RAW = [
     gender: 'men',
     price: 140,
     compareAt: null,
-    // TODO: confirm the per-piece wholesale rate for this style — the minimum
-    // order quantity is 30 but no wholesale price has been supplied yet.
-    wholesalePrice: null,
-    bulkMinQuantity: 30,
+    wholesalePrice: 95,
+    bulkMinQuantity: 25,
     fit: 'regular',
     fabric: 'Poly-cotton knit',
     tags: ['new'],

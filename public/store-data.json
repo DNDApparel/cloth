@@ -597,8 +597,8 @@
       "gender": "men",
       "price": 140,
       "compareAt": null,
-      "wholesalePrice": null,
-      "bulkMinQuantity": 30,
+      "wholesalePrice": 95,
+      "bulkMinQuantity": 25,
       "fit": "regular",
       "fabric": "Poly-cotton knit",
       "tags": [

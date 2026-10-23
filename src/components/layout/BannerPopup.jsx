@@ -8,7 +8,7 @@ import { CloseIcon } from '../ui/Icons';
 const SESSION_KEY = 'dnd.banner.dismissed';
 
 /**
- * Promotional banner popup, configured entirely from the admin console:
+ * Promotional banner popup, configured entirely from `store-data.json`:
  * title, body, image, call to action, theme, delay and whether it should
  * reappear after being dismissed.
  */

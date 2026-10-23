@@ -1,95 +1,117 @@
-# Clothing ecommerce platform
+# DND Store — clothing storefront
 
-A responsive React storefront for pants, trousers, 3/4 pants and track pants. The default GitHub Pages setup includes a no-login admin editor and does not require a third-party API or hosting provider.
+A responsive React storefront for pants, shorts and track pants. It is a fully
+static site: there is no backend, no database and no payment processing.
+Customers browse the catalogue, build a bag, and send a pre-filled WhatsApp
+message to the seller, who confirms availability, delivery and payment
+directly.
+
+## How it works
+
+The catalogue lives in `src/data/` as plain JavaScript. A build step flattens
+it into `public/store-data.json`, which is committed to the repository and
+served as a static file. The storefront fetches that file once at boot.
+
+```
+src/data/*.js  ──npm run publish:data──▶  public/store-data.json  ──fetch──▶  storefront
+```
+
+That is the whole data pipeline. To change a price, add a product or edit copy,
+edit the source file, regenerate the JSON, commit, and push — GitHub Actions
+rebuilds and redeploys.
 
 ## What is included
 
-- Product browsing, search, categories, sizing, cart and wishlist.
-- The published catalogue has five products across pants, track pants and shorts. More can be added in the admin page.
-- Each product carries its own retail price, wholesale unit price and wholesale minimum order quantity, because the minimum differs per style.
-- See [`CODE-GUIDE.md`](./CODE-GUIDE.md) for a file-by-file walkthrough of the codebase.
-- Combined bag and wishlist view with per-item selection; only checked bag items go to the estimate and WhatsApp enquiry.
-- Product-level wholesale pricing: the configured discount applies once a single product reaches the minimum quantity, with one-piece and bulk totals shown on product detail.
-- Men’s Casual Wear Shorts are listed at ₹92 retail and ₹82 per piece wholesale when the store’s minimum wholesale quantity is met.
-- Feedback page at `/feedback`, which prepares a WhatsApp draft for the owner.
-- WhatsApp purchase enquiries: customers review and send a pre-filled draft; this website does not collect payment or claim an order is placed.
-- A separate wholesale enquiry page and configurable quantity discount.
-- An admin editor at `/console/` for products, storefront visibility, prices, promotions, announcements, wholesale settings and WhatsApp contacts.
-- Product photos committed to `public/images/` and served by GitHub Pages; published store data is in `public/store-data.json`.
-- Each colour can have its own product photo gallery. Provide at least 6 photos per colour; portrait 1200 × 1500 px (4:5), JPEG or WebP, ideally under 1 MB per image, is recommended. Upload controls accept JPEG, PNG, WebP and AVIF files up to 4 MB each.
-- Privacy notice and terms templates. The seller must complete accurate business details and review disclosures before launch.
+- Product browsing, search, categories, size and colour selection, bag and
+  wishlist.
+- Five live products across pants, track pants and shorts.
+- Per-product wholesale pricing. Each style carries its own retail price,
+  wholesale unit price and minimum order quantity, because the minimum differs
+  per style.
+- A combined bag and wishlist view with per-item selection; only checked items
+  reach the estimate and the WhatsApp message.
+- A wholesale enquiry page at `/bulk-order`.
+- WhatsApp enquiry checkout. The customer reviews and sends the draft; the
+  site never claims an order was placed and collects no payment.
+- Privacy notice and terms templates.
 
-Indian legal requirements depend on the seller, products, sales model and actual data practices. Have the final terms, privacy notice, tax treatment, product pricing and grievance disclosures reviewed by a qualified professional before accepting enquiries.
+Indian legal requirements depend on the seller, products, sales model and
+actual data practices. Have the terms, privacy notice, tax treatment, pricing
+and grievance disclosures reviewed by a qualified professional before
+accepting enquiries.
 
 ## Run locally
 
-Use Node.js 22 or later.
+Node.js 22 or later.
 
-1. Install dependencies:
+```sh
+npm ci
+npm run dev        # http://localhost:5173/
+```
 
-   ```sh
-   npm ci
-   ```
+## Editing the store
 
-2. Start the storefront and GitHub-managed console preview:
+All store content is in `src/data/`:
 
-   ```sh
-   npm run dev
-   ```
+| File | Holds |
+|---|---|
+| `products.js` | The catalogue — names, prices, wholesale rates, colours, sizes, photos |
+| `taxonomy.js` | Categories, sizes, price bounds |
+| `collections.js` | Curated edits, brand values, story blocks |
+| `settings.js` | Store name, hero, banner, WhatsApp contacts, seller details |
+| `promoCodes.js` | Promotion codes |
+| `storeConfig.js` | Assembles all of the above into the published shape |
 
-   ```sh
-   npm run dev:console
-   ```
+After any edit:
 
-3. Visit the storefront at `http://localhost:5173/` and the console preview at `http://localhost:5174/`.
+```sh
+npm run publish:data   # regenerates public/store-data.json and prints the catalogue
+npm run build          # verify the bundle still builds
+git add -A && git commit && git push origin main
+```
 
-For optional local API development, copy `.env.example` to `.env`, set a unique bootstrap password, start `npm run dev:api`, and launch the storefront and console with `VITE_GITHUB_ONLY=false npm run dev` and `VITE_GITHUB_ONLY=false npm run dev:console`. The API is not used by the GitHub Pages deployment.
+Forgetting `publish:data` is the single most common mistake — the source file
+changes but the storefront keeps serving the old JSON.
+
+### Product photos
+
+Commit photos to `public/images/` and reference them from `products.js` as
+`/images/your-file.jpg`. Portrait 1200 × 1500 px (4:5), JPEG or WebP, under
+1 MB each works well. Products with no photo render a neutral placeholder
+rather than a broken image.
 
 ## Deploy to GitHub Pages
 
-The repository includes [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml). It builds the storefront and admin page and deploys both as static files on every push to `main`. The storefront reads the committed `public/store-data.json` when present, and otherwise starts with the bundled sample catalogue. No API URL or third-party runtime is needed.
+[`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)
+builds and deploys on every push to `main`.
 
-1. Push the project files to the `main` branch of `logeshgp/clothing-ecommerce-platform`.
-2. In GitHub, open **Settings → Pages** and set **Build and deployment → Source** to **GitHub Actions**.
-3. Open **Actions**, run **Deploy storefront and admin to GitHub Pages** (or push another commit), and wait for the Pages deployment to finish.
-4. The storefront will be at `https://logeshgp.github.io/clothing-ecommerce-platform/`; the admin page will be at `https://logeshgp.github.io/clothing-ecommerce-platform/console/`.
+1. In GitHub, open **Settings → Pages** and set **Build and deployment →
+   Source** to **GitHub Actions**.
+2. Push to `main`. The workflow runs automatically — do not also dispatch it
+   manually, as `cancel-in-progress` will cancel the earlier run.
+3. The site is served at
+   `https://logeshgp.github.io/clothing-ecommerce-platform/`.
 
-No `VITE_API_URL`, backend service or external hosting account is needed for this mode.
-
-## Manage the store and upload photos
-
-The `/console/` admin page itself does not require a login. It keeps edits in the current browser and can export a `store-data.json` file. GitHub Pages cannot write to your repository anonymously, so publishing is done through GitHub's normal upload and commit screens:
-
-1. Open `https://logeshgp.github.io/clothing-ecommerce-platform/console/`.
-2. Use **Products**, **Storefront** and **Offers & messages** to edit products, prices, stock, visibility flags, home hero, banner, announcements, promotions, wholesale settings, seller details and WhatsApp contacts. The shop defaults to **New arrivals** sort. Drafts stay in this browser; download the JSON before switching browsers or clearing site data.
-3. For a product colour, add at least 6 photos using the per-colour photo controls. Recommended product image size is 1200 × 1500 px (4:5), JPEG or WebP, ideally under 1 MB each; the editor accepts JPEG, PNG, WebP or AVIF up to 4 MB each. For hero, banner or collection images, choose **Choose photo**. The editor previews each photo and adds a unique timestamped `/images/...` path to the draft. Choose **Download photo with suggested filename** to get a copy ready for GitHub, then use **Upload photo on GitHub** to upload each downloaded copy.
-4. In GitHub's upload screen, commit each photo to `public/images/`. The image path is already added to the draft; the file itself must be uploaded and committed by you.
-5. In the admin page's **Publish** tab, choose **Download store data**. Upload it as `public/store-data.json` the first time. For later changes, open the existing file on GitHub, replace its contents with the downloaded JSON, and commit. Use a GitHub account with write permission to this repository; you can commit to `main` or create a pull request.
-6. If photos and data are uploaded in separate commits, wait for the deployment triggered by the last commit. In **Actions**, confirm that the Pages workflow completed before checking the storefront.
-
-Opening the admin page does not require signing in. A GitHub account with repository write permission is still required on GitHub's own commit screen; no credential is embedded in the website. Changes become shared only after the files are committed and Pages redeploys. The initial sample catalogue remains as a fallback until the first `store-data.json` is committed.
-
-The sample catalogue covers pants, trousers, 3/4 pants, track pants and shorts. Men’s Casual Wear Shorts are listed at ₹92 retail and ₹82 per piece wholesale, subject to the configured minimum wholesale quantity. WhatsApp enquiries are enabled by default and point to `9361321260`; clicking the action opens a pre-filled WhatsApp draft for the customer to review and send. The admin editor can change that contact or disable WhatsApp.
-
-## Optional API mode
-
-The repository also contains a Node.js API for deployments that choose a separate persistent API host. [`render.yaml`](./render.yaml) is an optional Render Blueprint; it is not required by the GitHub-only Pages workflow. A hosted API needs durable storage for its SQLite database and uploaded photos, plus careful configuration of secrets, access, backups and HTTPS.
+Because Pages has no server-side routing, the workflow copies `index.html` to
+`404.html` so deep links resolve through React Router.
 
 ## Useful commands
 
 ```sh
-npm run dev             # storefront, http://localhost:5173/
-npm run dev:console     # local admin preview, http://localhost:5174/
-npm run dev:api         # optional local API, http://localhost:4000/
-npm run build           # storefront production bundle, dist/
-npm run build:console   # admin production bundle, dist-console/
-npm run preview         # preview storefront production bundle
+npm run dev            # dev server with hot reload
+npm run publish:data   # regenerate public/store-data.json from src/data/
+npm run build          # production bundle → dist/
+npm run preview        # serve the production bundle locally
+npm run share          # expose the dev server on the LAN and a public tunnel
 ```
 
-## Important operational notes
+## Operational notes
 
-- In GitHub-only mode, the browser draft is local until exported and committed to the repository; there is no runtime database or private admin backend.
-- Customers prepare a WhatsApp draft, review its recipient and contents, and press Send. This website cannot claim that a message was sent or an order accepted.
-- Never commit `.env`, production secrets, customer information, database files or private customer/business data.
-- Replace sample product photos and descriptions with assets and claims that the business is authorised to publish.
-- The website is not legal, tax or accounting advice. Confirm applicable Indian consumer-protection, e-commerce, privacy/data-protection, GST, advertising and grievance requirements for the real operation.
+- There is no admin login, no session and no server. Everything published is
+  in the repository, and every change is a commit.
+- Customers prepare a WhatsApp draft and press Send themselves. The site cannot
+  confirm a message was sent or an order accepted.
+- Never commit `.env`, secrets or customer data.
+- Replace sample photography and descriptions with assets the business is
+  authorised to publish.
+- This project is not legal, tax or accounting advice.

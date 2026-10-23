@@ -100,7 +100,7 @@ export default function ProductDetail() {
 
   if (!color) return null;
 
-  // Copy comes from the admin console: per-product overrides first, then the
+  // Copy comes from the published store data: per-product overrides first, then the
   // store-wide defaults, then a hard-coded fallback.
   const copy = product.copy ?? {};
   const globalCopy = settings.productCopy ?? {};

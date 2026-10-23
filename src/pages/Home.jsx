@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
-import { featuredScore } from '../api/mockApi';
+import { featuredScore } from '../utils/catalogQuery';
 import { primaryImage } from '../data/products';
 import { ProductCard } from '../components/product/ProductCard';
 import { QuickViewModal } from '../components/product/QuickViewModal';
 import { Button } from '../components/ui/Button';
 import { ArrowUpRightIcon } from '../components/ui/Icons';
-import { assetUrl } from '../api/client';
+import { assetUrl } from '../utils/assetUrl';
 
 export default function Home() {
   const { products, categories, settings, brandValues, collections, storyBlocks } = useStore();

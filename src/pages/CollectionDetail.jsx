@@ -6,7 +6,7 @@ import { QuickViewModal } from '../components/product/QuickViewModal';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
-import { assetUrl } from '../api/client';
+import { assetUrl } from '../utils/assetUrl';
 
 export default function CollectionDetail() {
   const { slug } = useParams();

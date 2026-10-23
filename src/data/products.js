@@ -8,7 +8,7 @@ import { MAX_LINE_QUANTITY } from '../utils/cart.js';
  *
  * Products are stored in a flat, admin-editable shape: colours carry their own
  * image list and stock is a plain `"Colour::Size" -> number` map, so every
- * field can be edited from the admin console without derived data going stale.
+ * field can be edited by hand without derived data going stale.
  *
  * Pricing: `price` is the single-piece retail rate and `wholesalePrice` is the
  * per-piece rate once the buyer reaches `bulkMinQuantity` of that product.
@@ -185,7 +185,7 @@ const RAW = [
 ];
 
 /** Expands a seed entry into the full product shape used by the app. */
-export function hydrateProduct(raw) {
+function hydrateProduct(raw) {
   const sizes = raw.sizes?.length ? raw.sizes : SIZES;
   const colors = (raw.colors ?? []).map((color) => {
     const images = Array.isArray(color.images)
@@ -231,7 +231,7 @@ export function stockFor(product, color, size) {
   return product?.stock?.[`${color}::${size}`] ?? 0;
 }
 
-export function totalStock(product) {
+function totalStock(product) {
   return Object.values(product?.stock ?? {}).reduce((sum, n) => sum + n, 0);
 }
 

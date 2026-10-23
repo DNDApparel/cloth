@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { assetUrl } from '../../api/client';
+import { assetUrl } from '../../utils/assetUrl';
 import { colorImages, colorNames } from '../../data/products';
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import { classNames } from '../../utils/format';

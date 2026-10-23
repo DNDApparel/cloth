@@ -1,9 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { api, assetUrl } from '../api/client';
-import { SEED_PRODUCTS } from '../data/products';
-import { CATEGORIES } from '../data/taxonomy';
-import { SEED_PROMOS } from '../data/promoCodes';
-import { SEED_ANNOUNCEMENTS, SEED_SETTINGS } from '../data/settings';
+import { assetUrl } from '../utils/assetUrl';
 import { BRAND_VALUES, COLLECTIONS, STORY_BLOCKS } from '../data/collections';
 import { DEFAULT_STATIC_STORE } from '../data/storeConfig';
 
@@ -12,16 +8,19 @@ const StoreContext = createContext(null);
 const FALLBACK_SETTINGS = {
   storeName: 'DND Store',
   tagline: 'Good clothes for the in-between.',
-  supportEmail: 'hello@dndstore.example',
+  supportEmail: '',
   festiveOffer: { active: false, label: '', percent: 0 },
   hero: {},
   banner: { enabled: false },
-  support: { enabled: true },
   productCopy: {},
   whatsapp: { enabled: false },
 };
 
-const SEEDED_STORE = { ...DEFAULT_STATIC_STORE, countries: [] };
+/**
+ * Catalogue committed alongside the code. Used when `store-data.json` is
+ * missing or unreadable so the storefront still renders something sensible.
+ */
+const SEEDED_STORE = DEFAULT_STATIC_STORE;
 
 async function loadPublishedStore() {
   const response = await fetch(`${import.meta.env.BASE_URL}store-data.json`, {
@@ -62,13 +61,13 @@ async function loadPublishedStore() {
       ...data.settings,
       visibility: data.settings.visibility ?? {},
     },
-    countries: data.countries ?? [],
   };
 }
 
 /**
- * Store data comes from the committed JSON file in GitHub Pages mode, or the
- * optional API in API mode. A missing JSON file uses the bundled starter data.
+ * Store data is read once at boot from the published `store-data.json`, which
+ * is committed to the repository and served as a static file. There is no API
+ * and no runtime backend.
  */
 export function StoreProvider({ children }) {
   const [state, setState] = useState({
@@ -80,57 +79,21 @@ export function StoreProvider({ children }) {
     promos: [],
     announcements: [],
     settings: FALLBACK_SETTINGS,
-    countries: [],
   });
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState(null);
 
   const load = useCallback(async () => {
     setStatus('loading');
-    if (import.meta.env.VITE_GITHUB_ONLY !== 'false') {
-      try {
-        const data = await loadPublishedStore();
-        setState(data);
-        setStatus('ready');
-        setError(null);
-      } catch (err) {
-        setState(SEEDED_STORE);
-        setStatus('ready');
-        setError(err.message);
-      }
-      return;
-    }
-
     try {
-      const data = await api.storefront();
-      setState({
-        products: (data.products ?? []).filter((product) => product.active !== false),
-        categories: (data.categories ?? []).filter((category) => category.enabled !== false),
-        collections: data.collections ?? COLLECTIONS,
-        brandValues: data.brandValues ?? BRAND_VALUES,
-        storyBlocks: data.storyBlocks ?? STORY_BLOCKS,
-        promos: data.promos ?? [],
-        announcements: (data.announcements ?? []).filter((announcement) => announcement.active !== false),
-        settings: { ...FALLBACK_SETTINGS, ...(data.settings ?? {}) },
-        countries: data.countries ?? [],
-      });
-      setStatus('ready');
+      setState(await loadPublishedStore());
       setError(null);
     } catch (err) {
-      setState({
-        products: SEED_PRODUCTS,
-        categories: CATEGORIES,
-        collections: COLLECTIONS,
-        brandValues: BRAND_VALUES,
-        storyBlocks: STORY_BLOCKS,
-        promos: SEED_PROMOS,
-        announcements: SEED_ANNOUNCEMENTS,
-        settings: SEED_SETTINGS,
-        countries: [],
-      });
+      // Fall back to the bundled catalogue rather than showing an empty shop.
+      setState(SEEDED_STORE);
       setError(err.message);
-      setStatus('ready');
     }
+    setStatus('ready');
   }, []);
 
   useEffect(() => {
@@ -158,9 +121,11 @@ export function StoreProvider({ children }) {
       productsById,
       productsBySlug,
       categoryMap,
-      activeAnnouncements: state.announcements.filter((announcement) => announcement.active !== false),
+      activeAnnouncements: state.announcements.filter((a) => a.active !== false),
       status,
       error,
+      // True when the published file failed to load and the bundled catalogue
+      // is standing in for it.
       demoMode: status === 'ready' && Boolean(error),
       reload: load,
       assetUrl,

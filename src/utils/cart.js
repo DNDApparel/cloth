@@ -18,23 +18,23 @@ export function lineId(productId, size, color) {
   return `${productId}::${size}::${color}`;
 }
 
-export function lineSubtotal(line) {
+function lineSubtotal(line) {
   return line.price * line.quantity;
 }
 
-export function cartCount(items) {
+function cartCount(items) {
   return items.reduce((total, line) => total + line.quantity, 0);
 }
 
-export function cartSubtotal(items) {
+function cartSubtotal(items) {
   return items.reduce((total, line) => total + lineSubtotal(line), 0);
 }
 
-export function round(value) {
+function round(value) {
   return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
 }
 
-export function promoDiscount(amount, promo) {
+function promoDiscount(amount, promo) {
   if (!promo) return 0;
   if (promo.type === 'percent') return round(amount * (promo.value / 100));
   if (promo.type === 'fixed') return Math.min(promo.value, amount);
@@ -59,7 +59,7 @@ function hasRate(wholesalePrice, price) {
  * Each product can override the store-wide default, because the seller quotes
  * a different minimum order quantity per style.
  */
-export function minBulkQuantity(settings, productMinQuantity) {
+function minBulkQuantity(settings, productMinQuantity) {
   const perProduct = Number(productMinQuantity);
   if (Number.isFinite(perProduct) && perProduct >= 1) return Math.floor(perProduct);
   return Math.max(1, Number(settings?.bulkDiscount?.minQuantity) || 10);

@@ -9,7 +9,6 @@ export const CATEGORIES = [
 export const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map((c) => [c.slug, c]));
 
 /** Pseudo-category used by navigation and filters to surface newly tagged items. */
-export const NEW_CATEGORY = { slug: 'new', name: 'New arrivals', blurb: 'The latest drops, fresh off the table.' };
 
 export const GENDERS = [
   { slug: 'men', name: 'Men' },
@@ -61,7 +60,6 @@ export const COLOR_SWATCHES = {
   Magenta: '#b10d66',
 };
 
-export const COLOR_NAMES = Object.keys(COLOR_SWATCHES);
 
 export const SORT_OPTIONS = [
   { value: 'featured', label: 'Featured' },
@@ -73,7 +71,6 @@ export const SORT_OPTIONS = [
 /** Price slider bounds, in rupees. */
 export const PRICE_BOUNDS = { min: 0, max: 3999, step: 50 };
 
-export const TAGS = ['new', 'sale', 'last-chance'];
 
 export const BADGE_STYLES = {
   new: { label: 'New', className: 'bg-ink-900 text-sand-100' },

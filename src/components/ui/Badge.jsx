@@ -18,16 +18,3 @@ export function Badge({ tag, className }) {
   );
 }
 
-export function Pill({ children, className, ...props }) {
-  return (
-    <span
-      className={classNames(
-        'inline-flex items-center gap-1.5 rounded-full border border-sand-300 bg-sand-50 px-3 py-1 text-xs text-ink-700',
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </span>
-  );
-}

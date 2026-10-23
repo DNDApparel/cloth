@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { assetUrl } from '../../api/client';
+import { assetUrl } from '../../utils/assetUrl';
 import { classNames } from '../../utils/format';
 
 /**

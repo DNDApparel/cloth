@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { queryProducts } from '../api/mockApi';
+import { queryProducts } from '../utils/catalogQuery';
 import { useStore } from '../context/StoreContext';
 import { SORT_OPTIONS } from '../data/taxonomy';
 import { ProductCard } from '../components/product/ProductCard';

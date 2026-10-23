@@ -4,7 +4,7 @@ import { SEED_PROMOS } from './promoCodes.js';
 import { SEED_ANNOUNCEMENTS, SEED_SETTINGS } from './settings.js';
 import { BRAND_VALUES, COLLECTIONS, STORY_BLOCKS } from './collections.js';
 
-export const DEFAULT_VISIBILITY = {
+const DEFAULT_VISIBILITY = {
   announcements: true,
   hero: true,
   brandValues: true,
@@ -18,7 +18,7 @@ export const DEFAULT_VISIBILITY = {
   footer: true,
 };
 
-export const DEFAULT_HOME_EDITORIAL = {
+const DEFAULT_HOME_EDITORIAL = {
   eyebrow: 'Browse the collection',
   titleLine1: 'Good clothes.',
   titleLine2: 'Everyday fits.',
@@ -29,13 +29,13 @@ export const DEFAULT_HOME_EDITORIAL = {
   image: '/images/editorial-banner.jpg',
 };
 
-export const DEFAULT_COLLECTIONS_PAGE = {
+const DEFAULT_COLLECTIONS_PAGE = {
   eyebrow: 'Curated edits',
   title: 'Collections, issue by issue.',
   description: 'Each edit is a small group of pieces chosen to work together — a starting point rather than a rulebook.',
 };
 
-export const DEFAULT_HOME_CONTENT = {
+const DEFAULT_HOME_CONTENT = {
   categoriesEyebrow: 'Shop by category',
   categoriesTitle: 'Find your starting point.',
   categoriesLink: 'View all pieces',

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { queryProducts } from '../api/mockApi';
+import { queryProducts } from '../utils/catalogQuery';
 import { useStore } from '../context/StoreContext';
 import { useCatalogFilters } from '../hooks/useCatalogFilters';
 import { SORT_OPTIONS } from '../data/taxonomy';

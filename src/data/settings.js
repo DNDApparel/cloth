@@ -1,5 +1,5 @@
 /**
- * Store-wide settings seeded on first load and editable from the admin console.
+ * Store-wide settings published with the catalogue.
  * Every monetary value is in rupees (INR).
  */
 
@@ -51,7 +51,7 @@ export const SEED_SETTINGS = {
     bodyLine2: 'Comfort for wherever the day goes.',
     caption: 'Shop direct. Ask us on WhatsApp.',
     // Own product photography — no third-party or stock imagery, so there is
-    // nothing to licence. Replace from the admin console at any time.
+    // nothing to licence.
     image: '/images/hero-banner.jpg',
     ctaLabel: 'Shop the collection',
     ctaTo: '/shop',

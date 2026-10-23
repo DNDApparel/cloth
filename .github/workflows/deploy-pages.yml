@@ -1,4 +1,4 @@
-name: Deploy storefront and admin to GitHub Pages
+name: Deploy storefront to GitHub Pages
 
 on:
   push:
@@ -35,18 +35,11 @@ jobs:
 
       - name: Build storefront
         run: npm run build
-        env:
-          VITE_GITHUB_ONLY: 'true'
-
-      - name: Build admin console
-        run: npm run build:console
-        env:
-          VITE_GITHUB_ONLY: 'true'
 
       - name: Assemble Pages artifact
         run: |
-          mkdir -p dist/console
-          cp -R dist-console/. dist/console/
+          # Pages has no SPA router support, so every unknown path is served
+          # the app shell and React Router resolves it client-side.
           cp dist/index.html dist/404.html
           touch dist/.nojekyll
 

@@ -20,12 +20,9 @@ export function Layout() {
   if (status === 'error') {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-5 p-6 text-center">
-        <p className="dnd-eyebrow">Connection problem</p>
-        <h1 className="max-w-md text-3xl font-bold">We can't reach the store right now.</h1>
+        <p className="dnd-eyebrow">Something went wrong</p>
+        <h1 className="max-w-md text-3xl font-bold">We can't load the shop right now.</h1>
         <p className="max-w-sm text-sm text-ink-500">{error}</p>
-        <p className="max-w-sm text-xs text-ink-500">
-          If you're running this locally, start the API with <code>npm run dev:api</code>.
-        </p>
         <Button onClick={reload}>Try again</Button>
       </div>
     );
@@ -44,8 +41,8 @@ export function Layout() {
 
       {demoMode && (
         <p role="status" className="bg-sand-200 px-4 py-2 text-center text-xs text-ink-700">
-          Preview catalogue is shown because saved store data could not be loaded. Check the
-          published JSON or API and retry before relying on the storefront.
+          Showing the bundled catalogue because the published store data could not be loaded.
+          Prices and stock may be out of date.
         </p>
       )}
 

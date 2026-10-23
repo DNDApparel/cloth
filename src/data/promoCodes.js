@@ -1,16 +1,11 @@
-/** Promotion codes seeded on first load and editable from the admin console. */
+/** Promotion codes published with the catalogue. */
 
 export const SEED_PROMOS = [];
 
-export const PROMO_TYPES = [
-  { value: 'percent', label: 'Percent off' },
-  { value: 'fixed', label: 'Flat amount off' },
-  { value: 'shipping', label: 'Free shipping' },
-];
-
 /**
- * Client-side preview of a promo code. The server re-validates and re-prices
- * at checkout, so this is purely for immediate feedback in the cart.
+ * Resolves a promo code against the published list. There is no server, so
+ * this is the only validation — the seller confirms the final price on
+ * WhatsApp.
  *
  * @returns {{ok: true, promo: object} | {ok: false, reason: string}}
  */

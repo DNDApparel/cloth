@@ -1,168 +1,126 @@
-# Security Review & Fix Report
+# Security Review
 
-No SAST or AI-reviewer report existed in the workspace, so this was a direct
-source review of every file in the repository: the API (`server/`), the
-storefront (`src/`), the GitHub-only admin console (`console/`), and the
-deployment configuration (`.github/workflows/`, `render.yaml`).
+## Current architecture
 
-Findings were confirmed by reading each code path end to end. All fixes below
-have been applied and verified.
+The deployed site is a static React bundle on GitHub Pages. It has:
 
-## Findings and fixes
+- no backend, no database, no sessions and no authentication
+- no payment processing of any kind
+- no runtime dependencies beyond React, React DOM and React Router
+- exactly one network request of its own: `GET store-data.json` from its own origin
 
-| # | Issue | CWE | Severity | File | Status |
-|---|-------|-----|----------|------|--------|
-| 1 | Unauthenticated writes bypassed CSRF entirely — `verifyCsrf` returned `true` for every session-less request | CWE-352 | Critical | `server/security.js` | ✅ Fixed |
-| 2 | Authenticated CSRF token compared with `===` (non-constant-time) | CWE-208 | Medium | `server/security.js` | ✅ Fixed |
-| 3 | `X-Forwarded-For` trusted unconditionally — a client could rotate the header and defeat every per-IP rate limit | CWE-290 | High | `server/security.js`, `server/config.js` | ✅ Fixed |
-| 4 | `parseCookies` threw `URIError` on a malformed percent-escape (request-level 500); pairs without `=` produced bogus keys; duplicates could shadow the session cookie | CWE-248 | Medium | `server/security.js` | ✅ Fixed |
-| 5 | Guest order lookup accepted a blank email, compared non-constant-time, and `user_id = NULL` matched a `NULL` session id | CWE-639 (BOLA) | Critical | `server/routes/orders.js` | ✅ Fixed |
-| 6 | Order IDs derived from `Date.now()` — ~6 base36 characters of clock entropy, enumerable | CWE-340 | High | `server/routes/orders.js` | ✅ Fixed |
-| 7 | Support thread read/reply ownership used loose `===` on an attacker-supplied email and the same `NULL`-match flaw | CWE-639 (BOLA) | High | `server/routes/support.js` | ✅ Fixed |
-| 8 | Support reply endpoint had no rate limit — unbounded message insertion and thread-ID probing | CWE-770 | Medium | `server/routes/support.js` | ✅ Fixed |
-| 9 | `/api/auth/code/verify` had no per-IP limit and the attempt counter was incremented only *after* a failed compare, so a disconnect mid-request allowed unlimited retries | CWE-307 | High | `server/routes/auth.js` | ✅ Fixed |
-| 10 | Login code hash compared with `!==` (non-constant-time) | CWE-208 | Medium | `server/routes/auth.js` | ✅ Fixed |
-| 11 | `/api/auth/password` had no throttle on current-password verification | CWE-307 | Medium | `server/routes/auth.js` | ✅ Fixed |
-| 12 | Unsafe production config only warned — the server would boot with the default bootstrap password, insecure cookies or LAN origins enabled | CWE-1188 | High | `server/config.js` | ✅ Fixed |
-| 13 | Mock gateway authorises any Luhn-valid card and was reachable via silent fallback | payment bypass | Critical | `server/payments/mockGateway.js`, `server/payments/index.js` | ✅ Fixed |
-| 14 | Checkout accepted an unbounded `items[]` array — one request forces thousands of DB lookups | CWE-770 | Medium | `server/routes/orders.js` | ✅ Fixed |
-| 15 | No `Content-Security-Policy` on API responses | CWE-1021 | Low | `server/security.js` | ✅ Fixed |
-| 16 | UPI demo used `demo@upi`, a syntactically valid VPA that may belong to a real person — users could send money to a stranger | CWE-1188 | High | `src/utils/upi.js` | ✅ Fixed |
-| 17 | UPI deep link built from store-controlled `storeName` with no sanitisation or amount ceiling | CWE-20 | Medium | `src/utils/upi.js` | ✅ Fixed |
-| 18 | `window.location.assign()` navigated the storefront itself to a `tez://` scheme; `buildGooglePayDemoUrl` could throw inside the click handler and blank the page | CWE-601 / CWE-248 | Medium | `src/pages/Checkout.jsx` | ✅ Fixed; UPI option later removed |
-| 19 | Razorpay confirmation did not bind the fetched payment to the pending intent and authoritative amount/currency, and accepted `authorized` payments as paid | CWE-345 (Insufficient Verification of Data Authenticity) | High | `server/payments/razorpayGateway.js`, `server/routes/orders.js` | ✅ Fixed |
+The only data leaving the browser is a WhatsApp message that the customer
+composes, reviews and sends themselves through `wa.me`.
 
-## Fix detail
-
-**CSRF (1, 2).** Session-less writes now require an allowlisted `Origin`. When
-`Origin` is absent, `Sec-Fetch-Site` must be `same-origin` or `none` — browsers
-always send it, so a cross-site forged write is rejected while non-browser
-clients (curl, mobile apps) still work. The authenticated path uses
-`timingSafeEqual`.
-
-**Proxy spoofing (3).** `clientIp()` only reads `X-Forwarded-For` when the new
-`TRUST_PROXY` env flag is set. Enable it on Render (which does front the app
-with a proxy); leave it off anywhere the API is directly exposed.
-
-**Authorization (5, 7).** Order and support access now route through single
-helpers (`canAccessOrder`, `canAccessThread`) that require a non-empty claimed
-email, compare with `timingSafeEqual`, and only treat `user_id` as a match when
-it is actually set.
-
-**Order ID entropy (6).** `newOrderId()` uses `randomBytes(9)` base64url —
-72 bits — so an order can no longer be enumerated by guessing the timestamp.
-
-**Production safety (12).** `assertProductionSafety()` now exits non-zero
-instead of warning, and additionally requires `ADMIN_EMAILS`, `STORE_ORIGINS`
-and `ADMIN_ORIGINS` to be set.
-
-**Payment bypass (13).** `MockGateway.confirm()` throws `503` when
-`NODE_ENV=production`, so even if the registry falls back to mock no order can
-be marked paid without a real gateway. (Note: `/api/checkout/*` already returns
-410 in this branch, so this is defence in depth for when checkout is re-enabled.)
-
-**UPI demo (16, 17, 18).** The demo was hardened as described in the earlier
-review, then removed from the checkout. Checkout now offers WhatsApp enquiry
-only and does not initiate or claim online payment.
-
-**Razorpay settlement binding (19).** The confirmation route passes the
-database-stored order total and currency into verification. The gateway now
-requires the submitted Razorpay order ID to match the stored intent, then
-checks the fetched payment ID, associated order ID, amount and currency. Only
-`captured` payments can be settled; unsuccessful Razorpay lookups fail closed.
-Already-paid orders return their existing confirmation instead of decrementing
-stock again on a repeated confirmation request.
-
-## Reviewed and found safe (no change needed)
-
-- All SQL uses prepared statements with bound parameters — no injection paths.
-- Passwords use scrypt (N=16384) with per-user salt and constant-time verify.
-- Upload handling validates by magic bytes, writes a generated filename, serves
-  only DB-registered files, and re-checks the resolved path against the upload
-  root — no path traversal.
-- Admin routes are gated by `requireRole`, which re-reads the email allowlist on
-  every request, so revocation is immediate.
-- Cart totals are recomputed server-side; client-supplied prices are ignored.
-- No `dangerouslySetInnerHTML`, `eval`, `new Function` or `innerHTML` anywhere
-  in the storefront or console.
-- `console/GitHubOnlyAdmin.jsx` holds no GitHub token and makes no authenticated
-  API calls — it reads `store-data.json` and exports a file for manual upload.
-- `ctaTo` values from store data flow into react-router `<Link to>`, which does
-  not execute `javascript:` URLs.
-- `deploy-pages.yml` uses pinned major action versions and minimal
-  `contents: read` permissions; `render.yaml` marks `ADMIN_EMAILS` and
-  `BOOTSTRAP_PASSWORD` as `sync: false`.
-- No secrets, tokens or API keys committed anywhere in the repository.
-
-## Verification
-
-- `node --check` passes on all nine modified JS files.
-- `npm run build` and `npm run build:console` both succeed.
-- API boots cleanly; `/api/health` returns 200.
-- Malformed cookie header returns 200 instead of 500.
-- Cross-site POST with no `Origin` but `Sec-Fetch-Site: cross-site` → 403.
-- CSP header present on API responses.
-
-## Action required before deploying
-
-1. Set `TRUST_PROXY=true` in `render.yaml` (Render terminates TLS at a proxy, so
-   without this every client shares one rate-limit bucket).
-2. Confirm `ADMIN_EMAILS` and `BOOTSTRAP_PASSWORD` are set in the Render
-   dashboard — the API now refuses to start in production without them.
-3. Online payment is disabled in the storefront; checkout enquiries are sent
-   by the customer through WhatsApp.
+This matters for threat modelling: there is no server to compromise, no
+credential to steal and no order to tamper with. The realistic risks reduce to
+client-side injection, dependency compromise and misleading commercial claims.
 
 ---
 
-# Follow-up review — 20 Oct 2026
+## Review — 23 Oct 2026 (post-teardown)
 
-Re-ran the full check after the catalogue rewrite, the gallery lightbox and the
-quantity-limit change.
+The admin console, the dormant Node API and every payment gateway were deleted
+in this pass. That removed the large majority of the previously tracked attack
+surface rather than mitigating it.
 
-## Checks performed
+### Removed
+
+| Component | Why it is gone |
+|---|---|
+| `console/` (admin console, both variants) | Unused in practice; the catalogue is edited as source. Removing it eliminates an unauthenticated editing surface and ~1,500 lines of draft/export logic. |
+| `server/` (Node API, SQLite, sessions, uploads) | Dormant — nothing in the deployed path ever called it. Findings 1–15 and 19 from the earlier review applied exclusively to this code. |
+| `server/payments/` (Razorpay, Juspay, mock) | No payment is collected. Keeping gateway code invited a future misconfiguration that could mark orders paid. |
+| `src/api/client.js` | API transport, CSRF echo, cookie reads — all meaningless without a server. `assetUrl` was the only live export and moved to `src/utils/assetUrl.js`. |
+| `shared/geo.js`, `src/components/checkout/FormField.jsx` | Unreachable from the entry point. |
+| `render.yaml`, `.env.example` | Deployment config and documented secrets for a service that no longer exists. |
+| 9 unused icons, `Pill`, `PROMO_TYPES`, `COLOR_NAMES`, `TAGS`, `NEW_CATEGORY`, `COLLECTIONS_BY_SLUG`, and 14 unused helpers in `format.js` / `validation.js` / `cart.js` | Dead code. `isEmail`, `isPostalCode`, `isStrongEnoughPassword` and `validateFields` in particular existed only for the deleted auth and address forms. |
+
+Historical findings 1–15 and 19 are no longer applicable — the files they
+described are not in the repository. They are preserved in git history.
+
+### Checks performed on the remaining code
 
 | Check | Result |
 |---|---|
-| Dangerous sinks (`dangerouslySetInnerHTML`, `innerHTML`, `eval`, `new Function`, `document.write`, `location.assign`, `location.href =`) | None |
-| Committed secrets (tokens, API keys, passwords) | None |
-| `npm audit --omit=dev` | 0 vulnerabilities |
+| `dangerouslySetInnerHTML`, `innerHTML`, `eval`, `new Function`, `document.write`, `location.assign`, `location.href =` | None |
 | `target="_blank"` without `rel="noopener noreferrer"` | None |
-| `JSON.parse` without a `try/catch` guard | None |
-| Outbound `fetch` destinations | Only same-origin `store-data.json` and the configured API base |
-| Admin-supplied image paths | Scheme-filtered by `assetUrl` |
-| Published `store-data.json` | Shape-validated before use |
+| Outbound requests | `store-data.json` (same origin) and `wa.me` (user-initiated, new tab) |
+| `JSON.parse` without `try/catch` | None — all three call sites are guarded |
+| Committed secrets, tokens, API keys | None |
+| `npm audit --omit=dev` | 0 vulnerabilities |
+| Reachability scan from `src/main.jsx` | 0 unreachable modules |
+| Unimported exports | 0 |
+| `npm run build` | Succeeds |
 
-## Issues fixed in this pass
+### Controls that remain relevant
 
-| # | Issue | CWE | Severity | File | Status |
-|---|-------|-----|----------|------|--------|
-| 19 | `assetUrl` passed through any string that was not `http(s)`, so an admin-supplied `javascript:` or `data:` path would reach an `<img src>` / anchor | CWE-79 | Medium | `src/api/client.js` | Fixed |
-| 20 | Full-screen gallery viewer added without a focus trap or scroll lock | CWE-1021 | Low | `src/components/product/ProductGallery.jsx` | Fixed — portal dialog with `aria-modal`, Esc handling, scroll lock and focus restore |
-| 21 | 15 unreachable modules (account pages, auth context, support chat) still shipping in the bundle, widening the attack surface for no benefit | — | Low | 15 files | Fixed — deleted |
+**`assetUrl` scheme filtering** (`src/utils/assetUrl.js`). Image paths come from
+`store-data.json`. Although that file is now only editable by someone with push
+access, the filter is kept because it is the one place untrusted-shaped data
+reaches an `<img src>`:
 
-## Reviewed and accepted
+```js
+if (/^https?:\/\//i.test(url)) return url;
+if (url.startsWith('//') || /^[a-z][a-z0-9+.-]*:/i.test(url)) return '';
+```
 
-- **Quantity ceiling raised 10 → 100.** Client-side only and advisory; the
-  seller confirms the real order on WhatsApp. No server-side quantity check
-  exists to bypass, because no order is transmitted.
-- **Seed stock set to the ceiling.** Intentional for a made-to-order wholesale
-  catalogue. It is display data, not an inventory ledger.
-- **Hero / editorial / collection imagery** is the store's own product
-  photography, copied from files already in `public/images/`. No third-party or
-  stock imagery is referenced anywhere, so there is nothing to licence.
-- **Console has no authentication.** By design — it holds no credential and
-  cannot write to the repository. Publishing goes through the user's own
-  authenticated GitHub session. Anyone can open `/console/` and edit a local
-  draft, but only someone with push access can publish it.
-- **`QuantityStepper` free-text input** strips non-digits on change and clamps
-  to `[min, max]` on commit, so no unbounded value reaches the cart reducer.
+That second line drops `javascript:`, `data:` and `vbscript:` rather than
+handing them to the browser.
+
+**Published data validation** (`src/context/StoreContext.jsx`). The fetched JSON
+is shape-checked before use; a malformed file falls back to the bundled
+catalogue and surfaces a visible warning strip rather than rendering a broken
+or empty shop.
+
+**Gallery lightbox** (`ProductGallery.jsx`) is a portal dialog with
+`aria-modal`, Esc handling, scroll lock and focus restore.
+
+**`QuantityStepper`** strips non-digits on change and clamps to `[min, max]` on
+commit, so no unbounded value reaches the cart reducer.
+
+**localStorage parsing** (`useLocalStorage.js`, `CartContext.jsx`) is wrapped in
+`try/catch`, including the cross-tab `storage` event handler — a corrupted or
+hand-edited value degrades to the initial state instead of throwing during
+render.
+
+**Commercial honesty.** Checkout, cart, footer and terms all state that no
+payment is collected and that the customer sends the message themselves. This
+is a consumer-protection requirement, not a nicety.
+
+### Reviewed and accepted
+
+- **Quantity ceiling of 100 per variant** is advisory. There is no server-side
+  check to bypass because no order is transmitted; the seller confirms the real
+  quantity on WhatsApp.
+- **Seed stock set to the ceiling** is intentional for a made-to-order
+  wholesale catalogue. It is display data, not an inventory ledger.
+- **Promo code resolution is client-side only.** With no server this is the
+  only validation that exists. A user editing their own localStorage can show
+  themselves a lower number, which changes nothing — the seller quotes the
+  final price on WhatsApp.
+- **All imagery is the store's own product photography.** No third-party or
+  stock imagery is referenced, so there is nothing to licence.
+- **Deploy workflow** uses pinned major action versions and `contents: read`.
+
+---
 
 ## Outstanding
 
-Nothing open. The two pricing questions raised in the previous pass have been
-answered by the seller and applied to `src/data/products.js`:
+Nothing open.
 
-- Side-Striped Track Pant (`p-105`) — ₹95 per piece from 25 pieces. The `TODO`
-  and the enquiry-prompt fallback on the product page are gone.
-- Zipped-Pocket Pant (`p-104`) — confirmed at ₹95 per piece; the ₹83 figure was
-  a mis-read and no change was needed.
+The two pricing questions from the previous pass were answered by the seller
+and applied to `src/data/products.js`: Side-Striped Track Pant (`p-105`) is ₹95
+per piece from 25 pieces, and Zipped-Pocket Pant (`p-104`) is confirmed at ₹95.
+
+---
+
+## Before launch
+
+These are business obligations, not code defects:
+
+1. Complete the seller legal name, business address, GSTIN and grievance
+   officer details in `src/data/settings.js` — they render in the footer and
+   are required for Indian e-commerce.
+2. Have the terms, privacy notice, tax treatment and pricing claims reviewed by
+   a qualified professional.

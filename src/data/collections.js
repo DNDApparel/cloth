@@ -47,8 +47,6 @@ export const COLLECTIONS = [
   },
 ];
 
-export const COLLECTIONS_BY_SLUG = Object.fromEntries(COLLECTIONS.map((c) => [c.slug, c]));
-
 /** Short brand values rendered in the scrolling strip on the home page. */
 export const BRAND_VALUES = [
   'Pants, shorts and track pants.',

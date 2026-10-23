@@ -3,11 +3,11 @@
 A walkthrough of every file in this repository: what it does, how it works, and
 why it is built that way.
 
-> **On "line by line".** The codebase is ~12,500 lines. A literal line-by-line
-> transcript would be longer than the code and would go stale the moment
-> anything changed. Instead this guide covers every file, explains each
-> function's job, and walks through the non-obvious logic in detail. Where a
-> specific block matters, the exact lines are quoted.
+> **On "line by line".** A literal line-by-line transcript would be longer than
+> the code and would go stale the moment anything changed. Instead this guide
+> covers every file, explains each function's job, and walks through the
+> non-obvious logic in detail. Where a specific block matters, the exact lines
+> are quoted.
 
 ---
 
@@ -19,47 +19,45 @@ why it is built that way.
 4. [Pure logic (`src/utils/`)](#4-pure-logic-srcutils)
 5. [Hooks (`src/hooks/`)](#5-hooks-srchooks)
 6. [State (`src/context/`)](#6-state-srccontext)
-7. [API client (`src/api/`)](#7-api-client-srcapi)
-8. [UI primitives (`src/components/ui/`)](#8-ui-primitives-srccomponentsui)
-9. [Feature components (`src/components/`)](#9-feature-components-srccomponents)
-10. [Pages (`src/pages/`)](#10-pages-srcpages)
-11. [Admin console (`console/`)](#11-admin-console-console)
-12. [API server (`server/`)](#12-api-server-server)
-13. [Deployment](#13-deployment)
-14. [How the data flows, end to end](#14-how-the-data-flows-end-to-end)
+7. [UI primitives (`src/components/ui/`)](#7-ui-primitives-srccomponentsui)
+8. [Feature components (`src/components/`)](#8-feature-components-srccomponents)
+9. [Pages (`src/pages/`)](#9-pages-srcpages)
+10. [Deployment](#10-deployment)
+11. [How the data flows, end to end](#11-how-the-data-flows-end-to-end)
 
 ---
 
 ## 1. The big picture
 
-Three applications share one repository:
+One application, one deployment target:
 
-| App | Lives in | Deployed as | Status |
-|---|---|---|---|
-| Storefront | `src/` | `dist/` → GitHub Pages | **Live** |
-| Admin console | `console/` | `dist/console/` → GitHub Pages | **Live** |
-| API server | `server/` | Render (Node) | **Dormant** |
+| App | Lives in | Deployed as |
+|---|---|---|
+| Storefront | `src/` | `dist/` → GitHub Pages |
 
-The live site is **fully static**. There is no database and no backend in the
-deployed path. The storefront reads a single JSON file (`public/store-data.json`)
-at boot and renders from it. Checkout does not take payment — it composes a
+The site is **fully static**. There is no database, no backend, no admin login
+and no payment processing. The storefront reads a single JSON file
+(`public/store-data.json`) at boot and renders from it. Checkout composes a
 WhatsApp message and hands it to the customer to send.
 
-The `server/` directory is a complete Express-style API (SQLite, sessions,
-payment gateways) from an earlier design. It is kept, maintained and security-
-reviewed, but nothing in the deployed site calls it. `src/api/client.js` would
-talk to it if `VITE_API_URL` were set.
+The catalogue is edited as source code:
+
+```
+src/data/*.js  ──npm run publish:data──▶  public/store-data.json  ──fetch──▶  storefront
+```
 
 **Why static?** GitHub Pages is free and has no server. The trade-off is that
 publishing a catalogue change means committing a file rather than clicking Save.
+In exchange there is no attack surface to defend: no sessions, no uploads, no
+database, no secrets in the deployed artefact.
 
 ---
 
 ## 2. Entry points and configuration
 
-### `index.html` / `console/index.html`
-Two HTML shells, one per app. Each has a `<div id="root">` and a module script
-tag pointing at its entry file. Vite rewrites those paths at build time.
+### `index.html`
+The HTML shell. A `<div id="root">` and a module script tag pointing at
+`src/main.jsx`. Vite rewrites that path at build time.
 
 ### `src/main.jsx`
 Boots the storefront:
@@ -73,42 +71,32 @@ same build works in both places. Providers wrap the app in dependency order —
 `StoreProvider` must be outermost because `CartProvider` reads product prices
 from it.
 
-### `console/main.jsx`
-Boots the admin console and picks one of two implementations:
-
-```jsx
-{import.meta.env.VITE_GITHUB_ONLY !== 'false' ? <GitHubOnlyAdmin /> : <ConsoleApp />}
-```
-
-The deploy workflow sets `VITE_GITHUB_ONLY=true`, so Pages always gets
-`GitHubOnlyAdmin` — the file-export editor. `ConsoleApp` is the API-backed
-version, reachable only when running locally with the flag off.
-
-### `vite.config.js` / `vite.config.console.js`
+### `vite.config.js`
 ```js
 const pagesBase = process.env.GITHUB_ACTIONS && repositoryName !== `${owner}.github.io`
   ? `/${repositoryName}/` : '/';
 ```
 Derives the correct `base` from `GITHUB_REPOSITORY` so asset URLs resolve under
-the repo subpath on Pages but stay at root locally. The console config adds
-`console/` to that base and aliases `@store` → `src/`, letting console code
-import storefront modules.
+the repo subpath on Pages but stay at root locally.
 
 `allowedHosts: true` in the dev server lets Cloudflare/ngrok tunnels through —
 Vite otherwise rejects forwarded `Host` headers.
 
 ### `package.json`
 Scripts worth knowing:
-- `dev` / `dev:console` — the two dev servers (ports 5173 / 5174)
-- `build` / `build:console` — production bundles
+- `dev` — dev server on port 5173
+- `publish:data` — regenerates `public/store-data.json` from `src/data/`
+- `build` — production bundle
 - `share` — dev server plus a public tunnel (`scripts/share.sh`)
 
 Runtime dependencies are only React, React DOM and React Router. Tailwind is a
-dev dependency because it compiles to static CSS.
+dev dependency because it compiles to static CSS. There are no other runtime
+dependencies, so there is no supply chain to audit at runtime.
 
-### `.env.example`
-Documents every environment variable. Real secrets live in Render's dashboard
-and GitHub Secrets, never in the repo.
+### `scripts/build-store-data.mjs`
+Imports `DEFAULT_STATIC_STORE` from `src/data/storeConfig.js`, serialises it to
+`public/store-data.json`, and prints the resulting catalogue so the pricing can
+be eyeballed before committing. Run via `npm run publish:data`.
 
 ---
 
@@ -199,9 +187,8 @@ strip on the home page) and `STORY_BLOCKS` (three editorial paragraphs).
 ### `settings.js`
 Store-wide configuration: name, tagline, support email, `bulkDiscount`
 defaults, WhatsApp contacts, hero copy and image, banner, and the seller /
-grievance details shown in the footer. Every field is admin-editable, and
-every field is rendered somewhere — there is no setting the console can change
-that the storefront ignores.
+grievance details shown in the footer. Every field here is rendered somewhere —
+there is no setting that the storefront silently ignores.
 
 Deliberately absent: tax rate, free-shipping threshold, shipping methods and
 currency. `calculateTotals` returns `tax: null` and `shipping: null` because
@@ -357,34 +344,7 @@ the list is capped at three so toasts cannot stack off-screen.
 
 ---
 
-## 7. API client (`src/api/`)
-
-### `client.js`
-Only reachable when `VITE_API_URL` is set — dormant on Pages.
-
-`request()` sends `credentials: 'include'`, echoes the CSRF cookie in
-`X-CSRF-Token` for non-GET verbs, and normalises failures into an `ApiError`
-carrying `status` and `fields`.
-
-**`assetUrl(url)`** is security-relevant. Image paths come from admin-editable
-data, so it allows only absolute http(s) URLs and site-relative paths:
-
-```js
-if (/^https?:\/\//i.test(url)) return url;
-if (url.startsWith('//') || /^[a-z][a-z0-9+.-]*:/i.test(url)) return '';
-```
-
-That second line drops `javascript:`, `data:`, `vbscript:` and protocol-relative
-URLs rather than handing them to the browser.
-
-### `mockApi.js`
-Client-side query engine — no network. `searchProducts`, `queryProducts`
-(filter → sort → paginate), and `buildFacets` which counts matches per filter
-value so the sidebar can grey out options that would return nothing.
-
----
-
-## 8. UI primitives (`src/components/ui/`)
+## 7. UI primitives (`src/components/ui/`)
 
 | File | Notes |
 |---|---|
@@ -402,12 +362,13 @@ value so the sidebar can grey out options that would return nothing.
 
 ---
 
-## 9. Feature components (`src/components/`)
+## 8. Feature components (`src/components/`)
 
 ### `layout/`
 - **`Layout.jsx`** — shell: skip link, header, `<Outlet />`, footer, cart drawer,
-  banner, toaster. Scrolls to top on navigation. Shows a connection-error screen
-  if the store failed to load.
+  banner, toaster. Scrolls to top on navigation. If `store-data.json` could not
+  be read it shows a retry screen, and if the bundled fallback catalogue is
+  standing in it shows a warning strip above the header.
 - **`Header.jsx`** — sticky nav, announcement rotator (5s interval), ⌘K search,
   cart count badge.
 - **`Footer.jsx`** — nav columns plus seller/grievance details (required for
@@ -436,16 +397,14 @@ value so the sidebar can grey out options that would return nothing.
 - **`Pagination.jsx`** — numbered pages with ellipsis.
 
 ### `cart/`
-- **`CartDrawer.jsx`** — slide-out bag, inline size change, free-shipping bar.
-- **`OrderSummary.jsx`** — totals panel, shared by cart and checkout.
-
-### `checkout/FormField.jsx`
-Labelled input wired for accessibility: `aria-invalid`, `aria-describedby`, and
-error text bound to the field.
+- **`CartDrawer.jsx`** — slide-out bag with inline size change.
+- **`OrderSummary.jsx`** — totals panel, shared by cart and checkout. Delivery
+  and tax are deliberately absent: both are agreed with the seller on WhatsApp,
+  so quoting a number here would be misleading.
 
 ---
 
-## 10. Pages (`src/pages/`)
+## 9. Pages (`src/pages/`)
 
 | Route | File | Notes |
 |---|---|---|
@@ -470,118 +429,11 @@ protection rules.
 
 ---
 
-## 11. Admin console (`console/`)
-
-### `GitHubOnlyAdmin.jsx` (~1,000 lines, the live editor)
-Edits the catalogue **with no backend and no credentials in the browser**.
-
-Flow:
-1. Fetch the published `store-data.json`
-2. Edit in React state, auto-saving a draft to `localStorage` on every change
-3. Click **Download store data** → browser downloads a new `store-data.json`
-4. Upload that file to the repo through GitHub's web UI and commit
-5. The commit triggers the Pages workflow, which redeploys
-
-Why this shape: GitHub Pages cannot write files, and embedding a token in a
-public bundle would hand anyone write access to the repo. Exporting a file keeps
-the credential in the user's normal GitHub session.
-
-Five tabs, each with a one-line hint underneath the tab bar:
-
-| Tab | Contents |
-|---|---|
-| Overview | Store name, tagline, support email |
-| Products | Price, **wholesale rate**, **wholesale minimum pieces**, **wholesale note**, category, fabric, fit, sizes, colours, per-variant stock, photos |
-| Home page | Hero, banner, home copy, categories, collections, footer seller details |
-| Offers & contact | Announcements, promo codes, wholesale defaults, store-wide offer, WhatsApp numbers |
-| Publish | Download the file and commit it on GitHub |
-
-The **Wholesale defaults** section is the fallback for products that set no
-rate or minimum of their own — per-product values on the Products tab always
-win.
-
-`PhotoPicker` is indirect for the same reason — it suggests a filename, lets you
-download the renamed copy, and links to GitHub's upload page.
-
-### `AdminConsole.jsx`
-The API-backed console. Same editing surface, but saves over HTTP. Only active
-when `VITE_GITHUB_ONLY=false`.
-
-### `context/ConsoleAuthContext.jsx`
-Staff session for the API console. Roles come from the server's email allowlist
-and are re-checked on every request — the UI gate is cosmetic, not the security
-boundary.
-
-### `pages/ConsoleLogin.jsx`
-Password or email-code sign-in for the API console.
-
----
-
-## 12. API server (`server/`)
-
-Dormant in production, but maintained and security-reviewed.
-
-### `index.js`
-Node `http` server. Request pipeline: CORS → security headers → static uploads →
-rate limit → session → CSRF → route dispatch. Errors are caught centrally and
-internal messages are never leaked.
-
-### `config.js`
-Centralised configuration from environment variables.
-`assertProductionSafety()` **exits non-zero** rather than warning if the
-bootstrap password is still default, cookies are insecure, LAN origins are
-enabled, or the admin allowlist is unset.
-
-### `security.js`
-- `hashPassword` / `verifyPassword` — scrypt (N=16384) with per-user salt,
-  constant-time comparison
-- `createSession` / `readSession` / `destroySession`
-- `parseCookies` — tolerates malformed percent-escapes instead of throwing;
-  first value wins so a duplicate cookie cannot shadow the session
-- `verifyCsrf` — token for authenticated writes; Origin or `Sec-Fetch-Site` for
-  unauthenticated ones
-- `clientIp` — honours `X-Forwarded-For` only when `TRUST_PROXY` is set,
-  otherwise a client could rotate the header past every rate limit
-- `rateLimit` — in-memory sliding window
-- `requireRole` — re-reads the email allowlist per request, so revocation is
-  immediate
-- `clean` — strips control characters and angle brackets
-
-### `routes/`
-- `auth.js` — register, login, email-code, logout, password change. Attempt
-  counters increment *before* comparison so a disconnect cannot reset them.
-- `catalog.js` — public read-only endpoints
-- `orders.js` — checkout intent → confirm. Prices are **always** recomputed
-  server-side. Order ids are 72 bits of `randomBytes`, not timestamps.
-- `support.js` — support threads with constant-time ownership checks
-- `admin.js` — every route behind `requireRole(session, ['admin'])`
-
-### `payments/`
-Pluggable gateways behind one interface (`createIntent`, `confirm`,
-`verifyWebhook`, `describe`). `mockGateway` throws in production so a
-misconfiguration cannot mark orders paid for free. Razorpay verifies HMAC
-signatures with constant-time comparison.
-
-### `services/uploads.js`
-Validates images by **magic bytes**, not the client-supplied MIME type. Writes
-under a generated UUID filename and re-checks the resolved path against the
-upload root.
-
-### `db.js`
-SQLite via Node's built-in `node:sqlite`. Rich documents stored as JSON columns
-so the admin can edit arbitrary fields without migrations.
-
-### `shared/geo.js`
-Country/state data and address validation, shared by client and server so both
-enforce the same rules.
-
----
-
-## 13. Deployment
+## 10. Deployment
 
 ### `.github/workflows/deploy-pages.yml`
-On push to `main` or manual dispatch: checkout → Node 22 → `npm ci` → build both
-bundles → copy console into `dist/console/` → upload → deploy.
+On push to `main` or manual dispatch: checkout → Node 22 → `npm ci` →
+`npm run build` → upload → deploy.
 
 `cancel-in-progress: true` means a new run cancels any pending one. **Do not
 re-dispatch while a run is queued** — you will cancel the run you are waiting on.
@@ -589,9 +441,9 @@ re-dispatch while a run is queued** — you will cancel the run you are waiting 
 `cp dist/index.html dist/404.html` makes client-side routing work: Pages serves
 `404.html` for unknown paths, React Router then handles the route.
 
-### `render.yaml`
-Blueprint for the dormant API. Secrets marked `sync: false` so they are entered
-in Render's dashboard, not committed.
+Note that the workflow does **not** regenerate `store-data.json`. That file is
+committed, and `npm run publish:data` is run locally before committing. The
+build only bundles what is already in the repository.
 
 ### `scripts/share.sh`
 Starts the dev server plus a Cloudflare tunnel and prints local, network and
@@ -599,7 +451,7 @@ public URLs.
 
 ---
 
-## 14. How the data flows, end to end
+## 11. How the data flows, end to end
 
 **Boot**
 ```
@@ -608,7 +460,7 @@ main.jsx → StoreProvider → fetch store-data.json → validate → memoise lo
 
 **Browse**
 ```
-Catalog → useCatalogFilters (URL state) → mockApi.queryProducts → ProductCard[]
+Catalog → useCatalogFilters (URL state) → catalogQuery.queryProducts → ProductCard[]
 ```
 
 **Add to bag**
@@ -625,7 +477,7 @@ Checkout → validate + consent → buildOrderMessage → wa.me link → custome
 
 **Publish a change**
 ```
-/console/ → edit → Download store-data.json → upload to GitHub → commit
+edit src/data/*.js → npm run publish:data → commit → push to main
   → workflow → Pages → storefront fetches the new file
 ```
 
@@ -633,8 +485,8 @@ Checkout → validate + consent → buildOrderMessage → wa.me link → custome
 
 ## Making a change
 
-**Edit a product** — `src/data/products.js`, then regenerate `store-data.json`,
-then commit. Or use `/console/` and upload the exported file.
+**Edit a product** — `src/data/products.js`, then `npm run publish:data`, then
+commit both the source file and the regenerated `public/store-data.json`.
 
 **Add a category** — add to `CATEGORIES` in `taxonomy.js` and add its
 `MEASUREMENT_COLUMNS` entry.
@@ -645,7 +497,11 @@ Everything else follows.
 **Add product photos** — drop files in `public/images/`, reference them as
 `/images/<name>.jpg` in the product's `colors[].images`.
 
-Always run both builds before committing:
+Before committing:
 ```bash
-npm run build && npm run build:console
+npm run publish:data   # keeps the served JSON in step with the source
+npm run build          # confirms the bundle still compiles
 ```
+
+Forgetting `publish:data` is the most common mistake: the source changes, the
+build succeeds, and the live site keeps serving the previous catalogue.

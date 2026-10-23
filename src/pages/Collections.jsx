@@ -2,7 +2,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { ArrowUpRightIcon } from '../components/ui/Icons';
-import { assetUrl } from '../api/client';
+import { assetUrl } from '../utils/assetUrl';
 
 export default function Collections() {
   const { settings, collections } = useStore();

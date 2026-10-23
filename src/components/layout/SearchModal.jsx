@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { searchProducts } from '../../api/mockApi';
+import { searchProducts } from '../../utils/catalogQuery';
 import { useStore } from '../../context/StoreContext';
 import { useDebounce } from '../../hooks/useDebounce';
 import { primaryImage } from '../../data/products';

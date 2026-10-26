@@ -156,34 +156,39 @@ const RAW = [
     reviews: 0,
     // Four colourways are sold individually. The fifth pack colour is a
     // repeat of Blue / White, so it needs no separate swatch.
+    // Three shots per colourway, in the order they appear in the gallery:
+    // the full garment, the zip detail, then the drawcord.
     colors: [
       {
         name: 'Grey / Yellow',
         images: [
-          '/images/zpp-grey-yellow-1.jpg',
-          '/images/zpp-grey-yellow-2.jpg',
-          '/images/zpp-grey-yellow-3.jpg',
-          '/images/zpp-grey-yellow-4.jpg',
+          '/images/zpp-grey-yellow-full.jpg',
+          '/images/zpp-grey-yellow-zip.jpg',
+          '/images/zpp-grey-yellow-thread.jpg',
         ],
       },
       {
         name: 'Blue / White',
-        images: ['/images/zpp-blue-white-1.jpg', '/images/zpp-blue-white-2.jpg'],
+        images: [
+          '/images/zpp-blue-white-full.jpg',
+          '/images/zpp-blue-white-zip.jpg',
+          '/images/zpp-blue-white-thread.jpg',
+        ],
       },
       {
         name: 'Grey / Orange',
         images: [
-          '/images/zpp-grey-orange-1.jpg',
-          '/images/zpp-grey-orange-2.jpg',
-          '/images/zpp-grey-orange-3.jpg',
+          '/images/zpp-grey-orange-full.jpg',
+          '/images/zpp-grey-orange-zip.jpg',
+          '/images/zpp-grey-orange-thread.jpg',
         ],
       },
       {
         name: 'Black / Red',
         images: [
-          '/images/zpp-black-red-1.jpg',
-          '/images/zpp-black-red-2.jpg',
-          '/images/zpp-black-red-3.jpg',
+          '/images/zpp-black-red-full.jpg',
+          '/images/zpp-black-red-zip.jpg',
+          '/images/zpp-black-red-thread.jpg',
         ],
       },
     ],

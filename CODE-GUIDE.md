@@ -113,8 +113,11 @@ Shared vocabulary, so navigation, filters and admin forms never disagree.
 - `NEW_CATEGORY` — a pseudo-category; `/shop?category=new` filters by the `new`
   tag rather than a real category
 - `SIZES` — `['XS','S','M','L','XL','XXL']`, the default when a product omits sizes
-- `COLOR_SWATCHES` — colour name → hex. The UI renders dots from this map, so a
-  colour must exist here to display correctly
+- `COLOR_SWATCHES` — colour name → hex, **or `[body, trim]`** for a two-tone
+  garment. `ColorSwatch` renders the pair as a diagonal split, so "Grey /
+  Yellow" and "Grey / Orange" are distinguishable at thumbnail size. A colour
+  must exist in this map to display correctly; unknown names fall back to a
+  neutral dot
 - `MEASUREMENTS` — size → `{chest, waist, hip, length, inseam}` in inches
 - `MEASUREMENT_COLUMNS` — which of those columns to show per category (pants get
   inseam, shorts get length)
@@ -133,7 +136,8 @@ The catalogue, and the most important file to understand.
   price: 85,              // single-piece retail
   wholesalePrice: 69,     // per-piece once bulkMinQuantity is reached
   bulkMinQuantity: 25,    // this style's own MOQ
-  bulkNote: '...',        // optional caveat (Lycra uses it)
+  bulkNote: '...',        // optional caveat (Lycra and p-104 use it)
+  maxPerVariant: 10,      // optional per-colour/size cap (p-104 only)
   colors: [{ name: 'Ink', images: ['/images/shorts-adidas.jpg'] }, ...],
 }
 ```
@@ -142,20 +146,24 @@ The catalogue, and the most important file to understand.
 per style — 10 for Lycra, 25 for the Zipped-Pocket pair, 30 for the Side-Striped
 pair. A single store-wide setting could not express that.
 
-**`seedStock(productId, colors, sizes)`** fills every colour×size variant to
-`MAX_LINE_QUANTITY` (100):
+**`seedStock(colors, sizes, perVariant)`** fills every colour×size variant to
+the same number, defaulting to `MAX_LINE_QUANTITY` (100) and clamped to it:
 
 ```js
-colors.forEach((color) => {
-  sizes.forEach((size) => {
-    stock[`${color.name}::${size}`] = MAX_LINE_QUANTITY;
-  });
-});
+const limit = Math.min(Math.max(1, perVariant), MAX_LINE_QUANTITY);
 ```
 
-This is deliberate. It was previously randomised to fake scarcity, but since the
-wholesale tiers need 25–30 pieces and the seller confirms real availability on
-WhatsApp, invented stock limits only blocked legitimate orders.
+Flat seeding is deliberate. It was previously randomised to fake scarcity, but
+since the wholesale tiers need 25–30 pieces and the seller confirms real
+availability on WhatsApp, invented stock limits only blocked legitimate orders.
+
+**The `maxPerVariant` / `bulkMinQuantity` interaction is worth understanding.**
+Zipped-Pocket Pant caps each colour and size at 10 pieces but needs 25 to reach
+its wholesale rate. That is not a contradiction: `calculateTotals` groups
+quantities **by product id**, not by cart line, so 10 Grey/Yellow + 10
+Blue/White + 5 Grey/Orange totals 25 and qualifies. The cap shapes *how* a
+buyer reaches the minimum — by mixing colourways, which is exactly what the
+assorted pack in `bulkNote` describes.
 
 **`hydrateProduct(raw)`** expands a raw entry into what the UI consumes:
 - Normalises colours so both `images[]` and a legacy single `image` work
@@ -353,7 +361,7 @@ the list is capped at three so toasts cannot stack off-screen.
 | `Drawer.jsx` | Slide-in panel, same accessibility treatment. |
 | `ProductImage.jsx` | `<img>` that degrades to a "Photo coming soon" tile when `src` is empty or fails. Resets its error flag when `src` changes so colour swaps recover. |
 | `QuantityStepper.jsx` | +/− buttons **and a typable field** — stepping to 100 one click at a time is not viable. Keeps a `draft` string so the input can be briefly empty, commits on blur/Enter, clamps to `[min, max]`. |
-| `ColorSwatch.jsx` | Coloured dot from `COLOR_SWATCHES`, plus a button variant. |
+| `ColorSwatch.jsx` | Coloured dot from `COLOR_SWATCHES`, plus a button variant. Two-tone entries (`[body, trim]`) render as a diagonal split. |
 | `Badge.jsx` | Tag pills (new / sale / bestseller). |
 | `Icons.jsx` | Inline SVGs sharing stroke defaults. No icon library dependency. |
 | `Toaster.jsx` | Renders the toast queue into a portal. |
@@ -491,8 +499,12 @@ commit both the source file and the regenerated `public/store-data.json`.
 **Add a category** — add to `CATEGORIES` in `taxonomy.js` and add its
 `MEASUREMENT_COLUMNS` entry.
 
-**Change the quantity ceiling** — `MAX_LINE_QUANTITY` in `src/utils/cart.js`.
-Everything else follows.
+**Change the quantity ceiling** — `MAX_LINE_QUANTITY` in `src/utils/cart.js`
+for the store-wide cap, or `maxPerVariant` on a single product for a tighter
+per-colour limit. Everything else follows.
+
+**Add a two-tone colour** — add `'Body / Trim': ['#body', '#trim']` to
+`COLOR_SWATCHES`, then use that exact name in the product's `colors[].name`.
 
 **Add product photos** — drop files in `public/images/`, reference them as
 `/images/<name>.jpg` in the product's `colors[].images`.

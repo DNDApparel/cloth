@@ -4,6 +4,11 @@
  */
 
 export const SEED_ANNOUNCEMENTS = [
+  {
+    id: 'a-diwali',
+    text: 'Diwali offer — wholesale rates on every style. Reach a product\u2019s minimum pieces and the wholesale price applies automatically.',
+    active: true,
+  },
   { id: 'a-1', text: 'Everyday pants, shorts and track pants — made for movement.', active: true },
   { id: 'a-2', text: 'Wholesale orders welcome — message us for bulk pricing.', active: true },
 ];
@@ -19,10 +24,22 @@ export const SEED_SETTINGS = {
   grievanceEmail: '',
   grievancePhone: '',
 
+  // Shown on every product page and in the footer. These are printed garments
+  // from Tiruppur, not brand merchandise, and the printed logos must not be
+  // read as an authorised brand product.
+  manufacturingNote:
+    'Logos and prints are decorative only. These garments are made and printed by '
+    + 'Tiruppur manufacturers and are not produced by, licensed by, or affiliated with '
+    + 'any sports or fashion brand.',
+
   // Prices are quoted in rupees throughout; `formatPrice` hard-codes the
   // locale. Tax and delivery are confirmed by the seller on WhatsApp, so the
   // storefront deliberately carries no tax rate or shipping table.
 
+  // The Diwali offer *is* the wholesale rate — reaching a product's minimum
+  // quantity applies it. `festiveOffer` stays off deliberately: turning it on
+  // would stack a second percentage on top of the already-discounted
+  // wholesale price and quote a total the seller never agreed to.
   festiveOffer: {
     active: false,
     label: '',
@@ -33,7 +50,7 @@ export const SEED_SETTINGS = {
     active: true,
     minQuantity: 10,
     percent: 10,
-    label: 'Wholesale pricing',
+    label: 'Diwali wholesale offer',
   },
 
   whatsapp: {

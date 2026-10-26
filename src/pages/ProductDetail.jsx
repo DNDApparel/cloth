@@ -207,6 +207,12 @@ export default function ProductDetail() {
             )}
 
             <p className="max-w-prose text-sm leading-relaxed text-ink-500">{product.blurb}</p>
+
+            {settings.manufacturingNote && (
+              <p className="max-w-prose rounded-xl bg-sand-200/60 px-3 py-2 text-xs leading-relaxed text-ink-600">
+                {settings.manufacturingNote}
+              </p>
+            )}
           </div>
 
           {/* ------------------------------------------------- Colour */}

@@ -455,43 +455,54 @@
       "compareAt": null,
       "wholesalePrice": 95,
       "bulkMinQuantity": 25,
+      "maxPerVariant": 10,
       "fit": "regular",
       "fabric": "Brushed fleece",
       "tags": [
         "new"
       ],
       "blurb": "A brushed fleece pant with a zip security pocket and a straight, easy leg.",
+      "bulkNote": "The 25-piece wholesale rate is an assorted pack: Grey / Yellow, Blue / White, Grey / Orange, Black / Red and a second Blue / White — five pieces of each.",
       "released": "2026-10-19",
       "sold": 0,
       "rating": 4.8,
       "reviews": 0,
       "colors": [
         {
-          "name": "Charcoal",
+          "name": "Grey / Yellow",
           "images": [
-            "/images/pant-wild-life.jpg"
+            "/images/zpp-grey-yellow-1.jpg",
+            "/images/zpp-grey-yellow-2.jpg",
+            "/images/zpp-grey-yellow-3.jpg",
+            "/images/zpp-grey-yellow-4.jpg"
           ],
-          "image": "/images/pant-wild-life.jpg"
+          "image": "/images/zpp-grey-yellow-1.jpg"
         },
         {
-          "name": "Ink",
-          "images": [],
-          "image": ""
+          "name": "Blue / White",
+          "images": [
+            "/images/zpp-blue-white-1.jpg",
+            "/images/zpp-blue-white-2.jpg"
+          ],
+          "image": "/images/zpp-blue-white-1.jpg"
         },
         {
-          "name": "Navy",
-          "images": [],
-          "image": ""
+          "name": "Grey / Orange",
+          "images": [
+            "/images/zpp-grey-orange-1.jpg",
+            "/images/zpp-grey-orange-2.jpg",
+            "/images/zpp-grey-orange-3.jpg"
+          ],
+          "image": "/images/zpp-grey-orange-1.jpg"
         },
         {
-          "name": "Slate",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Moss",
-          "images": [],
-          "image": ""
+          "name": "Black / Red",
+          "images": [
+            "/images/zpp-black-red-1.jpg",
+            "/images/zpp-black-red-2.jpg",
+            "/images/zpp-black-red-3.jpg"
+          ],
+          "image": "/images/zpp-black-red-1.jpg"
         }
       ],
       "sizes": [
@@ -503,36 +514,30 @@
         "XXL"
       ],
       "stock": {
-        "Charcoal::XS": 100,
-        "Charcoal::S": 100,
-        "Charcoal::M": 100,
-        "Charcoal::L": 100,
-        "Charcoal::XL": 100,
-        "Charcoal::XXL": 100,
-        "Ink::XS": 100,
-        "Ink::S": 100,
-        "Ink::M": 100,
-        "Ink::L": 100,
-        "Ink::XL": 100,
-        "Ink::XXL": 100,
-        "Navy::XS": 100,
-        "Navy::S": 100,
-        "Navy::M": 100,
-        "Navy::L": 100,
-        "Navy::XL": 100,
-        "Navy::XXL": 100,
-        "Slate::XS": 100,
-        "Slate::S": 100,
-        "Slate::M": 100,
-        "Slate::L": 100,
-        "Slate::XL": 100,
-        "Slate::XXL": 100,
-        "Moss::XS": 100,
-        "Moss::S": 100,
-        "Moss::M": 100,
-        "Moss::L": 100,
-        "Moss::XL": 100,
-        "Moss::XXL": 100
+        "Grey / Yellow::XS": 10,
+        "Grey / Yellow::S": 10,
+        "Grey / Yellow::M": 10,
+        "Grey / Yellow::L": 10,
+        "Grey / Yellow::XL": 10,
+        "Grey / Yellow::XXL": 10,
+        "Blue / White::XS": 10,
+        "Blue / White::S": 10,
+        "Blue / White::M": 10,
+        "Blue / White::L": 10,
+        "Blue / White::XL": 10,
+        "Blue / White::XXL": 10,
+        "Grey / Orange::XS": 10,
+        "Grey / Orange::S": 10,
+        "Grey / Orange::M": 10,
+        "Grey / Orange::L": 10,
+        "Grey / Orange::XL": 10,
+        "Grey / Orange::XXL": 10,
+        "Black / Red::XS": 10,
+        "Black / Red::S": 10,
+        "Black / Red::M": 10,
+        "Black / Red::L": 10,
+        "Black / Red::XL": 10,
+        "Black / Red::XXL": 10
       },
       "slug": "p-104-zipped-pocket-pant",
       "care": [
@@ -840,6 +845,11 @@
   "promos": [],
   "announcements": [
     {
+      "id": "a-diwali",
+      "text": "Diwali offer — wholesale rates on every style. Reach a product’s minimum pieces and the wholesale price applies automatically.",
+      "active": true
+    },
+    {
       "id": "a-1",
       "text": "Everyday pants, shorts and track pants — made for movement.",
       "active": true
@@ -860,6 +870,7 @@
     "grievanceOfficer": "",
     "grievanceEmail": "",
     "grievancePhone": "",
+    "manufacturingNote": "Logos and prints are decorative only. These garments are made and printed by Tiruppur manufacturers and are not produced by, licensed by, or affiliated with any sports or fashion brand.",
     "festiveOffer": {
       "active": false,
       "label": "",
@@ -869,7 +880,7 @@
       "active": true,
       "minQuantity": 10,
       "percent": 10,
-      "label": "Wholesale pricing"
+      "label": "Diwali wholesale offer"
     },
     "whatsapp": {
       "enabled": true,

@@ -37,7 +37,20 @@ export const FABRICS = [
   'Poly-cotton knit',
 ];
 
+/**
+ * Swatch colours, keyed by the colour name used in `products.js`.
+ *
+ * A value may be a single hex string, or `[body, trim]` for a garment whose
+ * zip and drawcord are a contrasting colour — the swatch then renders split
+ * so the two-tone styles are distinguishable at a glance.
+ */
 export const COLOR_SWATCHES = {
+  // Two-tone: body colour first, zip/cord trim second.
+  'Grey / Yellow': ['#4a4a4a', '#e8c20a'],
+  'Grey / Orange': ['#5a564f', '#f08a1c'],
+  'Blue / White': ['#3d4760', '#f2efe8'],
+  'Black / Red': ['#2a2724', '#c8303c'],
+
   Oat: '#e3d9c6',
   Bone: '#f0ece2',
   Ivory: '#faf8f4',

@@ -30,18 +30,20 @@ const CARE_BY_FABRIC = {
 };
 
 /**
- * Every colour/size variant is stocked to the per-order ceiling.
+ * Fills every colour/size variant to the same number.
  *
  * This is a made-to-order wholesale catalogue rather than a fixed-inventory
- * shop, so the seller confirms real availability on WhatsApp. Seeding the
- * full 100 keeps the quantity stepper usable up to the maximum instead of
- * inventing scarcity.
+ * shop, so the seller confirms real availability on WhatsApp. The number here
+ * is what the quantity stepper will allow per variant: products set
+ * `maxPerVariant` when the seller wants a tighter per-colour cap than the
+ * store-wide `MAX_LINE_QUANTITY`.
  */
-function seedStock(productId, colors, sizes) {
+function seedStock(colors, sizes, perVariant = MAX_LINE_QUANTITY) {
+  const limit = Math.min(Math.max(1, perVariant), MAX_LINE_QUANTITY);
   const stock = {};
   colors.forEach((color) => {
     sizes.forEach((size) => {
-      stock[`${color.name}::${size}`] = MAX_LINE_QUANTITY;
+      stock[`${color.name}::${size}`] = limit;
     });
   });
   return stock;
@@ -138,20 +140,52 @@ const RAW = [
     compareAt: null,
     wholesalePrice: 95,
     bulkMinQuantity: 25,
+    // Ten pieces per colour and size — the seller fills larger orders by
+    // mixing colourways rather than stacking one variant.
+    maxPerVariant: 10,
     fit: 'regular',
     fabric: 'Brushed fleece',
     tags: ['new'],
     blurb: 'A brushed fleece pant with a zip security pocket and a straight, easy leg.',
+    bulkNote:
+      'The 25-piece wholesale rate is an assorted pack: Grey / Yellow, Blue / White, '
+      + 'Grey / Orange, Black / Red and a second Blue / White — five pieces of each.',
     released: '2026-10-19',
     sold: 0,
     rating: 4.8,
     reviews: 0,
+    // Four colourways are sold individually. The fifth pack colour is a
+    // repeat of Blue / White, so it needs no separate swatch.
     colors: [
-      { name: 'Charcoal', images: ['/images/pant-wild-life.jpg'] },
-      { name: 'Ink', images: [] },
-      { name: 'Navy', images: [] },
-      { name: 'Slate', images: [] },
-      { name: 'Moss', images: [] },
+      {
+        name: 'Grey / Yellow',
+        images: [
+          '/images/zpp-grey-yellow-1.jpg',
+          '/images/zpp-grey-yellow-2.jpg',
+          '/images/zpp-grey-yellow-3.jpg',
+          '/images/zpp-grey-yellow-4.jpg',
+        ],
+      },
+      {
+        name: 'Blue / White',
+        images: ['/images/zpp-blue-white-1.jpg', '/images/zpp-blue-white-2.jpg'],
+      },
+      {
+        name: 'Grey / Orange',
+        images: [
+          '/images/zpp-grey-orange-1.jpg',
+          '/images/zpp-grey-orange-2.jpg',
+          '/images/zpp-grey-orange-3.jpg',
+        ],
+      },
+      {
+        name: 'Black / Red',
+        images: [
+          '/images/zpp-black-red-1.jpg',
+          '/images/zpp-black-red-2.jpg',
+          '/images/zpp-black-red-3.jpg',
+        ],
+      },
     ],
   },
 
@@ -200,7 +234,7 @@ function hydrateProduct(raw) {
     ...raw,
     sizes,
     colors,
-    stock: raw.stock ?? seedStock(raw.id, colors, sizes),
+    stock: raw.stock ?? seedStock(colors, sizes, raw.maxPerVariant),
     slug:
       raw.slug ??
       `${raw.id}-${raw.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`,

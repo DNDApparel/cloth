@@ -1,9 +1,21 @@
 import { COLOR_SWATCHES } from '../../data/taxonomy';
 import { classNames } from '../../utils/format';
 
+const FALLBACK = '#ddd5c5';
+
+/**
+ * A colour dot. Two-tone colours (`[body, trim]` in COLOR_SWATCHES) render as
+ * a diagonal split so a "Grey / Yellow" pant reads differently from a
+ * "Grey / Orange" one at thumbnail size.
+ */
 export function ColorSwatch({ color, selected = false, size = 'md', as: Tag = 'span', ...props }) {
-  const hex = COLOR_SWATCHES[color] ?? '#ddd5c5';
+  const swatch = COLOR_SWATCHES[color] ?? FALLBACK;
+  const [body, trim] = Array.isArray(swatch) ? swatch : [swatch, null];
   const dimensions = size === 'sm' ? 'h-4 w-4' : size === 'lg' ? 'h-9 w-9' : 'h-6 w-6';
+
+  const background = trim
+    ? `linear-gradient(135deg, ${body} 0%, ${body} 50%, ${trim} 50%, ${trim} 100%)`
+    : undefined;
 
   return (
     <Tag
@@ -15,7 +27,7 @@ export function ColorSwatch({ color, selected = false, size = 'md', as: Tag = 's
         selected && 'ring-2 ring-offset-2 ring-offset-sand-100 ring-ink-900',
         props.className,
       )}
-      style={{ backgroundColor: hex, ...props.style }}
+      style={{ backgroundColor: body, backgroundImage: background, ...props.style }}
     />
   );
 }

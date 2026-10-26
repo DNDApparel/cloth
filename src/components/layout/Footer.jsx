@@ -77,6 +77,14 @@ export function Footer({ showCollections = true }) {
         </FooterColumn>
       </div>
 
+      {settings.manufacturingNote && (
+        <div className="dnd-container border-t border-sand-200 py-5">
+          <p className="max-w-3xl text-xs leading-relaxed text-ink-500">
+            {settings.manufacturingNote}
+          </p>
+        </div>
+      )}
+
       <div className="dnd-container flex flex-col items-center justify-between gap-3 border-t border-sand-200 py-6 text-xs text-ink-500 sm:flex-row">
         <p>
           © {(settings.storeName ?? 'DND Store').toUpperCase()} {new Date().getFullYear()} — All

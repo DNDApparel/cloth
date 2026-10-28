@@ -126,8 +126,8 @@ export function OrderSummary({ showPromo = true, children }) {
       </dl>
       <p className="text-xs leading-relaxed text-ink-500">
         {totals.delivery?.qualified
-          ? 'This order qualifies for free delivery. Applicable taxes are confirmed by the seller before your order is accepted. No payment is collected on this website.'
-          : 'Delivery charges and applicable taxes are confirmed by the seller before your order is accepted. No payment is collected on this website.'}
+          ? 'This order qualifies for free delivery. Applicable taxes are confirmed before your order is accepted. No payment is collected on this website.'
+          : 'Delivery charges and applicable taxes are confirmed before your order is accepted. No payment is collected on this website.'}
       </p>
 
       {children}

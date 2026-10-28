@@ -7,7 +7,7 @@ import { useToast } from '../context/ToastContext';
 import { useRecentlyViewed } from '../context/RecentlyViewedContext';
 import { colorImages, colorNames, relatedProducts, sizesInStock, stockFor } from '../data/products';
 import { formatPrice } from '../utils/format';
-import { MAX_LINE_QUANTITY, bulkPrice } from '../utils/cart';
+import { MAX_LINE_QUANTITY } from '../utils/cart';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { SizePicker } from '../components/product/SizePicker';
 import { SizeGuide } from '../components/product/SizeGuide';
@@ -109,12 +109,6 @@ export default function ProductDetail() {
   const saved = wishlist.has(product.id);
   const category = categoryMap[product.category];
   const festive = settings.festiveOffer;
-  const bulkPricing = bulkPrice(
-    product.price,
-    settings,
-    product.wholesalePrice,
-    product.bulkMinQuantity,
-  );
 
   function handleAddToBag() {
     if (!size) {
@@ -172,33 +166,9 @@ export default function ProductDetail() {
               )}
             </div>
 
-            {bulkPricing.active && (
-              <div className="max-w-md rounded-2xl border border-moss-500/30 bg-moss-500/10 p-4">
-                <p className="text-sm font-semibold text-moss-500">
-                  Buy {bulkPricing.minQuantity}+ of this product and get wholesale pricing
-                </p>
-                <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
-                  <span>1 piece: <strong>{formatPrice(product.price)}</strong></span>
-                  <span aria-hidden="true">·</span>
-                  <span>{bulkPricing.minQuantity}+ pieces: <strong>{formatPrice(bulkPricing.unitPrice)} each</strong></span>
-                </div>
-                <p className="mt-1 text-xs text-ink-600">
-                  {bulkPricing.minQuantity} pieces total {formatPrice(bulkPricing.unitPrice * bulkPricing.minQuantity)} · save {formatPrice(bulkPricing.savings * bulkPricing.minQuantity)}
-                </p>
-                {product.bulkNote && (
-                  <p className="mt-1 text-xs text-ink-600">{product.bulkNote}</p>
-                )}
-              </div>
-            )}
-
-            {/* Minimum order quantity still matters when no wholesale rate is
-                published yet, so surface it on its own. */}
-            {!bulkPricing.active && product.bulkMinQuantity > 1 && (
-              <p className="max-w-md text-xs text-ink-600">
-                Wholesale enquiries welcome from {product.bulkMinQuantity} pieces — ask the seller
-                for a quote.
-              </p>
-            )}
+            {/* Wholesale rates are no longer quoted on the retail product page —
+                they live on /bulk-order, where the minimum order quantity for
+                every style is listed together. */}
 
             {festive?.active && (
               <p className="inline-flex items-center gap-2 rounded-full bg-clay-400/20 px-3 py-1.5 text-xs font-semibold text-clay-500">
@@ -207,6 +177,12 @@ export default function ProductDetail() {
             )}
 
             <p className="max-w-prose text-sm leading-relaxed text-ink-500">{product.blurb}</p>
+
+            {settings.factoryDirectNote && (
+              <p className="max-w-prose rounded-xl border border-moss-500/30 bg-moss-500/10 px-3.5 py-2.5 text-xs leading-relaxed text-ink-700">
+                {settings.factoryDirectNote}
+              </p>
+            )}
 
             {settings.manufacturingNote && (
               <p className="max-w-prose rounded-xl bg-sand-200/60 px-3 py-2 text-xs leading-relaxed text-ink-600">
@@ -310,8 +286,9 @@ export default function ProductDetail() {
             </div>
 
             <p className="text-xs leading-relaxed text-ink-500">
-              Delivery charges and applicable taxes are confirmed by the seller before an order is
-              accepted.
+              {settings.delivery?.freeDeliveryActive
+                ? `${settings.delivery.label}. Applicable taxes are confirmed before an order is accepted.`
+                : 'Delivery charges and applicable taxes are confirmed before an order is accepted.'}
             </p>
           </div>
 
@@ -346,7 +323,7 @@ export default function ProductDetail() {
             <Accordion title={copy.shippingHeading ?? 'Ordering & delivery'}>
               <p>
                 {copy.shippingBody ??
-                  'Send a purchase enquiry on WhatsApp. The seller will confirm availability, applicable taxes, delivery charges and the final quote.'}
+                  'Send a purchase enquiry on WhatsApp. We confirm availability, applicable taxes, delivery and the final quote before the order is accepted.'}
               </p>
             </Accordion>
           </div>

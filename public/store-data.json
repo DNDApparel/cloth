@@ -822,20 +822,20 @@
     }
   ],
   "brandValues": [
+    "Straight from the manufacturer.",
+    "Low prices, same cloth quality.",
     "Pants, shorts and track pants.",
-    "Everyday styles.",
-    "Find your fit.",
-    "Track pants and everyday shorts.",
+    "Free delivery above ₹499.",
     "Wholesale enquiries welcome."
   ],
   "storyBlocks": [
     {
-      "title": "Everyday styles",
-      "body": "Browse pants, shorts and track pants in the collection."
+      "title": "Direct from the manufacturer",
+      "body": "We buy straight from the factory in Tiruppur, so there is no distributor or showroom margin in the price you pay."
     },
     {
-      "title": "Product details",
-      "body": "View available sizes, colours, prices and product details before sending an enquiry."
+      "title": "No compromise on quality",
+      "body": "Same cloth, same stitching, same finish as the garments the factory produces. Only the supply chain is shorter — the quality is not."
     },
     {
       "title": "Made for everyday",
@@ -852,6 +852,11 @@
     {
       "id": "a-diwali-delivery",
       "text": "Diwali offer — free delivery on orders above ₹499.",
+      "active": true
+    },
+    {
+      "id": "a-factory-direct",
+      "text": "Bought direct from the manufacturer — low prices, no compromise on cloth quality.",
       "active": true
     },
     {
@@ -880,12 +885,13 @@
     "grievanceOfficer": "",
     "grievanceEmail": "",
     "grievancePhone": "",
+    "factoryDirectNote": "Bought direct from the manufacturer, so there is no distributor or showroom margin in the price. Same cloth, same stitching, same finish — only the supply chain is shorter.",
     "manufacturingNote": "Logos and prints are decorative only. These garments are made and printed by Tiruppur manufacturers and are not produced by, licensed by, or affiliated with any sports or fashion brand.",
     "delivery": {
       "freeDeliveryActive": true,
       "freeAbove": 499,
       "label": "Free delivery above ₹499",
-      "note": "Orders of ₹499 and above ship free during the Diwali sale. Below ₹499 the seller confirms the delivery charge before accepting the order."
+      "note": "Orders of ₹499 and above ship free during the Diwali sale. Below ₹499 the delivery charge is confirmed before the order is accepted."
     },
     "festiveOffer": {
       "active": false,
@@ -924,7 +930,7 @@
       "enabled": true,
       "theme": "dark",
       "title": "Diwali Sale is live ✨",
-      "body": "Up to 49% off every style. Shorts from ₹139, pants from ₹199, track pants from ₹249 — and free delivery on orders above ₹499. Buying in quantity? Wholesale rates apply on top.",
+      "body": "Up to 49% off every style. Shorts from ₹139, pants from ₹199, track pants from ₹249 — and free delivery on orders above ₹499. Bought direct from the manufacturer, so the price is low without cutting cloth quality.",
       "ctaLabel": "Shop the Diwali sale",
       "ctaTo": "/shop",
       "image": "",
@@ -949,7 +955,7 @@
       "eyebrow": "Browse the collection",
       "titleLine1": "Good clothes.",
       "titleLine2": "Everyday fits.",
-      "body": "Browse pants, shorts and track pants. Select your options and send a purchase enquiry to the seller.",
+      "body": "Browse pants, shorts and track pants. Select your options and send us a purchase enquiry on WhatsApp.",
       "ctaLabel": "Meet your new uniform",
       "ctaTo": "/shop",
       "image": "/images/editorial-banner.jpg"
@@ -972,7 +978,7 @@
       "newArrivalsLink": "See all new arrivals",
       "bulkEyebrow": "For shops, teams and resellers",
       "bulkTitle": "Buying in quantity?",
-      "bulkBody": "Share the styles and quantities you need. The seller will confirm availability and a wholesale quote.",
+      "bulkBody": "Pick the styles and quantities you need — each one shows its minimum order quantity. We confirm availability and a wholesale quote.",
       "bulkButton": "Request wholesale pricing",
       "collectionsEyebrow": "Curated edits",
       "collectionsTitle": "Collections to browse."

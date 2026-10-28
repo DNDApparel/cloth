@@ -95,32 +95,6 @@ function minBulkQuantity(settings, productMinQuantity) {
   return Math.max(1, Number(settings?.bulkDiscount?.minQuantity) || 10);
 }
 
-export function bulkPrice(price, settings, wholesalePrice, productMinQuantity) {
-  const bulk = settings?.bulkDiscount;
-  const minQuantity = minBulkQuantity(settings, productMinQuantity);
-  const percent = Number(bulk?.percent) || 0;
-  const hasWholesalePrice =
-    wholesalePrice !== null &&
-    wholesalePrice !== undefined &&
-    wholesalePrice !== '' &&
-    Number.isFinite(Number(wholesalePrice)) &&
-    Number(wholesalePrice) >= 0 &&
-    Number(wholesalePrice) < Number(price);
-  const active = Boolean(bulk?.active && (hasWholesalePrice || percent > 0));
-  const unitPrice = active
-    ? hasWholesalePrice
-      ? round(Number(wholesalePrice))
-      : round(price * (1 - percent / 100))
-    : round(price);
-  return {
-    active,
-    minQuantity,
-    percent: price > 0 ? round((1 - unitPrice / price) * 100) : 0,
-    unitPrice,
-    savings: round(price - unitPrice),
-  };
-}
-
 /**
  * Single source of truth for every total shown in the drawer, cart page,
  * checkout and order records.

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useStore } from '../../context/StoreContext';
@@ -19,7 +19,21 @@ export function Header() {
   const wishlist = useWishlist();
   const { activeAnnouncements, categories, settings } = useStore();
   const navigate = useNavigate();
+  const location = useLocation();
   const visibility = settings.visibility ?? {};
+
+  /**
+   * Which shop view is open, read from the URL.
+   *
+   * `NavLink` is no use here: `/shop?category=new` has the pathname `/shop`,
+   * which prefix-matches `/shop/pants`, so "New" lit up alongside whichever
+   * category was chosen. The search string has to be part of the test.
+   */
+  const shopCategory = location.pathname.startsWith('/shop/')
+    ? location.pathname.slice('/shop/'.length)
+    : location.pathname === '/shop'
+      ? new URLSearchParams(location.search).get('category') ?? ''
+      : null;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -88,20 +102,38 @@ export function Header() {
           </div>
 
           <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
-            {visibility.newArrivals !== false && <NavLink to="/shop?category=new" className={navLinkClass}>
-              New
-            </NavLink>}
+            {visibility.newArrivals !== false && (
+              <ShopNavLink to="/shop?category=new" active={shopCategory === 'new'}>
+                New
+              </ShopNavLink>
+            )}
             {categories.map((category) => (
-              <NavLink key={category.slug} to={`/shop/${category.slug}`} className={navLinkClass}>
+              <ShopNavLink
+                key={category.slug}
+                to={`/shop/${category.slug}`}
+                active={shopCategory === category.slug}
+              >
                 {category.name}
-              </NavLink>
+              </ShopNavLink>
             ))}
-            {visibility.collections !== false && <NavLink to="/collections" className={navLinkClass}>
-              Collections
-            </NavLink>}
-            {visibility.bulkOrder !== false && <NavLink to="/bulk-order" className={navLinkClass}>
-              Bulk orders
-            </NavLink>}
+            {visibility.collections !== false && (
+              <Link
+                to="/collections"
+                aria-current={location.pathname.startsWith('/collections') ? 'page' : undefined}
+                className={navLinkClass(location.pathname.startsWith('/collections'))}
+              >
+                Collections
+              </Link>
+            )}
+            {visibility.bulkOrder !== false && (
+              <Link
+                to="/bulk-order"
+                aria-current={location.pathname === '/bulk-order' ? 'page' : undefined}
+                className={navLinkClass(location.pathname === '/bulk-order')}
+              >
+                Bulk orders
+              </Link>
+            )}
           </nav>
 
           <div className="flex items-center gap-0.5">
@@ -139,10 +171,30 @@ export function Header() {
   );
 }
 
-function navLinkClass({ isActive }) {
+function navLinkClass(isActive) {
   return classNames(
     'rounded-full px-3.5 py-2 text-sm transition-colors duration-200',
     isActive ? 'bg-ink-900 text-sand-100' : 'text-ink-700 hover:bg-ink-900/6',
+  );
+}
+
+/**
+ * A shop filter that can be switched off again.
+ *
+ * Clicking the category you are already viewing returns you to `/shop`, so
+ * every option can be deselected to see the full catalogue — the same
+ * behaviour as the filters in the sidebar.
+ */
+function ShopNavLink({ to, active, children }) {
+  return (
+    <Link
+      to={active ? '/shop' : to}
+      aria-current={active ? 'page' : undefined}
+      title={active ? 'Show all products' : undefined}
+      className={navLinkClass(active)}
+    >
+      {children}
+    </Link>
   );
 }
 

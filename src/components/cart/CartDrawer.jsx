@@ -198,8 +198,8 @@ export function CartDrawer() {
 
           <p className="text-xs leading-relaxed text-ink-500">
             {totals.delivery?.qualified
-              ? 'This order ships free. Applicable taxes are confirmed by the seller before an order is accepted. No payment is collected on this website.'
-              : 'Delivery charges and applicable taxes are confirmed by the seller before an order is accepted. No payment is collected on this website.'}
+              ? 'This order ships free. Applicable taxes are confirmed before an order is accepted. No payment is collected on this website.'
+              : 'Delivery charges and applicable taxes are confirmed before an order is accepted. No payment is collected on this website.'}
           </p>
 
           <div className="space-y-2">

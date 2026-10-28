@@ -22,7 +22,7 @@ const DEFAULT_HOME_EDITORIAL = {
   eyebrow: 'Browse the collection',
   titleLine1: 'Good clothes.',
   titleLine2: 'Everyday fits.',
-  body: 'Browse pants, shorts and track pants. Select your options and send a purchase enquiry to the seller.',
+  body: 'Browse pants, shorts and track pants. Select your options and send us a purchase enquiry on WhatsApp.',
   ctaLabel: 'Meet your new uniform',
   ctaTo: '/shop',
   // Own product photography — no licensing obligations.
@@ -48,7 +48,7 @@ const DEFAULT_HOME_CONTENT = {
   newArrivalsLink: 'See all new arrivals',
   bulkEyebrow: 'For shops, teams and resellers',
   bulkTitle: 'Buying in quantity?',
-  bulkBody: 'Share the styles and quantities you need. The seller will confirm availability and a wholesale quote.',
+  bulkBody: 'Pick the styles and quantities you need — each one shows its minimum order quantity. We confirm availability and a wholesale quote.',
   bulkButton: 'Request wholesale pricing',
   collectionsEyebrow: 'Curated edits',
   collectionsTitle: 'Collections to browse.',

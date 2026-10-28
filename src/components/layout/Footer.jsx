@@ -12,14 +12,14 @@ export function Footer({ showCollections = true }) {
     <footer className="mt-24 border-t border-sand-200 bg-sand-50">
       <div className="dnd-container grid gap-6 border-b border-sand-200 py-10 sm:grid-cols-3">
         <div>
-          <p className="text-sm font-semibold">Order direct</p>
-          <p className="text-xs text-ink-500">Send a purchase enquiry to the seller on WhatsApp.</p>
+          <p className="text-sm font-semibold">Straight from the manufacturer</p>
+          <p className="text-xs text-ink-500">Factory-direct prices. Same cloth, same stitching, no middleman.</p>
         </div>
         <div>
           {visibility.bulkOrder !== false && (
             <>
               <p className="text-sm font-semibold">Wholesale orders welcome</p>
-              <p className="text-xs text-ink-500">Ask the seller about quantity pricing and availability.</p>
+              <p className="text-xs text-ink-500">Ask us about quantity pricing and availability.</p>
             </>
           )}
         </div>
@@ -71,13 +71,13 @@ export function Footer({ showCollections = true }) {
           <FooterLink to="/feedback">Share feedback</FooterLink>
         </FooterColumn>
 
-        <FooterColumn title="Seller information">
+        <FooterColumn title="Store information">
           {settings.sellerLegalName && <p className="text-sm text-ink-500">{settings.sellerLegalName}</p>}
           {settings.businessAddress && <p className="whitespace-pre-line text-sm text-ink-500">{settings.businessAddress}</p>}
           {settings.gstin && <p className="text-sm text-ink-500">GSTIN: {settings.gstin}</p>}
           {(settings.grievanceOfficer || settings.grievanceEmail || settings.grievancePhone) && (
             <p className="text-xs text-ink-500">
-              Grievance contact: {[settings.grievanceOfficer, settings.grievanceEmail, settings.grievancePhone].filter(Boolean).join(' · ')}
+              Contact: {[settings.grievanceOfficer, settings.grievanceEmail, settings.grievancePhone].filter(Boolean).join(' · ')}
             </p>
           )}
           {settings.supportEmail && <a href={`mailto:${settings.supportEmail}`} className="text-sm text-ink-500 hover:text-ink-900">{settings.supportEmail}</a>}

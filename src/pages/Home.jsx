@@ -199,7 +199,7 @@ export default function Home() {
               {editorial.titleLine2 ?? 'Everyday fits.'}
             </h2>
             <p className="max-w-md text-sm leading-relaxed text-sand-300">
-              {editorial.body ?? 'Browse pants, shorts and track pants. Select your options and send a purchase enquiry to the seller.'}
+              {editorial.body ?? 'Browse pants, shorts and track pants. Select your options and send us a purchase enquiry on WhatsApp.'}
             </p>
 
             <dl className="grid gap-5 pt-2 sm:grid-cols-3">
@@ -248,7 +248,7 @@ export default function Home() {
               {content.bulkTitle ?? 'Buying in quantity?'}
             </h2>
             <p className="mt-2 max-w-xl text-sm text-ink-500">
-              {content.bulkBody ?? 'Share the styles and quantities you need. The seller will confirm availability and a wholesale quote.'}
+              {content.bulkBody ?? 'Pick the styles and quantities you need — each one shows its minimum order quantity. We confirm availability and a wholesale quote.'}
             </p>
           </div>
           <Button to="/bulk-order" size="lg" className="shrink-0">

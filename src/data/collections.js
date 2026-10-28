@@ -49,21 +49,25 @@ export const COLLECTIONS = [
 
 /** Short brand values rendered in the scrolling strip on the home page. */
 export const BRAND_VALUES = [
+  'Straight from the manufacturer.',
+  'Low prices, same cloth quality.',
   'Pants, shorts and track pants.',
-  'Everyday styles.',
-  'Find your fit.',
-  'Track pants and everyday shorts.',
+  'Free delivery above ₹499.',
   'Wholesale enquiries welcome.',
 ];
 
 export const STORY_BLOCKS = [
   {
-    title: 'Everyday styles',
-    body: 'Browse pants, shorts and track pants in the collection.',
+    title: 'Direct from the manufacturer',
+    body:
+      'We buy straight from the factory in Tiruppur, so there is no distributor or showroom '
+      + 'margin in the price you pay.',
   },
   {
-    title: 'Product details',
-    body: 'View available sizes, colours, prices and product details before sending an enquiry.',
+    title: 'No compromise on quality',
+    body:
+      'Same cloth, same stitching, same finish as the garments the factory produces. Only the '
+      + 'supply chain is shorter — the quality is not.',
   },
   {
     title: 'Made for everyday',

@@ -259,8 +259,10 @@ All pricing maths.
   rate below its retail price
 - `minBulkQuantity(settings, productMinQuantity)` — the product's own MOQ, or
   the store default (10) when unset
-- `bulkPrice(price, settings, wholesalePrice, productMinQuantity)` — returns
-  `{active, minQuantity, percent, unitPrice, savings}` for the product page panel
+- `deliveryProgress(payable, settings)` — `{threshold, qualified, remaining,
+  percent, label}`, or `null` when the offer is off. Measured against the
+  **payable** amount, so free delivery can never be unlocked by a figure the
+  shopper is not paying
 - `promoDiscount(amount, promo)` — percent or fixed, never exceeding the amount
 
 **`calculateTotals(items, {promo, shippingMethod, settings})`** is the single
@@ -271,7 +273,7 @@ source of truth for every total displayed anywhere. Order of operations:
 3. Apply the per-piece wholesale saving to qualifying lines only
 4. Apply the festive offer to what remains
 5. Apply the promo code
-6. Shipping is informational — the final quote comes from the seller
+6. Compare the payable amount against the free-delivery threshold
 
 Discounts are applied in a fixed order so results are reproducible.
 
@@ -434,13 +436,13 @@ the list is capped at three so toasts cannot stack off-screen.
 |---|---|---|
 | `/` | `Home.jsx` | Hero, values strip, categories, featured, editorial, new arrivals, wholesale CTA, collections. Every section respects `settings.visibility`. |
 | `/shop`, `/shop/:category` | `Catalog.jsx` | Faceted browse. All state in the URL. |
-| `/product/:slug` | `ProductDetail.jsx` | Gallery, colour/size pickers, wholesale panel, accordions, related. Shows the MOQ even when no wholesale rate is published. |
+| `/product/:slug` | `ProductDetail.jsx` | Gallery, colour/size pickers, accordions, related. Retail only — wholesale rates and MOQs live on `/bulk-order`. |
 | `/collections`, `/collections/:slug` | `Collections.jsx`, `CollectionDetail.jsx` | Curated edits. |
 | `/search` | `SearchResults.jsx` | Debounced search with sort. |
 | `/wishlist` | `Wishlist.jsx` | Saved items with inline variant choice. |
 | `/cart` | `Cart.jsx` | Full bag, per-line selection. |
 | `/checkout` | `Checkout.jsx` | Contact details → consent → WhatsApp draft. **No payment.** |
-| `/bulk-order` | `BulkOrder.jsx` | Wholesale enquiry form. |
+| `/bulk-order` | `BulkOrder.jsx` | Wholesale enquiry. Lists every product; selecting one reveals its own MOQ and per-piece rate and seeds the quantity with that minimum. Validates each line against its own minimum, not a store-wide one. Accepts `?product=<id>` to pre-select. |
 | `/feedback` | `Feedback.jsx` | Feedback via WhatsApp. |
 | `/privacy`, `/terms` | `Privacy.jsx`, `Terms.jsx` | Static policy pages. |
 | `*` | `NotFound.jsx` | 404. |

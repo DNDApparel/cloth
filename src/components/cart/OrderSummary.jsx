@@ -45,6 +45,8 @@ export function OrderSummary({ showPromo = true, children }) {
         </div>
       )}
 
+      {totals.delivery && <FreeDeliveryProgress delivery={totals.delivery} />}
+
       {showPromo && (
         <div className="space-y-2">
           {promo ? (
@@ -123,11 +125,46 @@ export function OrderSummary({ showPromo = true, children }) {
         </div>
       </dl>
       <p className="text-xs leading-relaxed text-ink-500">
-        Delivery charges and applicable taxes are confirmed by the seller before your order is
-        accepted. No payment is collected on this website.
+        {totals.delivery?.qualified
+          ? 'This order qualifies for free delivery. Applicable taxes are confirmed by the seller before your order is accepted. No payment is collected on this website.'
+          : 'Delivery charges and applicable taxes are confirmed by the seller before your order is accepted. No payment is collected on this website.'}
       </p>
 
       {children}
+    </div>
+  );
+}
+
+/**
+ * Free-delivery meter. Shows how much more is needed to reach the threshold,
+ * then flips to a confirmation once the order qualifies.
+ */
+function FreeDeliveryProgress({ delivery }) {
+  return (
+    <div className="space-y-2 rounded-xl bg-clay-400/15 px-3.5 py-2.5">
+      <p className="text-sm font-semibold text-clay-500">
+        {delivery.qualified
+          ? `Free delivery unlocked — ${delivery.label}`
+          : `Add ${formatPrice(delivery.remaining)} more for free delivery`}
+      </p>
+      <div
+        role="progressbar"
+        aria-valuenow={Math.round(delivery.percent)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Progress towards free delivery"
+        className="h-1.5 overflow-hidden rounded-full bg-sand-300"
+      >
+        <div
+          className="h-full rounded-full bg-clay-500 transition-[width] duration-500"
+          style={{ width: `${delivery.percent}%` }}
+        />
+      </div>
+      {!delivery.qualified && (
+        <p className="text-xs text-ink-500">
+          Orders of {formatPrice(delivery.threshold)} and above ship free.
+        </p>
+      )}
     </div>
   );
 }

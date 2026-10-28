@@ -24,8 +24,17 @@ export function Footer({ showCollections = true }) {
           )}
         </div>
         <div>
-          <p className="text-sm font-semibold">Clear order confirmation</p>
-          <p className="text-xs text-ink-500">Final price, taxes and delivery are confirmed before an order is accepted.</p>
+          {settings.delivery?.freeDeliveryActive ? (
+            <>
+              <p className="text-sm font-semibold">{settings.delivery.label}</p>
+              <p className="text-xs text-ink-500">Diwali sale offer. Final price and taxes are confirmed before an order is accepted.</p>
+            </>
+          ) : (
+            <>
+              <p className="text-sm font-semibold">Clear order confirmation</p>
+              <p className="text-xs text-ink-500">Final price, taxes and delivery are confirmed before an order is accepted.</p>
+            </>
+          )}
         </div>
       </div>
 
@@ -73,7 +82,7 @@ export function Footer({ showCollections = true }) {
           )}
           {settings.supportEmail && <a href={`mailto:${settings.supportEmail}`} className="text-sm text-ink-500 hover:text-ink-900">{settings.supportEmail}</a>}
           <FooterLink to="/privacy">Privacy</FooterLink>
-          <FooterLink to="/terms">Terms of sale</FooterLink>
+          <FooterLink to="/terms">Terms &amp; conditions</FooterLink>
         </FooterColumn>
       </div>
 

@@ -44,9 +44,20 @@ export default function Checkout() {
       lines.push(`Promo discount: -${formatPrice(totals.codeDiscount)}`);
     }
 
+    lines.push(`Estimated merchandise amount: ${formatPrice(totals.total)}`);
+
+    // Tell the seller which delivery terms the shopper was shown, so the quote
+    // they send back matches the storefront.
+    if (totals.delivery?.qualified) {
+      lines.push(
+        `Delivery: free (order is above ${formatPrice(totals.delivery.threshold)}).`,
+        'Please confirm availability, final price and applicable taxes.',
+      );
+    } else {
+      lines.push('Please confirm availability, final price, applicable taxes and delivery charges.');
+    }
+
     lines.push(
-      `Estimated merchandise amount: ${formatPrice(totals.total)}`,
-      'Please confirm availability, final price, applicable taxes and delivery charges.',
       '',
       `Customer: ${customer.name.trim()}`,
       `Contact: ${customer.phone.trim()}`,
@@ -88,6 +99,12 @@ export default function Checkout() {
               Send your purchase enquiry to the store on WhatsApp. Payment is arranged directly
               with the seller; this website does not collect payment.
             </p>
+
+            {settings.delivery?.freeDeliveryActive && (
+              <p className="mt-3 rounded-xl bg-clay-400/15 px-3.5 py-2.5 text-sm text-clay-500">
+                {settings.delivery.label} — part of the Diwali sale.
+              </p>
+            )}
 
             <form
               className="mt-6 space-y-5"

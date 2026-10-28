@@ -5,6 +5,16 @@
 
 export const SEED_ANNOUNCEMENTS = [
   {
+    id: 'a-diwali-sale',
+    text: 'DIWALI SALE IS LIVE — up to 49% off every style. Shorts from \u20B9139, pants from \u20B9199.',
+    active: true,
+  },
+  {
+    id: 'a-diwali-delivery',
+    text: 'Diwali offer — free delivery on orders above \u20B9499.',
+    active: true,
+  },
+  {
     id: 'a-diwali',
     text: 'Diwali offer — wholesale rates on every style. Reach a product\u2019s minimum pieces and the wholesale price applies automatically.',
     active: true,
@@ -33,16 +43,31 @@ export const SEED_SETTINGS = {
     + 'any sports or fashion brand.',
 
   // Prices are quoted in rupees throughout; `formatPrice` hard-codes the
-  // locale. Tax and delivery are confirmed by the seller on WhatsApp, so the
-  // storefront deliberately carries no tax rate or shipping table.
+  // locale. Applicable taxes are confirmed by the seller on WhatsApp, so the
+  // storefront carries no tax rate.
 
-  // The Diwali offer *is* the wholesale rate — reaching a product's minimum
-  // quantity applies it. `festiveOffer` stays off deliberately: turning it on
-  // would stack a second percentage on top of the already-discounted
-  // wholesale price and quote a total the seller never agreed to.
+  /**
+   * Diwali sale delivery offer. Orders at or above `freeAbove` ship free;
+   * below it the seller quotes delivery on WhatsApp. This is a single
+   * threshold rather than a shipping table because there is only one offer.
+   */
+  delivery: {
+    freeDeliveryActive: true,
+    freeAbove: 499,
+    label: 'Free delivery above \u20B9499',
+    note: 'Orders of \u20B9499 and above ship free during the Diwali sale. '
+      + 'Below \u20B9499 the seller confirms the delivery charge before accepting the order.',
+  },
+
+  // The retail prices on every product are the Diwali sale rates — the
+  // strike-through `compareAt` on each product is the pre-sale list price.
+  // `festiveOffer` stays off deliberately: turning it on would stack a second
+  // percentage on top of the already-reduced sale price and quote a total the
+  // seller never agreed to. The same reasoning applies to the wholesale rate,
+  // which is unchanged by the sale.
   festiveOffer: {
     active: false,
-    label: '',
+    label: 'Diwali sale',
     percent: 0,
   },
 
@@ -61,11 +86,11 @@ export const SEED_SETTINGS = {
   },
 
   hero: {
-    eyebrow: 'Everyday clothing · Wholesale available',
+    eyebrow: 'Diwali sale · Free delivery above \u20B9499',
     titleLine1: 'Find your',
     titleLine2: 'everyday fit.',
     bodyLine1: 'Pants, shorts and track pants.',
-    bodyLine2: 'Comfort for wherever the day goes.',
+    bodyLine2: 'Diwali prices from \u20B9139. Free delivery above \u20B9499.',
     caption: 'Shop direct. Ask us on WhatsApp.',
     // Own product photography — no third-party or stock imagery, so there is
     // nothing to licence.
@@ -74,12 +99,20 @@ export const SEED_SETTINGS = {
     ctaTo: '/shop',
   },
 
+  // Diwali sale popup. Shown once per browsing session a moment after the
+  // page settles, so it never competes with the first paint.
   banner: {
-    enabled: false,
-    title: '',
-    body: '',
-    ctaLabel: 'Shop now',
+    enabled: true,
+    theme: 'dark',
+    title: 'Diwali Sale is live \u2728',
+    body: 'Up to 49% off every style. Shorts from \u20B9139, pants from \u20B9199, '
+      + 'track pants from \u20B9249 — and free delivery on orders above \u20B9499. '
+      + 'Buying in quantity? Wholesale rates apply on top.',
+    ctaLabel: 'Shop the Diwali sale',
     ctaTo: '/shop',
     image: '',
+    dismissible: true,
+    showOncePerSession: true,
+    delayMs: 1500,
   },
 };

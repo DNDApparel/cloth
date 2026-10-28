@@ -1,8 +1,9 @@
 /**
  * Pure pricing helpers — kept free of React so they stay trivially testable.
  *
- * Discounts apply to merchandise only. Delivery and applicable taxes are
- * confirmed directly with the seller before an order is accepted.
+ * Discounts apply to merchandise only. Applicable taxes are confirmed directly
+ * with the seller before an order is accepted. Delivery is free at or above
+ * `settings.delivery.freeAbove`; below it the seller quotes the charge.
  */
 
 /**
@@ -59,6 +60,35 @@ function hasRate(wholesalePrice, price) {
  * Each product can override the store-wide default, because the seller quotes
  * a different minimum order quantity per style.
  */
+/**
+ * Free-delivery progress for the merchandise total.
+ *
+ * Measured against the payable amount — what the shopper actually owes after
+ * every discount — so the threshold is never met by a figure they aren't
+ * paying. Returns `null` when the offer is switched off, letting callers skip
+ * the whole block rather than test a flag.
+ */
+export function deliveryProgress(payable, settings) {
+  const delivery = settings?.delivery;
+  const threshold = Number(delivery?.freeAbove);
+
+  if (!delivery?.freeDeliveryActive || !Number.isFinite(threshold) || threshold <= 0) {
+    return null;
+  }
+
+  const amount = Math.max(0, Number(payable) || 0);
+  const qualified = amount >= threshold;
+
+  return {
+    threshold,
+    qualified,
+    remaining: qualified ? 0 : round(threshold - amount),
+    percent: Math.min(100, round((amount / threshold) * 100)),
+    label: delivery.label || `Free delivery above ₹${threshold}`,
+    note: delivery.note || '',
+  };
+}
+
 function minBulkQuantity(settings, productMinQuantity) {
   const perProduct = Number(productMinQuantity);
   if (Number.isFinite(perProduct) && perProduct >= 1) return Math.floor(perProduct);
@@ -146,6 +176,10 @@ export function calculateTotals(items, { promo = null, shippingMethod = 'standar
   const codeDiscount = round(promoDiscount(afterFestive, promo));
   const payable = Math.max(round(afterFestive - codeDiscount), 0);
 
+  // An empty bag shows no free-delivery progress — "₹499 away from free
+  // delivery" is noise before anything has been added.
+  const delivery = itemCount > 0 ? deliveryProgress(payable, settings) : null;
+
   return {
     subtotal,
     bulkDiscount,
@@ -157,6 +191,7 @@ export function calculateTotals(items, { promo = null, shippingMethod = 'standar
     codeDiscount,
     discount: round(bulkDiscount + festiveDiscount + codeDiscount),
     payable,
+    delivery,
     shipping: null,
     tax: null,
     total: payable,

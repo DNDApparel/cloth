@@ -5,8 +5,8 @@
       "name": "Zipped-Pocket Shorts",
       "category": "shorts",
       "gender": "men",
-      "price": 85,
-      "compareAt": null,
+      "price": 149,
+      "compareAt": 280,
       "wholesalePrice": 69,
       "bulkMinQuantity": 25,
       "fit": "regular",
@@ -149,8 +149,8 @@
       "name": "Side-Striped Shorts",
       "category": "shorts",
       "gender": "men",
-      "price": 100,
-      "compareAt": null,
+      "price": 139,
+      "compareAt": 270,
       "wholesalePrice": 75,
       "bulkMinQuantity": 30,
       "fit": "regular",
@@ -304,8 +304,8 @@
       "name": "Lycra Stretch Pant",
       "category": "pants",
       "gender": "men",
-      "price": 130,
-      "compareAt": null,
+      "price": 249,
+      "compareAt": 400,
       "wholesalePrice": 95,
       "bulkMinQuantity": 10,
       "bulkNote": "Wholesale rate applies to XL and XXL, minimum 10 pieces per size.",
@@ -451,8 +451,8 @@
       "name": "Zipped-Pocket Pant",
       "category": "pants",
       "gender": "men",
-      "price": 140,
-      "compareAt": null,
+      "price": 199,
+      "compareAt": 350,
       "wholesalePrice": 95,
       "bulkMinQuantity": 25,
       "maxPerVariant": 10,
@@ -600,8 +600,8 @@
       "name": "Side-Striped Track Pant",
       "category": "track-pants",
       "gender": "men",
-      "price": 140,
-      "compareAt": null,
+      "price": 249,
+      "compareAt": 400,
       "wholesalePrice": 95,
       "bulkMinQuantity": 25,
       "fit": "regular",
@@ -845,6 +845,16 @@
   "promos": [],
   "announcements": [
     {
+      "id": "a-diwali-sale",
+      "text": "DIWALI SALE IS LIVE — up to 49% off every style. Shorts from ₹139, pants from ₹199.",
+      "active": true
+    },
+    {
+      "id": "a-diwali-delivery",
+      "text": "Diwali offer — free delivery on orders above ₹499.",
+      "active": true
+    },
+    {
       "id": "a-diwali",
       "text": "Diwali offer — wholesale rates on every style. Reach a product’s minimum pieces and the wholesale price applies automatically.",
       "active": true
@@ -871,9 +881,15 @@
     "grievanceEmail": "",
     "grievancePhone": "",
     "manufacturingNote": "Logos and prints are decorative only. These garments are made and printed by Tiruppur manufacturers and are not produced by, licensed by, or affiliated with any sports or fashion brand.",
+    "delivery": {
+      "freeDeliveryActive": true,
+      "freeAbove": 499,
+      "label": "Free delivery above ₹499",
+      "note": "Orders of ₹499 and above ship free during the Diwali sale. Below ₹499 the seller confirms the delivery charge before accepting the order."
+    },
     "festiveOffer": {
       "active": false,
-      "label": "",
+      "label": "Diwali sale",
       "percent": 0
     },
     "bulkDiscount": {
@@ -894,23 +910,27 @@
       ]
     },
     "hero": {
-      "eyebrow": "Everyday clothing · Wholesale available",
+      "eyebrow": "Diwali sale · Free delivery above ₹499",
       "titleLine1": "Find your",
       "titleLine2": "everyday fit.",
       "bodyLine1": "Pants, shorts and track pants.",
-      "bodyLine2": "Comfort for wherever the day goes.",
+      "bodyLine2": "Diwali prices from ₹139. Free delivery above ₹499.",
       "caption": "Shop direct. Ask us on WhatsApp.",
       "image": "/images/hero-banner.jpg",
       "ctaLabel": "Shop the collection",
       "ctaTo": "/shop"
     },
     "banner": {
-      "enabled": false,
-      "title": "",
-      "body": "",
-      "ctaLabel": "Shop now",
+      "enabled": true,
+      "theme": "dark",
+      "title": "Diwali Sale is live ✨",
+      "body": "Up to 49% off every style. Shorts from ₹139, pants from ₹199, track pants from ₹249 — and free delivery on orders above ₹499. Buying in quantity? Wholesale rates apply on top.",
+      "ctaLabel": "Shop the Diwali sale",
       "ctaTo": "/shop",
-      "image": ""
+      "image": "",
+      "dismissible": true,
+      "showOncePerSession": true,
+      "delayMs": 1500
     },
     "visibility": {
       "announcements": true,

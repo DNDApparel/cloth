@@ -194,14 +194,31 @@ strip on the home page) and `STORY_BLOCKS` (three editorial paragraphs).
 
 ### `settings.js`
 Store-wide configuration: name, tagline, support email, `bulkDiscount`
-defaults, WhatsApp contacts, hero copy and image, banner, and the seller /
-grievance details shown in the footer. Every field here is rendered somewhere —
-there is no setting that the storefront silently ignores.
+defaults, `delivery` (the free-delivery threshold), WhatsApp contacts, hero copy
+and image, banner, and the seller / grievance details shown in the footer. Every
+field here is rendered somewhere — there is no setting that the storefront
+silently ignores.
 
-Deliberately absent: tax rate, free-shipping threshold, shipping methods and
-currency. `calculateTotals` returns `tax: null` and `shipping: null` because
-delivery and tax are quoted by the seller on WhatsApp, and `formatPrice`
-hard-codes the rupee locale.
+**`delivery`** drives the Diwali free-delivery offer:
+
+```js
+delivery: { freeDeliveryActive: true, freeAbove: 499, label, note }
+```
+
+`deliveryProgress()` in `cart.js` measures the **payable** amount (after every
+discount) against `freeAbove`, so the threshold is never met by a figure the
+shopper is not actually paying. Set `freeDeliveryActive: false` to remove the
+meter, the footer strip and the clause in Terms in one edit.
+
+**The Diwali sale is expressed as prices, not as a percentage.** Each product's
+`price` is the sale rate and `compareAt` is the pre-sale list price, which is
+what renders the strikethrough. `festiveOffer` stays `active: false` on purpose:
+switching it on would apply a second percentage on top of an already-reduced
+price. Wholesale rates are untouched by the sale.
+
+Deliberately absent: tax rate, shipping methods and currency. `calculateTotals`
+returns `tax: null` and `shipping: null` because tax is quoted by the seller on
+WhatsApp, and `formatPrice` hard-codes the rupee locale.
 
 ### `storeConfig.js`
 Assembles the published default. `DEFAULT_STATIC_STORE` merges products,
@@ -219,12 +236,11 @@ committed so GitHub Pages can serve it. The storefront fetches this at runtime.
 Regenerate after any `src/data/` change:
 
 ```bash
-node --input-type=module -e "
-import { DEFAULT_STATIC_STORE } from './src/data/storeConfig.js';
-import { writeFileSync } from 'node:fs';
-writeFileSync('public/store-data.json', JSON.stringify(DEFAULT_STATIC_STORE, null, 2) + '\n');
-"
+npm run publish:data
 ```
+
+It prints every product's retail and wholesale rate, which is the quickest way
+to confirm a price edit landed where you meant it to.
 
 ---
 

@@ -173,9 +173,33 @@ export function CartDrawer() {
             </div>
           </dl>
 
+          {totals.delivery && (
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-clay-500">
+                {totals.delivery.qualified
+                  ? 'Free delivery unlocked 🎉'
+                  : `Add ${formatPrice(totals.delivery.remaining)} more for free delivery`}
+              </p>
+              <div
+                role="progressbar"
+                aria-valuenow={Math.round(totals.delivery.percent)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Progress towards free delivery"
+                className="h-1.5 overflow-hidden rounded-full bg-sand-300"
+              >
+                <div
+                  className="h-full rounded-full bg-clay-500 transition-[width] duration-500"
+                  style={{ width: `${totals.delivery.percent}%` }}
+                />
+              </div>
+            </div>
+          )}
+
           <p className="text-xs leading-relaxed text-ink-500">
-            Delivery charges and applicable taxes are confirmed by the seller before an order is
-            accepted. No payment is collected on this website.
+            {totals.delivery?.qualified
+              ? 'This order ships free. Applicable taxes are confirmed by the seller before an order is accepted. No payment is collected on this website.'
+              : 'Delivery charges and applicable taxes are confirmed by the seller before an order is accepted. No payment is collected on this website.'}
           </p>
 
           <div className="space-y-2">

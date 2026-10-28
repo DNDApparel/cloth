@@ -12,6 +12,10 @@ import { MAX_LINE_QUANTITY } from '../utils/cart.js';
  *
  * Pricing: `price` is the single-piece retail rate and `wholesalePrice` is the
  * per-piece rate once the buyer reaches `bulkMinQuantity` of that product.
+ * `compareAt` is the pre-Diwali list price — the strike-through a shopper sees
+ * next to the current rate, so the festive saving is visible on every tile.
+ * Wholesale rates are unchanged by the Diwali sale: they are already the
+ * seller's floor price and are quoted per style.
  * Only the first colour of each product is photographed so far — the rest
  * render a neutral placeholder until more shots are supplied.
  */
@@ -56,8 +60,8 @@ const RAW = [
     name: 'Zipped-Pocket Shorts',
     category: 'shorts',
     gender: 'men',
-    price: 85,
-    compareAt: null,
+    price: 149,
+    compareAt: 280,
     wholesalePrice: 69,
     bulkMinQuantity: 25,
     fit: 'regular',
@@ -81,8 +85,8 @@ const RAW = [
     name: 'Side-Striped Shorts',
     category: 'shorts',
     gender: 'men',
-    price: 100,
-    compareAt: null,
+    price: 139,
+    compareAt: 270,
     wholesalePrice: 75,
     bulkMinQuantity: 30,
     fit: 'regular',
@@ -109,8 +113,8 @@ const RAW = [
     name: 'Lycra Stretch Pant',
     category: 'pants',
     gender: 'men',
-    price: 130,
-    compareAt: null,
+    price: 249,
+    compareAt: 400,
     wholesalePrice: 95,
     bulkMinQuantity: 10,
     // Wholesale is quoted per size on this style — 10 pieces each in XL and XXL.
@@ -136,8 +140,8 @@ const RAW = [
     name: 'Zipped-Pocket Pant',
     category: 'pants',
     gender: 'men',
-    price: 140,
-    compareAt: null,
+    price: 199,
+    compareAt: 350,
     wholesalePrice: 95,
     bulkMinQuantity: 25,
     // Ten pieces per colour and size — the seller fills larger orders by
@@ -200,8 +204,8 @@ const RAW = [
     name: 'Side-Striped Track Pant',
     category: 'track-pants',
     gender: 'men',
-    price: 140,
-    compareAt: null,
+    price: 249,
+    compareAt: 400,
     wholesalePrice: 95,
     bulkMinQuantity: 25,
     fit: 'regular',

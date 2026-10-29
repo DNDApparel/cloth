@@ -88,7 +88,11 @@ export function OrderSummary({ showPromo = true, children }) {
                   Apply
                 </button>
               </div>
-              {error && <p className="text-xs text-berry-500">{error}</p>}
+              {error && (
+                <p role="alert" className="dnd-error">
+                  {error}
+                </p>
+              )}
             </form>
           )}
         </div>

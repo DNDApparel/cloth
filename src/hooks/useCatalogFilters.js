@@ -1,12 +1,42 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PRICE_BOUNDS } from '../data/taxonomy';
 
 const ARRAY_KEYS = ['sizes', 'colors', 'fabrics', 'fits', 'gender'];
 
+/** Where the grid/list choice is remembered between visits. */
+const VIEW_KEY = 'dnd.catalog.view';
+
+/**
+ * Last grid/list choice, read from localStorage.
+ *
+ * Layout is a personal preference rather than part of the query, so it has to
+ * outlive the URL — opening a product and coming back drops the search string
+ * entirely, which is what made the catalogue snap back to grid.
+ */
+function storedView() {
+  try {
+    return window.localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'grid';
+  } catch {
+    return 'grid';
+  }
+}
+
+function rememberView(view) {
+  try {
+    window.localStorage.setItem(VIEW_KEY, view);
+  } catch {
+    /* private mode — the choice simply won't survive the session */
+  }
+}
+
 /**
  * Keeps all catalog state in the URL so filtered views are shareable,
  * bookmarkable and survive the browser back button.
+ *
+ * The one exception is `view`: an explicit `?view=` still wins, so a shared
+ * link renders as its sender saw it, but with no parameter we fall back to
+ * whatever layout this visitor last chose.
  */
 export function useCatalogFilters(categoryFromRoute) {
   const [params, setParams] = useSearchParams();
@@ -30,7 +60,15 @@ export function useCatalogFilters(categoryFromRoute) {
 
   const sort = params.get('sort') ?? 'newest';
   const page = Number(params.get('page')) || 1;
-  const view = params.get('view') === 'list' ? 'list' : 'grid';
+
+  const viewParam = params.get('view');
+  const view = viewParam === 'list' || viewParam === 'grid' ? viewParam : storedView();
+
+  // Persist whatever is actually being rendered, so a shared `?view=list`
+  // link also sets the preference for the rest of the visit.
+  useEffect(() => {
+    rememberView(view);
+  }, [view]);
 
   const update = useCallback(
     (patch, { resetPage = true } = {}) => {
@@ -47,7 +85,12 @@ export function useCatalogFilters(categoryFromRoute) {
               value < PRICE_BOUNDS.max ? next.set(paramKey, String(value)) : next.delete(paramKey);
             } else if (key === 'onSale' || key === 'inStock') {
               value ? next.set(paramKey, '1') : next.delete(paramKey);
-            } else if (!value || value === 'all' || value === 'newest' || value === 'grid') {
+            } else if (key === 'view') {
+              // Always written out: without it, `grid` would be indistinguishable
+              // from "no preference" and the stored value would override the
+              // click that just set it.
+              next.set(paramKey, String(value));
+            } else if (!value || value === 'all' || value === 'newest') {
               next.delete(paramKey);
             } else {
               next.set(paramKey, String(value));

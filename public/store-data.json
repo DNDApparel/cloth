@@ -926,8 +926,12 @@
       "ctaLabel": "Shop the collection",
       "ctaTo": "/shop"
     },
+    "crackers": {
+      "enabled": true
+    },
     "banner": {
       "enabled": true,
+      "showOncePerSession": false,
       "theme": "dark",
       "title": "Diwali Sale is live ✨",
       "body": "Up to 49% off every style. Shorts from ₹139, pants from ₹199, track pants from ₹249 — and free delivery on orders above ₹499. Bought direct from the manufacturer, so the price is low without cutting cloth quality.",
@@ -935,7 +939,6 @@
       "ctaTo": "/shop",
       "image": "",
       "dismissible": true,
-      "showOncePerSession": true,
       "delayMs": 1500
     },
     "visibility": {

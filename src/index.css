@@ -22,6 +22,17 @@
   --color-moss-500: #5c6b52;
   --color-berry-500: #8c3f52;
 
+  /**
+   * Form validation red.
+   *
+   * `berry` is a muted brand tone that sits quietly against sand — good for a
+   * sale badge, too easy to miss when it is the only thing telling you a field
+   * is wrong. This is a deliberately bright red used nowhere else, so it never
+   * reads as decoration.
+   */
+  --color-error-600: #d61f26;
+  --color-error-700: #a8141a;
+
   --radius-card: 1.25rem;
 
   --shadow-soft: 0 1px 2px rgb(26 26 24 / 0.04), 0 12px 32px -16px rgb(26 26 24 / 0.18);
@@ -149,7 +160,32 @@
   }
 
   .dnd-field[aria-invalid='true'] {
-    border-color: var(--color-berry-500);
+    border-color: var(--color-error-600);
+    background: #fff6f6;
+  }
+
+  .dnd-field[aria-invalid='true']:focus {
+    border-color: var(--color-error-600);
+    box-shadow: 0 0 0 3px rgb(214 31 38 / 0.16);
+  }
+
+  /** Validation message. Pairs with `aria-invalid` on the field itself. */
+  .dnd-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.35rem;
+    margin-top: 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-error-600);
+  }
+
+  /* A warning glyph, so the message does not rely on colour alone. */
+  .dnd-error::before {
+    content: '⚠';
+    font-size: 0.875rem;
+    line-height: 1.3;
   }
 
   .dnd-label {
@@ -199,6 +235,101 @@
   }
 }
 
+/* ------------------------------------------------------------------
+   Diwali crackers
+   ------------------------------------------------------------------ */
+
+/**
+ * A firework: a shell climbs, then the burst scales out and fades.
+ *
+ * Each spark is a child element rotated around the burst centre and pushed
+ * outward by a shared `--spread`, so one keyframe animates the whole shell.
+ */
+@keyframes dnd-rocket {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  38% {
+    transform: translateY(calc(var(--rise, 40vh) * -1)) scale(1);
+    opacity: 1;
+  }
+  42%,
+  100% {
+    transform: translateY(calc(var(--rise, 40vh) * -1)) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes dnd-burst {
+  0%,
+  38% {
+    transform: translateY(calc(var(--rise, 40vh) * -1)) scale(0);
+    opacity: 0;
+  }
+  44% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(var(--rise, 40vh) * -1 - 2vh)) scale(1);
+    opacity: 0;
+  }
+}
+
+/**
+ * The fireworks layer sits *above* the page, not behind it.
+ *
+ * Behind would mean invisible: the header, footer and most panels paint an
+ * opaque sand background, so there is nothing to see through. Overlaying is
+ * safe because the layer never takes a click and is held well below the cart
+ * drawer and the sale popup, which must stay fully legible.
+ *
+ * Opacity is deliberately low — this is a suggestion of a festival in the
+ * distance, not confetti over the product photography.
+ */
+.dnd-crackers {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.dnd-cracker {
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+}
+
+.dnd-cracker__shell {
+  position: absolute;
+  width: 3px;
+  height: 10px;
+  border-radius: 999px;
+  background: currentColor;
+  animation: dnd-rocket var(--duration, 4s) ease-out var(--delay, 0s) infinite;
+}
+
+.dnd-cracker__burst {
+  position: absolute;
+  animation: dnd-burst var(--duration, 4s) ease-out var(--delay, 0s) infinite;
+}
+
+.dnd-spark {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+  transform: rotate(var(--angle)) translateY(calc(var(--spread, 46px) * -1));
+  box-shadow: 0 0 6px 1px currentColor;
+}
+
 .animate-fade-up {
   animation: dnd-fade-up 0.5s var(--ease-out-soft) both;
 }
@@ -222,5 +353,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Looping fireworks are exactly what this setting exists to switch off. */
+  .dnd-crackers {
+    display: none !important;
   }
 }

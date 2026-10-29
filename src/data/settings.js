@@ -113,10 +113,24 @@ export const SEED_SETTINGS = {
     ctaTo: '/shop',
   },
 
-  // Diwali sale popup. Shown once per browsing session a moment after the
-  // page settles, so it never competes with the first paint.
+  /**
+   * Festive fireworks behind the page. Decorative only — hidden outright for
+   * anyone who has asked for reduced motion. Switch off once Diwali is over.
+   */
+  crackers: {
+    enabled: true,
+  },
+
+  /**
+   * Diwali sale popup.
+   *
+   * `showOncePerSession: false` means it appears on every page load, which is
+   * the point while the sale is running — a shopper returning tomorrow should
+   * still be told about it. Dismissing it still closes it for that view.
+   */
   banner: {
     enabled: true,
+    showOncePerSession: false,
     theme: 'dark',
     title: 'Diwali Sale is live \u2728',
     body: 'Up to 49% off every style. Shorts from \u20B9139, pants from \u20B9199, '
@@ -127,7 +141,6 @@ export const SEED_SETTINGS = {
     ctaTo: '/shop',
     image: '',
     dismissible: true,
-    showOncePerSession: true,
     delayMs: 1500,
   },
 };

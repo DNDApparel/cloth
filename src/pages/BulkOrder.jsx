@@ -4,7 +4,7 @@ import { useStore } from '../context/StoreContext';
 import { useToast } from '../context/ToastContext';
 import { colorNames, primaryImage } from '../data/products';
 import { formatPrice } from '../utils/format';
-import { isPhone, isRequired } from '../utils/validation';
+import { isAddress, isPhone, isPincode, isRequired } from '../utils/validation';
 import { getWhatsAppContacts, openWhatsAppMessage } from '../utils/whatsapp';
 import { Button } from '../components/ui/Button';
 import { ProductImage } from '../components/ui/ProductImage';
@@ -33,9 +33,24 @@ export default function BulkOrder() {
     return preselected ? { [preselected]: '' } : {};
   });
 
-  const [form, setForm] = useState({ name: '', phone: '', business: '', city: '', note: '' });
+  const [form, setForm] = useState({
+    name: '',
+    phone: '',
+    business: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: '',
+    note: '',
+  });
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState({});
+
+  /** Updates one field and clears its error as soon as it is edited. */
+  function setField(key, value) {
+    setForm((current) => ({ ...current, [key]: value }));
+    setErrors((current) => (current[key] ? { ...current, [key]: undefined } : current));
+  }
 
   useEffect(() => {
     if (!contacts.some((contact) => (contact.id || contact.number) === recipientId)) {
@@ -96,6 +111,12 @@ export default function BulkOrder() {
 
     if (!isRequired(form.name)) nextErrors.name = 'Enter your name.';
     if (!isPhone(form.phone)) nextErrors.phone = 'Enter a valid phone number.';
+    if (!isAddress(form.address)) {
+      nextErrors.address = 'Enter the full address — building or shop number, street and area.';
+    }
+    if (!isRequired(form.city)) nextErrors.city = 'Enter the town or city.';
+    if (!isRequired(form.state)) nextErrors.state = 'Enter the state.';
+    if (!isPincode(form.pincode)) nextErrors.pincode = 'Enter a valid 6-digit PIN code.';
     if (!selected.length) nextErrors.lines = 'Choose at least one product.';
     if (!consent) nextErrors.consent = 'Consent is required before sharing your enquiry.';
 
@@ -118,6 +139,14 @@ export default function BulkOrder() {
       return `• ${product.name} × ${quantity} pieces${rateText}`;
     });
 
+    // Formatted as a block so it can be copied straight onto a shipping label.
+    const addressLines = [
+      form.business.trim() || form.name.trim(),
+      form.address.trim(),
+      [form.city.trim(), form.state.trim()].filter(Boolean).join(', '),
+      `PIN ${form.pincode.trim()}`,
+    ].filter(Boolean);
+
     const message = [
       `Hello ${settings.storeName || 'Store'}, I would like a wholesale quote.`,
       '',
@@ -125,10 +154,12 @@ export default function BulkOrder() {
       ...itemLines,
       '',
       `Total pieces: ${totalPieces}`,
+      '',
+      '*Delivery address*',
+      ...addressLines,
+      '',
       `Contact name: ${form.name.trim()}`,
       `Phone / WhatsApp: ${form.phone.trim()}`,
-      ...(form.business.trim() ? [`Business: ${form.business.trim()}`] : []),
-      ...(form.city.trim() ? [`City: ${form.city.trim()}`] : []),
       ...(form.note.trim() ? ['', `Additional details: ${form.note.trim()}`] : []),
       '',
       'Please confirm availability, wholesale pricing, applicable taxes and delivery options.',
@@ -243,7 +274,7 @@ export default function BulkOrder() {
                         </div>
 
                         {short && (
-                          <p role="alert" className="text-xs text-berry-500">
+                          <p role="alert" className="dnd-error">
                             This style needs at least {minimum} pieces for the wholesale rate.
                           </p>
                         )}
@@ -259,7 +290,7 @@ export default function BulkOrder() {
             </ul>
 
             {errors.lines && (
-              <p role="alert" className="mt-3 text-xs text-berry-500">
+              <p role="alert" className="dnd-error mt-3">
                 {errors.lines}
               </p>
             )}
@@ -270,8 +301,9 @@ export default function BulkOrder() {
               <input
                 className="dnd-field"
                 autoComplete="name"
+                aria-invalid={Boolean(errors.name)}
                 value={form.name}
-                onChange={(event) => setForm({ ...form, name: event.target.value })}
+                onChange={(event) => setField('name', event.target.value)}
                 required
               />
             </Field>
@@ -281,8 +313,9 @@ export default function BulkOrder() {
                 type="tel"
                 autoComplete="tel"
                 placeholder="+91 98765 43210"
+                aria-invalid={Boolean(errors.phone)}
                 value={form.phone}
-                onChange={(event) => setForm({ ...form, phone: event.target.value })}
+                onChange={(event) => setField('phone', event.target.value)}
                 required
               />
             </Field>
@@ -291,25 +324,74 @@ export default function BulkOrder() {
                 className="dnd-field"
                 autoComplete="organization"
                 value={form.business}
-                onChange={(event) => setForm({ ...form, business: event.target.value })}
-              />
-            </Field>
-            <Field label="City (optional)">
-              <input
-                className="dnd-field"
-                autoComplete="address-level2"
-                value={form.city}
-                onChange={(event) => setForm({ ...form, city: event.target.value })}
+                onChange={(event) => setField('business', event.target.value)}
               />
             </Field>
           </div>
+
+          <fieldset className="space-y-5 border-t border-sand-300 pt-6">
+            <legend className="text-sm font-semibold">Delivery address</legend>
+
+            <Field
+              label="Address"
+              hint="Building or shop number, street and area."
+              error={errors.address}
+            >
+              <textarea
+                className="dnd-field min-h-20 resize-y"
+                autoComplete="shipping street-address"
+                aria-invalid={Boolean(errors.address)}
+                value={form.address}
+                onChange={(event) => setField('address', event.target.value)}
+                required
+              />
+            </Field>
+
+            <div className="grid gap-5 sm:grid-cols-3">
+              <Field label="Town / city" error={errors.city}>
+                <input
+                  className="dnd-field"
+                  autoComplete="shipping address-level2"
+                  aria-invalid={Boolean(errors.city)}
+                  value={form.city}
+                  onChange={(event) => setField('city', event.target.value)}
+                  required
+                />
+              </Field>
+              <Field label="State" error={errors.state}>
+                <input
+                  className="dnd-field"
+                  autoComplete="shipping address-level1"
+                  aria-invalid={Boolean(errors.state)}
+                  value={form.state}
+                  onChange={(event) => setField('state', event.target.value)}
+                  required
+                />
+              </Field>
+              <Field label="PIN code" error={errors.pincode}>
+                <input
+                  className="dnd-field"
+                  autoComplete="shipping postal-code"
+                  inputMode="numeric"
+                  maxLength={6}
+                  placeholder="600001"
+                  aria-invalid={Boolean(errors.pincode)}
+                  value={form.pincode}
+                  // Digits only — a PIN with stray characters is unusable to a
+                  // courier, and the field accepts nothing else.
+                  onChange={(event) => setField('pincode', event.target.value.replace(/\D/g, '').slice(0, 6))}
+                  required
+                />
+              </Field>
+            </div>
+          </fieldset>
 
           <Field label="Sizes, colours or other details (optional)">
             <textarea
               className="dnd-field min-h-28 resize-y"
               maxLength={500}
               value={form.note}
-              onChange={(event) => setForm({ ...form, note: event.target.value })}
+              onChange={(event) => setField('note', event.target.value)}
             />
           </Field>
 
@@ -357,7 +439,7 @@ export default function BulkOrder() {
               </span>
             </label>
             {errors.consent && (
-              <p role="alert" className="mt-2 text-xs text-berry-500">
+              <p role="alert" className="dnd-error mt-2">
                 {errors.consent}
               </p>
             )}
@@ -418,13 +500,14 @@ export default function BulkOrder() {
   );
 }
 
-function Field({ label, error, children }) {
+function Field({ label, hint, error, children }) {
   return (
-    <label className="block space-y-1.5">
+    <label className="block">
       <span className="dnd-label">{label}</span>
       {children}
+      {hint && !error && <span className="mt-1 block text-xs text-ink-500">{hint}</span>}
       {error && (
-        <span role="alert" className="block text-xs text-berry-500">
+        <span role="alert" className="dnd-error">
           {error}
         </span>
       )}

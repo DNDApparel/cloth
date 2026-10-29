@@ -322,6 +322,15 @@ filtered view is shareable and survives refresh. Returns `{filters, sort, page,
 view, activeCount, update, clear}`. Array filters serialise comma-separated;
 defaults are omitted to keep URLs short.
 
+**`view` is the exception** and is also mirrored to `localStorage`
+(`dnd.catalog.view`). Grid/list is a personal preference, not part of the
+query — opening a product and coming back drops the search string entirely,
+which used to reset the layout to grid on every return. Resolution order is
+explicit `?view=` → stored preference → `grid`, so a shared link still renders
+as its sender saw it. The `view` key is always written to the URL on change:
+without it, `grid` would be indistinguishable from "no preference" and the
+stored value would immediately override the click that just set it.
+
 ---
 
 ## 6. State (`src/context/`)
@@ -397,11 +406,20 @@ the list is capped at three so toasts cannot stack off-screen.
   standing in it shows a warning strip above the header.
 - **`Header.jsx`** — sticky nav, announcement rotator (5s interval), ⌘K search,
   cart count badge.
-- **`Footer.jsx`** — nav columns plus seller/grievance details (required for
+- **`Footer.jsx`** — nav columns plus store/grievance details (required for
   Indian e-commerce compliance).
 - **`MobileNav.jsx`** — drawer nav, closes on route change.
 - **`SearchModal.jsx`** — ⌘K palette, debounced, Enter goes to full results.
-- **`BannerPopup.jsx`** — promo overlay, once per session via `sessionStorage`.
+- **`BannerPopup.jsx`** — promo overlay. `settings.banner.showOncePerSession`
+  decides whether it is suppressed after dismissal (`sessionStorage`) or shown
+  on every page load — `false` during a sale, so a returning shopper still
+  sees it.
+- **`Crackers.jsx`** — Diwali fireworks, gated on `settings.crackers.enabled`.
+  Pure CSS from a few custom properties (no canvas, no per-frame JS), so the
+  browser composites it. `aria-hidden`, `pointer-events: none`, and hidden
+  outright under `prefers-reduced-motion`. It overlays rather than sits behind
+  the page — most panels paint an opaque background, so a layer underneath
+  would simply be invisible.
 - **`Breadcrumbs.jsx`** — trail with `aria-current="page"` on the last crumb.
 
 ### `product/`

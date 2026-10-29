@@ -158,8 +158,9 @@ export default function Checkout() {
                   onChange={(event) => setField('name', event.target.value)}
                   aria-invalid={Boolean(errors.name)}
                   aria-describedby={errors.name ? 'customer-name-error' : undefined}
+                  required
                 />
-                {errors.name && <p id="customer-name-error" className="mt-1 text-sm text-berry-500">{errors.name}</p>}
+                {errors.name && <p id="customer-name-error" role="alert" className="dnd-error">{errors.name}</p>}
               </div>
               <div>
                 <label className="dnd-label" htmlFor="customer-phone">Phone / WhatsApp number</label>
@@ -174,7 +175,7 @@ export default function Checkout() {
                   aria-invalid={Boolean(errors.phone)}
                   aria-describedby={errors.phone ? 'customer-phone-error' : undefined}
                 />
-                {errors.phone && <p id="customer-phone-error" className="mt-1 text-sm text-berry-500">{errors.phone}</p>}
+                {errors.phone && <p id="customer-phone-error" role="alert" className="dnd-error">{errors.phone}</p>}
               </div>
 
               {/* ------------------------------------------ Delivery address */}
@@ -276,7 +277,7 @@ export default function Checkout() {
                 </span>
               </label>
               {errors.consent && (
-                <p id="whatsapp-consent-error" role="alert" className="-mt-3 text-sm text-berry-500">
+                <p id="whatsapp-consent-error" role="alert" className="dnd-error -mt-3">
                   {errors.consent}
                 </p>
               )}
@@ -368,7 +369,7 @@ function CheckoutField({
         </p>
       )}
       {error && (
-        <p id={errorId} role="alert" className="mt-1 text-sm text-berry-500">
+        <p id={errorId} role="alert" className="dnd-error">
           {error}
         </p>
       )}

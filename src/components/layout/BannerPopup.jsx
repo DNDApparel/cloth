@@ -11,6 +11,11 @@ const SESSION_KEY = 'dnd.banner.dismissed';
  * Promotional banner popup, configured entirely from `store-data.json`:
  * title, body, image, call to action, theme, delay and whether it should
  * reappear after being dismissed.
+ *
+ * With `showOncePerSession: false` it opens on every page load. That is
+ * deliberate for a running sale — a shopper who returns tomorrow should still
+ * be told about it — and it is why nothing is written to `sessionStorage` in
+ * that mode.
  */
 export function BannerPopup() {
   const { settings, assetUrl } = useStore();

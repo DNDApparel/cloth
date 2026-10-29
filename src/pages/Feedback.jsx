@@ -94,7 +94,7 @@ export default function Feedback() {
             <p className="mt-1 text-right text-xs text-ink-500">{message.length}/1000</p>
           </div>
 
-          {error && <p role="alert" className="text-sm text-berry-500">{error}</p>}
+          {error && <p role="alert" className="dnd-error">{error}</p>}
 
           {contacts.length ? (
             <div className="flex flex-wrap gap-3">

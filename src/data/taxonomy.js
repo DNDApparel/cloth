@@ -16,7 +16,9 @@ export const GENDERS = [
   { slug: 'unisex', name: 'Unisex' },
 ];
 
-export const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+// The store stocks a single size. Keeping the list as an array means the
+// size picker, filter, chart and stock seeding all follow this one line.
+export const SIZES = ['XXL'];
 
 export const FITS = [
   { slug: 'slim', name: 'Slim' },
@@ -93,11 +95,6 @@ export const BADGE_STYLES = {
 
 /** Garment measurements in inches, measured flat. Shown in the size guide. */
 export const MEASUREMENTS = {
-  XS: { chest: 36, waist: 28, hip: 36, length: 26, inseam: 27 },
-  S: { chest: 38, waist: 30, hip: 38, length: 27, inseam: 28 },
-  M: { chest: 40, waist: 32, hip: 40, length: 28, inseam: 29 },
-  L: { chest: 42, waist: 34, hip: 42, length: 29, inseam: 30 },
-  XL: { chest: 44, waist: 36, hip: 44, length: 30, inseam: 31 },
   XXL: { chest: 46, waist: 38, hip: 46, length: 31, inseam: 31.5 },
 };
 

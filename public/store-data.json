@@ -1,150 +1,6 @@
 {
   "products": [
     {
-      "id": "p-101",
-      "name": "Zipped-Pocket Shorts",
-      "category": "shorts",
-      "gender": "men",
-      "price": 149,
-      "compareAt": 280,
-      "wholesalePrice": 69,
-      "bulkMinQuantity": 25,
-      "fit": "regular",
-      "fabric": "Poly-cotton knit",
-      "tags": [
-        "new"
-      ],
-      "blurb": "Everyday knit shorts with a zip security pocket and a contrast drawcord.",
-      "released": "2026-10-19",
-      "sold": 0,
-      "rating": 4.8,
-      "reviews": 0,
-      "colors": [
-        {
-          "name": "Ink",
-          "images": [
-            "/images/shorts-adidas.jpg"
-          ],
-          "image": "/images/shorts-adidas.jpg"
-        },
-        {
-          "name": "Navy",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Charcoal",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Olive",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Slate",
-          "images": [],
-          "image": ""
-        }
-      ],
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
-        "XXL"
-      ],
-      "stock": {
-        "Ink::XS": 100,
-        "Ink::S": 100,
-        "Ink::M": 100,
-        "Ink::L": 100,
-        "Ink::XL": 100,
-        "Ink::XXL": 100,
-        "Navy::XS": 100,
-        "Navy::S": 100,
-        "Navy::M": 100,
-        "Navy::L": 100,
-        "Navy::XL": 100,
-        "Navy::XXL": 100,
-        "Charcoal::XS": 100,
-        "Charcoal::S": 100,
-        "Charcoal::M": 100,
-        "Charcoal::L": 100,
-        "Charcoal::XL": 100,
-        "Charcoal::XXL": 100,
-        "Olive::XS": 100,
-        "Olive::S": 100,
-        "Olive::M": 100,
-        "Olive::L": 100,
-        "Olive::XL": 100,
-        "Olive::XXL": 100,
-        "Slate::XS": 100,
-        "Slate::S": 100,
-        "Slate::M": 100,
-        "Slate::L": 100,
-        "Slate::XL": 100,
-        "Slate::XXL": 100
-      },
-      "slug": "p-101-zipped-pocket-shorts",
-      "care": [
-        "Machine wash cold",
-        "Tumble dry low",
-        "Do not bleach"
-      ],
-      "details": [
-        "Poly-cotton knit — regular fit",
-        "Designed in-house, made in limited runs",
-        "Check the size guide for garment measurements"
-      ],
-      "measurements": {
-        "XS": {
-          "chest": 36,
-          "waist": 28,
-          "hip": 36,
-          "length": 26,
-          "inseam": 27
-        },
-        "S": {
-          "chest": 38,
-          "waist": 30,
-          "hip": 38,
-          "length": 27,
-          "inseam": 28
-        },
-        "M": {
-          "chest": 40,
-          "waist": 32,
-          "hip": 40,
-          "length": 28,
-          "inseam": 29
-        },
-        "L": {
-          "chest": 42,
-          "waist": 34,
-          "hip": 42,
-          "length": 29,
-          "inseam": 30
-        },
-        "XL": {
-          "chest": 44,
-          "waist": 36,
-          "hip": 44,
-          "length": 30,
-          "inseam": 31
-        },
-        "XXL": {
-          "chest": 46,
-          "waist": 38,
-          "hip": 46,
-          "length": 31,
-          "inseam": 31.5
-        }
-      }
-    },
-    {
       "id": "p-102",
       "name": "Side-Striped Shorts",
       "category": "shorts",
@@ -198,49 +54,14 @@
         }
       ],
       "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
         "XXL"
       ],
       "stock": {
-        "Olive::XS": 100,
-        "Olive::S": 100,
-        "Olive::M": 100,
-        "Olive::L": 100,
-        "Olive::XL": 100,
         "Olive::XXL": 100,
-        "Moss::XS": 100,
-        "Moss::S": 100,
-        "Moss::M": 100,
-        "Moss::L": 100,
-        "Moss::XL": 100,
         "Moss::XXL": 100,
-        "Ink::XS": 100,
-        "Ink::S": 100,
-        "Ink::M": 100,
-        "Ink::L": 100,
-        "Ink::XL": 100,
         "Ink::XXL": 100,
-        "Navy::XS": 100,
-        "Navy::S": 100,
-        "Navy::M": 100,
-        "Navy::L": 100,
-        "Navy::XL": 100,
         "Navy::XXL": 100,
-        "Charcoal::XS": 100,
-        "Charcoal::S": 100,
-        "Charcoal::M": 100,
-        "Charcoal::L": 100,
-        "Charcoal::XL": 100,
         "Charcoal::XXL": 100,
-        "Sand::XS": 100,
-        "Sand::S": 100,
-        "Sand::M": 100,
-        "Sand::L": 100,
-        "Sand::XL": 100,
         "Sand::XXL": 100
       },
       "slug": "p-102-side-striped-shorts",
@@ -255,41 +76,6 @@
         "Check the size guide for garment measurements"
       ],
       "measurements": {
-        "XS": {
-          "chest": 36,
-          "waist": 28,
-          "hip": 36,
-          "length": 26,
-          "inseam": 27
-        },
-        "S": {
-          "chest": 38,
-          "waist": 30,
-          "hip": 38,
-          "length": 27,
-          "inseam": 28
-        },
-        "M": {
-          "chest": 40,
-          "waist": 32,
-          "hip": 40,
-          "length": 28,
-          "inseam": 29
-        },
-        "L": {
-          "chest": 42,
-          "waist": 34,
-          "hip": 42,
-          "length": 29,
-          "inseam": 30
-        },
-        "XL": {
-          "chest": 44,
-          "waist": 36,
-          "hip": 44,
-          "length": 30,
-          "inseam": 31
-        },
         "XXL": {
           "chest": 46,
           "waist": 38,
@@ -308,7 +94,7 @@
       "compareAt": 400,
       "wholesalePrice": 95,
       "bulkMinQuantity": 10,
-      "bulkNote": "Wholesale rate applies to XL and XXL, minimum 10 pieces per size.",
+      "bulkNote": "Wholesale rate applies to XXL, minimum 10 pieces.",
       "fit": "regular",
       "fabric": "Lycra blend",
       "tags": [
@@ -351,43 +137,13 @@
         }
       ],
       "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
         "XXL"
       ],
       "stock": {
-        "Slate::XS": 100,
-        "Slate::S": 100,
-        "Slate::M": 100,
-        "Slate::L": 100,
-        "Slate::XL": 100,
         "Slate::XXL": 100,
-        "Maroon::XS": 100,
-        "Maroon::S": 100,
-        "Maroon::M": 100,
-        "Maroon::L": 100,
-        "Maroon::XL": 100,
         "Maroon::XXL": 100,
-        "Ink::XS": 100,
-        "Ink::S": 100,
-        "Ink::M": 100,
-        "Ink::L": 100,
-        "Ink::XL": 100,
         "Ink::XXL": 100,
-        "Navy::XS": 100,
-        "Navy::S": 100,
-        "Navy::M": 100,
-        "Navy::L": 100,
-        "Navy::XL": 100,
         "Navy::XXL": 100,
-        "Charcoal::XS": 100,
-        "Charcoal::S": 100,
-        "Charcoal::M": 100,
-        "Charcoal::L": 100,
-        "Charcoal::XL": 100,
         "Charcoal::XXL": 100
       },
       "slug": "p-103-lycra-stretch-pant",
@@ -402,190 +158,6 @@
         "Check the size guide for garment measurements"
       ],
       "measurements": {
-        "XS": {
-          "chest": 36,
-          "waist": 28,
-          "hip": 36,
-          "length": 26,
-          "inseam": 27
-        },
-        "S": {
-          "chest": 38,
-          "waist": 30,
-          "hip": 38,
-          "length": 27,
-          "inseam": 28
-        },
-        "M": {
-          "chest": 40,
-          "waist": 32,
-          "hip": 40,
-          "length": 28,
-          "inseam": 29
-        },
-        "L": {
-          "chest": 42,
-          "waist": 34,
-          "hip": 42,
-          "length": 29,
-          "inseam": 30
-        },
-        "XL": {
-          "chest": 44,
-          "waist": 36,
-          "hip": 44,
-          "length": 30,
-          "inseam": 31
-        },
-        "XXL": {
-          "chest": 46,
-          "waist": 38,
-          "hip": 46,
-          "length": 31,
-          "inseam": 31.5
-        }
-      }
-    },
-    {
-      "id": "p-104",
-      "name": "Zipped-Pocket Pant",
-      "category": "pants",
-      "gender": "men",
-      "price": 199,
-      "compareAt": 350,
-      "wholesalePrice": 95,
-      "bulkMinQuantity": 25,
-      "maxPerVariant": 10,
-      "fit": "regular",
-      "fabric": "Brushed fleece",
-      "tags": [
-        "new"
-      ],
-      "blurb": "A brushed fleece pant with a zip security pocket and a straight, easy leg.",
-      "bulkNote": "The 25-piece wholesale rate is an assorted pack: Grey / Yellow, Blue / White, Grey / Orange, Black / Red and a second Blue / White — five pieces of each.",
-      "released": "2026-10-19",
-      "sold": 0,
-      "rating": 4.8,
-      "reviews": 0,
-      "colors": [
-        {
-          "name": "Grey / Yellow",
-          "images": [
-            "/images/zpp-grey-yellow-full.jpg",
-            "/images/zpp-grey-yellow-zip.jpg",
-            "/images/zpp-grey-yellow-thread.jpg"
-          ],
-          "image": "/images/zpp-grey-yellow-full.jpg"
-        },
-        {
-          "name": "Blue / White",
-          "images": [
-            "/images/zpp-blue-white-full.jpg",
-            "/images/zpp-blue-white-zip.jpg",
-            "/images/zpp-blue-white-thread.jpg"
-          ],
-          "image": "/images/zpp-blue-white-full.jpg"
-        },
-        {
-          "name": "Grey / Orange",
-          "images": [
-            "/images/zpp-grey-orange-full.jpg",
-            "/images/zpp-grey-orange-zip.jpg",
-            "/images/zpp-grey-orange-thread.jpg"
-          ],
-          "image": "/images/zpp-grey-orange-full.jpg"
-        },
-        {
-          "name": "Black / Red",
-          "images": [
-            "/images/zpp-black-red-full.jpg",
-            "/images/zpp-black-red-zip.jpg",
-            "/images/zpp-black-red-thread.jpg"
-          ],
-          "image": "/images/zpp-black-red-full.jpg"
-        }
-      ],
-      "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
-        "XXL"
-      ],
-      "stock": {
-        "Grey / Yellow::XS": 10,
-        "Grey / Yellow::S": 10,
-        "Grey / Yellow::M": 10,
-        "Grey / Yellow::L": 10,
-        "Grey / Yellow::XL": 10,
-        "Grey / Yellow::XXL": 10,
-        "Blue / White::XS": 10,
-        "Blue / White::S": 10,
-        "Blue / White::M": 10,
-        "Blue / White::L": 10,
-        "Blue / White::XL": 10,
-        "Blue / White::XXL": 10,
-        "Grey / Orange::XS": 10,
-        "Grey / Orange::S": 10,
-        "Grey / Orange::M": 10,
-        "Grey / Orange::L": 10,
-        "Grey / Orange::XL": 10,
-        "Grey / Orange::XXL": 10,
-        "Black / Red::XS": 10,
-        "Black / Red::S": 10,
-        "Black / Red::M": 10,
-        "Black / Red::L": 10,
-        "Black / Red::XL": 10,
-        "Black / Red::XXL": 10
-      },
-      "slug": "p-104-zipped-pocket-pant",
-      "care": [
-        "Machine wash cold inside out",
-        "Tumble dry low",
-        "Do not iron print"
-      ],
-      "details": [
-        "Brushed fleece — regular fit",
-        "Designed in-house, made in limited runs",
-        "Check the size guide for garment measurements"
-      ],
-      "measurements": {
-        "XS": {
-          "chest": 36,
-          "waist": 28,
-          "hip": 36,
-          "length": 26,
-          "inseam": 27
-        },
-        "S": {
-          "chest": 38,
-          "waist": 30,
-          "hip": 38,
-          "length": 27,
-          "inseam": 28
-        },
-        "M": {
-          "chest": 40,
-          "waist": 32,
-          "hip": 40,
-          "length": 28,
-          "inseam": 29
-        },
-        "L": {
-          "chest": 42,
-          "waist": 34,
-          "hip": 42,
-          "length": 29,
-          "inseam": 30
-        },
-        "XL": {
-          "chest": 44,
-          "waist": 36,
-          "hip": 44,
-          "length": 30,
-          "inseam": 31
-        },
         "XXL": {
           "chest": 46,
           "waist": 38,
@@ -649,49 +221,14 @@
         }
       ],
       "sizes": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
         "XXL"
       ],
       "stock": {
-        "Navy::XS": 100,
-        "Navy::S": 100,
-        "Navy::M": 100,
-        "Navy::L": 100,
-        "Navy::XL": 100,
         "Navy::XXL": 100,
-        "Ink::XS": 100,
-        "Ink::S": 100,
-        "Ink::M": 100,
-        "Ink::L": 100,
-        "Ink::XL": 100,
         "Ink::XXL": 100,
-        "Charcoal::XS": 100,
-        "Charcoal::S": 100,
-        "Charcoal::M": 100,
-        "Charcoal::L": 100,
-        "Charcoal::XL": 100,
         "Charcoal::XXL": 100,
-        "Slate::XS": 100,
-        "Slate::S": 100,
-        "Slate::M": 100,
-        "Slate::L": 100,
-        "Slate::XL": 100,
         "Slate::XXL": 100,
-        "Maroon::XS": 100,
-        "Maroon::S": 100,
-        "Maroon::M": 100,
-        "Maroon::L": 100,
-        "Maroon::XL": 100,
         "Maroon::XXL": 100,
-        "Olive::XS": 100,
-        "Olive::S": 100,
-        "Olive::M": 100,
-        "Olive::L": 100,
-        "Olive::XL": 100,
         "Olive::XXL": 100
       },
       "slug": "p-105-side-striped-track-pant",
@@ -706,41 +243,6 @@
         "Check the size guide for garment measurements"
       ],
       "measurements": {
-        "XS": {
-          "chest": 36,
-          "waist": 28,
-          "hip": 36,
-          "length": 26,
-          "inseam": 27
-        },
-        "S": {
-          "chest": 38,
-          "waist": 30,
-          "hip": 38,
-          "length": 27,
-          "inseam": 28
-        },
-        "M": {
-          "chest": 40,
-          "waist": 32,
-          "hip": 40,
-          "length": 28,
-          "inseam": 29
-        },
-        "L": {
-          "chest": 42,
-          "waist": 34,
-          "hip": 42,
-          "length": 29,
-          "inseam": 30
-        },
-        "XL": {
-          "chest": 44,
-          "waist": 36,
-          "hip": 44,
-          "length": 30,
-          "inseam": 31
-        },
         "XXL": {
           "chest": 46,
           "waist": 38,
@@ -777,10 +279,8 @@
       "description": "The pieces we reach for without thinking — easy forms, considered details, made for wherever the day goes.",
       "image": "/images/collection-everyday.jpg",
       "productIds": [
-        "p-101",
         "p-102",
         "p-103",
-        "p-104",
         "p-105"
       ]
     },
@@ -793,7 +293,7 @@
       "image": "/images/collection-move-well.jpg",
       "productIds": [
         "p-105",
-        "p-104"
+        "p-103"
       ]
     },
     {
@@ -804,8 +304,8 @@
       "description": "Easy-to-wear styles for warmer weather and everyday plans.",
       "image": "/images/collection-warm-month.jpg",
       "productIds": [
-        "p-101",
-        "p-102"
+        "p-102",
+        "p-103"
       ]
     },
     {
@@ -817,7 +317,7 @@
       "image": "/images/collection-soft-structure.jpg",
       "productIds": [
         "p-103",
-        "p-104"
+        "p-105"
       ]
     }
   ],

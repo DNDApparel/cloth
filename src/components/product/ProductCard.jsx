@@ -128,11 +128,15 @@ export function ProductCard({ product, onQuickView, priority = false, layout = '
       </button>
 
       <div className="flex flex-1 flex-col gap-1.5 pt-4">
-        <div className="flex items-start justify-between gap-3">
-          <Link to={`/product/${product.slug}`} className="min-w-0">
-            <h3 className="truncate text-sm font-semibold sm:text-base">{product.name}</h3>
+        {/* Full name, then the price on the line below — the truncated
+            single-line title hid the rest of longer product names. */}
+        <div className="space-y-1">
+          <Link to={`/product/${product.slug}`} className="block">
+            <h3 className="line-clamp-2 text-sm font-semibold leading-snug sm:text-base">
+              {product.name}
+            </h3>
           </Link>
-          <PriceBlock product={product} align="right" />
+          <PriceBlock product={product} />
         </div>
 
         <p className="text-xs text-ink-500">

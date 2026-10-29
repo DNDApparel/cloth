@@ -56,31 +56,6 @@ function seedStock(colors, sizes, perVariant = MAX_LINE_QUANTITY) {
 const RAW = [
   // -------------------------------------------------------------------- Shorts
   {
-    id: 'p-101',
-    name: 'Zipped-Pocket Shorts',
-    category: 'shorts',
-    gender: 'men',
-    price: 149,
-    compareAt: 280,
-    wholesalePrice: 69,
-    bulkMinQuantity: 25,
-    fit: 'regular',
-    fabric: 'Poly-cotton knit',
-    tags: ['new'],
-    blurb: 'Everyday knit shorts with a zip security pocket and a contrast drawcord.',
-    released: '2026-10-19',
-    sold: 0,
-    rating: 4.8,
-    reviews: 0,
-    colors: [
-      { name: 'Ink', images: ['/images/shorts-adidas.jpg'] },
-      { name: 'Navy', images: [] },
-      { name: 'Charcoal', images: [] },
-      { name: 'Olive', images: [] },
-      { name: 'Slate', images: [] },
-    ],
-  },
-  {
     id: 'p-102',
     name: 'Side-Striped Shorts',
     category: 'shorts',
@@ -117,8 +92,8 @@ const RAW = [
     compareAt: 400,
     wholesalePrice: 95,
     bulkMinQuantity: 10,
-    // Wholesale is quoted per size on this style — 10 pieces each in XL and XXL.
-    bulkNote: 'Wholesale rate applies to XL and XXL, minimum 10 pieces per size.',
+    // Wholesale is quoted per size on this style — 10 pieces each in XXL.
+    bulkNote: 'Wholesale rate applies to XXL, minimum 10 pieces.',
     fit: 'regular',
     fabric: 'Lycra blend',
     tags: ['new'],
@@ -135,69 +110,6 @@ const RAW = [
       { name: 'Charcoal', images: [] },
     ],
   },
-  {
-    id: 'p-104',
-    name: 'Zipped-Pocket Pant',
-    category: 'pants',
-    gender: 'men',
-    price: 199,
-    compareAt: 350,
-    wholesalePrice: 95,
-    bulkMinQuantity: 25,
-    // Ten pieces per colour and size — the seller fills larger orders by
-    // mixing colourways rather than stacking one variant.
-    maxPerVariant: 10,
-    fit: 'regular',
-    fabric: 'Brushed fleece',
-    tags: ['new'],
-    blurb: 'A brushed fleece pant with a zip security pocket and a straight, easy leg.',
-    bulkNote:
-      'The 25-piece wholesale rate is an assorted pack: Grey / Yellow, Blue / White, '
-      + 'Grey / Orange, Black / Red and a second Blue / White — five pieces of each.',
-    released: '2026-10-19',
-    sold: 0,
-    rating: 4.8,
-    reviews: 0,
-    // Four colourways are sold individually. The fifth pack colour is a
-    // repeat of Blue / White, so it needs no separate swatch.
-    // Three shots per colourway, in the order they appear in the gallery:
-    // the full garment, the zip detail, then the drawcord.
-    colors: [
-      {
-        name: 'Grey / Yellow',
-        images: [
-          '/images/zpp-grey-yellow-full.jpg',
-          '/images/zpp-grey-yellow-zip.jpg',
-          '/images/zpp-grey-yellow-thread.jpg',
-        ],
-      },
-      {
-        name: 'Blue / White',
-        images: [
-          '/images/zpp-blue-white-full.jpg',
-          '/images/zpp-blue-white-zip.jpg',
-          '/images/zpp-blue-white-thread.jpg',
-        ],
-      },
-      {
-        name: 'Grey / Orange',
-        images: [
-          '/images/zpp-grey-orange-full.jpg',
-          '/images/zpp-grey-orange-zip.jpg',
-          '/images/zpp-grey-orange-thread.jpg',
-        ],
-      },
-      {
-        name: 'Black / Red',
-        images: [
-          '/images/zpp-black-red-full.jpg',
-          '/images/zpp-black-red-zip.jpg',
-          '/images/zpp-black-red-thread.jpg',
-        ],
-      },
-    ],
-  },
-
   // -------------------------------------------------------------- Track pants
   {
     id: 'p-105',

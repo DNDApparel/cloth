@@ -75,7 +75,12 @@ export function ProductGallery({ product, activeColor }) {
           }
           className="block w-full cursor-zoom-in disabled:cursor-default"
         >
-          <div className="aspect-[4/5]">
+          {/*
+            Squarer on a phone, where a 4:5 frame filled most of the screen and
+            pushed the name, price and size picker below the fold. The taller
+            crop returns from `sm:` up, where there is room for it.
+          */}
+          <div className="aspect-square sm:aspect-[4/5]">
             <ProductImage
               src={currentImage}
               alt={`${product.name} in ${current?.name}, photo ${selectedImageIndex + 1}`}

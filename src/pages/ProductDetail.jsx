@@ -144,17 +144,21 @@ export default function ProductDetail() {
         <ProductGallery product={product} activeColor={color} />
 
         <div className="flex flex-col gap-6">
-          <div className="space-y-3">
-            <div className="flex flex-wrap items-center gap-2">
-              {product.tags?.map((tag) => (
-                <Badge key={tag} tag={tag} />
-              ))}
-              <span className="dnd-eyebrow">{category?.name ?? product.category}</span>
-            </div>
+          {/* `flex` rather than `space-y`, so the `order-*` classes below can
+              reshuffle the heading between mobile and desktop. */}
+          <div className="flex flex-col gap-3">
+            {/*
+              On mobile the gallery sits directly above this block, so the name
+              and price lead — a shopper scrolling down reads what the piece is
+              and what it costs before anything else. The tag and category row
+              follows them there, and moves back above on `sm:` where the
+              two-column layout gives the heading its own space.
+            */}
+            <h1 className="text-2xl font-bold leading-tight sm:order-2 sm:text-4xl">
+              {product.name}
+            </h1>
 
-            <h1 className="text-3xl font-bold leading-tight sm:text-4xl">{product.name}</h1>
-
-            <div className="flex flex-wrap items-baseline gap-3">
+            <div className="flex flex-wrap items-baseline gap-3 sm:order-3">
               <p className="text-2xl font-semibold">{formatPrice(product.price)}</p>
               {product.compareAt && (
                 <>
@@ -164,6 +168,13 @@ export default function ProductDetail() {
                   </span>
                 </>
               )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 sm:order-1">
+              {product.tags?.map((tag) => (
+                <Badge key={tag} tag={tag} />
+              ))}
+              <span className="dnd-eyebrow">{category?.name ?? product.category}</span>
             </div>
 
             {/* Wholesale rates are no longer quoted on the retail product page —
@@ -257,7 +268,7 @@ export default function ProductDetail() {
           </div>
 
           {/* ------------------------------------------- Add to bag */}
-          <div className="space-y-3">
+          <div className="flex flex-col gap-3">
             <div className="flex flex-wrap items-center gap-3">
               <QuantityStepper value={quantity} onChange={setQuantity} max={maxQuantity} />
               <Button

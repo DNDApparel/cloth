@@ -17,8 +17,16 @@ import { useStore } from '../../context/StoreContext';
  * when the festival is over without a code change.
  */
 
-/** Warm festival palette — golds, marigold and a single festive pink. */
-const COLORS = ['#ffd24a', '#ff9f1c', '#ff5f6d', '#f72585', '#8ecae6', '#c77dff'];
+/**
+ * A dark festival palette.
+ *
+ * The site background is pale sand, so the fireworks read best in deep,
+ * near-dusk tones — maroon, plum and ink — like a show in the last light
+ * rather than a display of bright confetti. Each glow is carried by the
+ * spark's box-shadow in `index.css`, which uses `currentColor`, so a dark
+ * body with a dark halo stays subtle at the same time as it stays visible.
+ */
+const COLORS = ['#6d2f3c', '#8c3f52', '#3a3730', '#7a4a1f', '#452a5e', '#5b2333'];
 
 const SPARKS_PER_BURST = 12;
 

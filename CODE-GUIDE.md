@@ -417,9 +417,11 @@ the list is capped at three so toasts cannot stack off-screen.
 - **`Crackers.jsx`** — Diwali fireworks, gated on `settings.crackers.enabled`.
   Pure CSS from a few custom properties (no canvas, no per-frame JS), so the
   browser composites it. `aria-hidden`, `pointer-events: none`, and hidden
-  outright under `prefers-reduced-motion`. It overlays rather than sits behind
-  the page — most panels paint an opaque background, so a layer underneath
-  would simply be invisible.
+  outright under `prefers-reduced-motion`. The layer sits *behind* the page
+  (`z-index: 0`, content wrapper at `z-10`, page background moved to `html`
+  with a transparent `body`), so it shows only in the open areas between
+  panels — never over a product image or heading. The palette is a dark
+  festival tone (deep berry, plum, ink) rather than bright sparkles.
 - **`Breadcrumbs.jsx`** — trail with `aria-current="page"` on the last crumb.
 
 ### `product/`

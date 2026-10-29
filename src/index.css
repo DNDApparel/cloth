@@ -52,10 +52,16 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /*
+     * The page base lives on `html`, not `body` — so a transparent body lets
+     * the `.dnd-crackers` backdrop show through while every opaque panel
+     * (header, footer, cards, product images) still covers it completely.
+     */
+    background-color: var(--color-sand-100);
   }
 
   body {
-    background-color: var(--color-sand-100);
+    background-color: transparent;
     color: var(--color-ink-900);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -280,23 +286,24 @@
 }
 
 /**
- * The fireworks layer sits *above* the page, not behind it.
+ * The fireworks layer sits *behind* the page.
  *
- * Behind would mean invisible: the header, footer and most panels paint an
- * opaque sand background, so there is nothing to see through. Overlaying is
- * safe because the layer never takes a click and is held well below the cart
- * drawer and the sale popup, which must stay fully legible.
+ * `z-index: 0`, below the `relative z-10` content wrapper, and behind it
+ * forever: it never overlays a product image, a heading or a button, because
+ * all of those paint inside the content wrapper or on an opaque background
+ * that covers this layer. It is only visible in the open areas — the page
+ * background between panels — which is the effect that was asked for.
  *
- * Opacity is deliberately low — this is a suggestion of a festival in the
- * distance, not confetti over the product photography.
+ * The colours are a dark festival palette (deep berry, maroon, ink) rather
+ * than bright sparkles, so even at full visibility it reads as a mood, not
+ * as confetti over the merchandise.
  */
 .dnd-crackers {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  opacity: 0.55;
 }
 
 .dnd-cracker {

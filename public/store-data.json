@@ -1,6 +1,84 @@
 {
   "products": [
     {
+      "id": "p-101",
+      "name": "Zipped-Pocket Shorts",
+      "category": "shorts",
+      "gender": "men",
+      "price": 149,
+      "compareAt": 280,
+      "wholesalePrice": 69,
+      "bulkMinQuantity": 25,
+      "soldOut": true,
+      "fit": "regular",
+      "fabric": "Poly-cotton knit",
+      "tags": [],
+      "blurb": "Everyday knit shorts with a zip security pocket and a contrast drawcord.",
+      "released": "2026-10-19",
+      "sold": 0,
+      "rating": 4.8,
+      "reviews": 0,
+      "colors": [
+        {
+          "name": "Ink",
+          "images": [
+            "/images/shorts-adidas.jpg"
+          ],
+          "image": "/images/shorts-adidas.jpg"
+        },
+        {
+          "name": "Navy",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Charcoal",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Olive",
+          "images": [],
+          "image": ""
+        },
+        {
+          "name": "Slate",
+          "images": [],
+          "image": ""
+        }
+      ],
+      "sizes": [
+        "XXL"
+      ],
+      "stock": {
+        "Ink::XXL": 0,
+        "Navy::XXL": 0,
+        "Charcoal::XXL": 0,
+        "Olive::XXL": 0,
+        "Slate::XXL": 0
+      },
+      "slug": "p-101-zipped-pocket-shorts",
+      "care": [
+        "Machine wash cold",
+        "Tumble dry low",
+        "Do not bleach"
+      ],
+      "details": [
+        "Poly-cotton knit — regular fit",
+        "Designed in-house, made in limited runs",
+        "Check the size guide for garment measurements"
+      ],
+      "measurements": {
+        "XXL": {
+          "chest": 46,
+          "waist": 38,
+          "hip": 46,
+          "length": 31,
+          "inseam": 31.5
+        }
+      }
+    },
+    {
       "id": "p-102",
       "name": "Side-Striped Shorts",
       "category": "shorts",
@@ -168,6 +246,93 @@
       }
     },
     {
+      "id": "p-104",
+      "name": "Zipped-Pocket Pant",
+      "category": "pants",
+      "gender": "men",
+      "price": 199,
+      "compareAt": 350,
+      "wholesalePrice": 95,
+      "bulkMinQuantity": 25,
+      "soldOut": true,
+      "fit": "regular",
+      "fabric": "Brushed fleece",
+      "tags": [],
+      "blurb": "A brushed fleece pant with a zip security pocket and a straight, easy leg.",
+      "bulkNote": "The 25-piece wholesale rate is an assorted pack: Grey / Yellow, Blue / White, Grey / Orange, Black / Red and a second Blue / White — five pieces of each.",
+      "released": "2026-10-19",
+      "sold": 0,
+      "rating": 4.8,
+      "reviews": 0,
+      "colors": [
+        {
+          "name": "Grey / Yellow",
+          "images": [
+            "/images/zpp-grey-yellow-full.jpg",
+            "/images/zpp-grey-yellow-zip.jpg",
+            "/images/zpp-grey-yellow-thread.jpg"
+          ],
+          "image": "/images/zpp-grey-yellow-full.jpg"
+        },
+        {
+          "name": "Blue / White",
+          "images": [
+            "/images/zpp-blue-white-full.jpg",
+            "/images/zpp-blue-white-zip.jpg",
+            "/images/zpp-blue-white-thread.jpg"
+          ],
+          "image": "/images/zpp-blue-white-full.jpg"
+        },
+        {
+          "name": "Grey / Orange",
+          "images": [
+            "/images/zpp-grey-orange-full.jpg",
+            "/images/zpp-grey-orange-zip.jpg",
+            "/images/zpp-grey-orange-thread.jpg"
+          ],
+          "image": "/images/zpp-grey-orange-full.jpg"
+        },
+        {
+          "name": "Black / Red",
+          "images": [
+            "/images/zpp-black-red-full.jpg",
+            "/images/zpp-black-red-zip.jpg",
+            "/images/zpp-black-red-thread.jpg"
+          ],
+          "image": "/images/zpp-black-red-full.jpg"
+        }
+      ],
+      "sizes": [
+        "XXL"
+      ],
+      "stock": {
+        "Grey / Yellow::XXL": 0,
+        "Blue / White::XXL": 0,
+        "Grey / Orange::XXL": 0,
+        "Black / Red::XXL": 0
+      },
+      "slug": "p-104-zipped-pocket-pant",
+      "care": [
+        "Machine wash cold inside out",
+        "Tumble dry low",
+        "Do not iron print"
+      ],
+      "details": [
+        "Brushed fleece — regular fit",
+        "Designed in-house, made in limited runs",
+        "Check the size guide for garment measurements"
+      ],
+      "measurements": {
+        "XXL": {
+          "chest": 46,
+          "waist": 38,
+          "hip": 46,
+          "length": 31,
+          "inseam": 31.5
+        }
+      }
+    },
+    {
       "id": "p-105",
       "name": "Side-Striped Track Pant",
       "category": "track-pants",
@@ -279,8 +444,10 @@
       "description": "The pieces we reach for without thinking — easy forms, considered details, made for wherever the day goes.",
       "image": "/images/collection-everyday.jpg",
       "productIds": [
+        "p-101",
         "p-102",
         "p-103",
+        "p-104",
         "p-105"
       ]
     },
@@ -293,7 +460,7 @@
       "image": "/images/collection-move-well.jpg",
       "productIds": [
         "p-105",
-        "p-103"
+        "p-104"
       ]
     },
     {
@@ -304,8 +471,8 @@
       "description": "Easy-to-wear styles for warmer weather and everyday plans.",
       "image": "/images/collection-warm-month.jpg",
       "productIds": [
-        "p-102",
-        "p-103"
+        "p-101",
+        "p-102"
       ]
     },
     {
@@ -317,7 +484,7 @@
       "image": "/images/collection-soft-structure.jpg",
       "productIds": [
         "p-103",
-        "p-105"
+        "p-104"
       ]
     }
   ],

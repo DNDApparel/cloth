@@ -42,8 +42,12 @@ const CARE_BY_FABRIC = {
  * `maxPerVariant` when the seller wants a tighter per-colour cap than the
  * store-wide `MAX_LINE_QUANTITY`.
  */
-function seedStock(colors, sizes, perVariant = MAX_LINE_QUANTITY) {
-  const limit = Math.min(Math.max(1, perVariant), MAX_LINE_QUANTITY);
+function seedStock(colors, sizes, perVariant = MAX_LINE_QUANTITY, soldOut = false) {
+  // A sold-out style keeps its photography, colours and sizes; only the
+  // numbers go to zero. Every "is this available" check in the app reads
+  // stock, so one flag drives the badge, the disabled picker and the
+  // disabled Add-to-bag button.
+  const limit = soldOut ? 0 : Math.min(Math.max(1, perVariant), MAX_LINE_QUANTITY);
   const stock = {};
   colors.forEach((color) => {
     sizes.forEach((size) => {
@@ -55,6 +59,35 @@ function seedStock(colors, sizes, perVariant = MAX_LINE_QUANTITY) {
 
 const RAW = [
   // -------------------------------------------------------------------- Shorts
+  {
+    id: 'p-101',
+    name: 'Zipped-Pocket Shorts',
+    category: 'shorts',
+    gender: 'men',
+    price: 149,
+    compareAt: 280,
+    wholesalePrice: 69,
+    bulkMinQuantity: 25,
+    // Out of stock: still listed, still photographed, but every variant is
+    // zeroed by `hydrateProduct` so the tile carries the "Sold out" overlay
+    // and nothing can reach the bag.
+    soldOut: true,
+    fit: 'regular',
+    fabric: 'Poly-cotton knit',
+    tags: [],
+    blurb: 'Everyday knit shorts with a zip security pocket and a contrast drawcord.',
+    released: '2026-10-19',
+    sold: 0,
+    rating: 4.8,
+    reviews: 0,
+    colors: [
+      { name: 'Ink', images: ['/images/shorts-adidas.jpg'] },
+      { name: 'Navy', images: [] },
+      { name: 'Charcoal', images: [] },
+      { name: 'Olive', images: [] },
+      { name: 'Slate', images: [] },
+    ],
+  },
   {
     id: 'p-102',
     name: 'Side-Striped Shorts',
@@ -110,6 +143,68 @@ const RAW = [
       { name: 'Charcoal', images: [] },
     ],
   },
+  {
+    id: 'p-104',
+    name: 'Zipped-Pocket Pant',
+    category: 'pants',
+    gender: 'men',
+    price: 199,
+    compareAt: 350,
+    wholesalePrice: 95,
+    bulkMinQuantity: 25,
+    // Out of stock — see the note on p-101.
+    soldOut: true,
+    fit: 'regular',
+    fabric: 'Brushed fleece',
+    tags: [],
+    blurb: 'A brushed fleece pant with a zip security pocket and a straight, easy leg.',
+    bulkNote:
+      'The 25-piece wholesale rate is an assorted pack: Grey / Yellow, Blue / White, '
+      + 'Grey / Orange, Black / Red and a second Blue / White — five pieces of each.',
+    released: '2026-10-19',
+    sold: 0,
+    rating: 4.8,
+    reviews: 0,
+    // Four colourways are sold individually. The fifth pack colour is a
+    // repeat of Blue / White, so it needs no separate swatch.
+    // Three shots per colourway, in the order they appear in the gallery:
+    // the full garment, the zip detail, then the drawcord.
+    colors: [
+      {
+        name: 'Grey / Yellow',
+        images: [
+          '/images/zpp-grey-yellow-full.jpg',
+          '/images/zpp-grey-yellow-zip.jpg',
+          '/images/zpp-grey-yellow-thread.jpg',
+        ],
+      },
+      {
+        name: 'Blue / White',
+        images: [
+          '/images/zpp-blue-white-full.jpg',
+          '/images/zpp-blue-white-zip.jpg',
+          '/images/zpp-blue-white-thread.jpg',
+        ],
+      },
+      {
+        name: 'Grey / Orange',
+        images: [
+          '/images/zpp-grey-orange-full.jpg',
+          '/images/zpp-grey-orange-zip.jpg',
+          '/images/zpp-grey-orange-thread.jpg',
+        ],
+      },
+      {
+        name: 'Black / Red',
+        images: [
+          '/images/zpp-black-red-full.jpg',
+          '/images/zpp-black-red-zip.jpg',
+          '/images/zpp-black-red-thread.jpg',
+        ],
+      },
+    ],
+  },
+
   // -------------------------------------------------------------- Track pants
   {
     id: 'p-105',
@@ -155,7 +250,7 @@ function hydrateProduct(raw) {
     ...raw,
     sizes,
     colors,
-    stock: raw.stock ?? seedStock(colors, sizes, raw.maxPerVariant),
+    stock: raw.stock ?? seedStock(colors, sizes, raw.maxPerVariant, raw.soldOut),
     slug:
       raw.slug ??
       `${raw.id}-${raw.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`,

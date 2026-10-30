@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
 import { useToast } from '../context/ToastContext';
-import { colorNames, primaryImage } from '../data/products';
+import { colorNames, isInStock, primaryImage } from '../data/products';
 import { formatPrice } from '../utils/format';
 import { isAddress, isPhone, isPincode, isRequired } from '../utils/validation';
 import { getWhatsAppContacts, openWhatsAppMessage } from '../utils/whatsapp';
@@ -72,7 +72,11 @@ export default function BulkOrder() {
     return Number.isFinite(rate) && rate > 0 && rate < Number(product.price) ? rate : null;
   }
 
-  const selected = products.filter((product) => product.id in lines);
+  // Sold-out styles are hidden here: a wholesale quote we cannot fulfil is
+  // worse than not offering it. They stay visible in the catalogue, badged.
+  const orderable = products.filter(isInStock);
+
+  const selected = orderable.filter((product) => product.id in lines);
 
   const selectedRecipient = contacts.find(
     (contact) => (contact.id || contact.number) === recipientId,
@@ -200,7 +204,7 @@ export default function BulkOrder() {
             </p>
 
             <ul className="space-y-3">
-              {products.map((product) => {
+              {orderable.map((product) => {
                 const checked = product.id in lines;
                 const minimum = minimumFor(product);
                 const rate = wholesaleFor(product);

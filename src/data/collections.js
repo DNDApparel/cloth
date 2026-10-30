@@ -14,7 +14,7 @@ export const COLLECTIONS = [
     description:
       'The pieces we reach for without thinking — easy forms, considered details, made for wherever the day goes.',
     image: '/images/collection-everyday.jpg',
-    productIds: ['p-102', 'p-103', 'p-105'],
+    productIds: ['p-101', 'p-102', 'p-103', 'p-104', 'p-105'],
   },
   {
     slug: 'move-well',
@@ -24,7 +24,7 @@ export const COLLECTIONS = [
     description:
       'Track pants and zip-pocket styles made for days on the move.',
     image: '/images/collection-move-well.jpg',
-    productIds: ['p-105', 'p-103'],
+    productIds: ['p-105', 'p-104'],
   },
   {
     slug: 'warm-month-staples',
@@ -34,7 +34,7 @@ export const COLLECTIONS = [
     description:
       'Easy-to-wear styles for warmer weather and everyday plans.',
     image: '/images/collection-warm-month.jpg',
-    productIds: ['p-102', 'p-103'],
+    productIds: ['p-101', 'p-102'],
   },
   {
     slug: 'soft-structure',
@@ -43,7 +43,7 @@ export const COLLECTIONS = [
     tagline: 'Comfort for every day.',
     description: 'Everyday styles in comfortable fits.',
     image: '/images/collection-soft-structure.jpg',
-    productIds: ['p-103', 'p-105'],
+    productIds: ['p-103', 'p-104'],
   },
 ];
 

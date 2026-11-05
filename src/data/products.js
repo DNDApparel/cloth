@@ -16,8 +16,8 @@ import { MAX_LINE_QUANTITY } from '../utils/cart.js';
  * next to the current rate, so the festive saving is visible on every tile.
  * Wholesale rates are unchanged by the Diwali sale: they are already the
  * seller's floor price and are quoted per style.
- * Only the first colour of each product is photographed so far — the rest
- * render a neutral placeholder until more shots are supplied.
+ * Colours without a photograph render a neutral placeholder until shots are
+ * supplied; the Side-Striped styles are shot in every colourway.
  */
 
 const CARE_BY_FABRIC = {
@@ -105,13 +105,14 @@ const RAW = [
     sold: 0,
     rating: 4.8,
     reviews: 0,
+    // Every colourway is photographed, one shot each. The name reads
+    // "body / trim": body colour first, stripe and zip trim second.
     colors: [
-      { name: 'Olive', images: ['/images/shorts-tigers.jpg'] },
-      { name: 'Moss', images: [] },
-      { name: 'Ink', images: [] },
-      { name: 'Navy', images: [] },
-      { name: 'Charcoal', images: [] },
-      { name: 'Sand', images: [] },
+      { name: 'Ash / Orange', images: ['/images/shorts-striped-ash-orange.jpg'] },
+      { name: 'Black / Yellow', images: ['/images/shorts-striped-black-yellow.jpg'] },
+      { name: 'Melange / Red', images: ['/images/shorts-striped-melange-red.jpg'] },
+      { name: 'Navy / White', images: ['/images/shorts-striped-navy-white.jpg'] },
+      { name: 'Olive / Ash Blue', images: ['/images/shorts-striped-olive-ash-blue.jpg'] },
     ],
   },
 
@@ -223,13 +224,15 @@ const RAW = [
     sold: 0,
     rating: 4.8,
     reviews: 0,
+    // Every colourway is photographed, one shot each. The name reads
+    // "body / trim": body colour first, stripe and zip trim second.
     colors: [
-      { name: 'Navy', images: ['/images/pant-polar-deer.jpg'] },
-      { name: 'Ink', images: [] },
-      { name: 'Charcoal', images: [] },
-      { name: 'Slate', images: [] },
-      { name: 'Maroon', images: [] },
-      { name: 'Olive', images: [] },
+      { name: 'Black / Red', images: ['/images/track-striped-black-red.jpg'] },
+      { name: 'Black / Yellow', images: ['/images/track-striped-black-yellow.jpg'] },
+      { name: 'Blue / White', images: ['/images/track-striped-blue-white.jpg'] },
+      { name: 'Grey / Orange', images: ['/images/track-striped-grey-orange.jpg'] },
+      { name: 'Light Blue / White', images: ['/images/track-striped-light-blue-white.jpg'] },
+      { name: 'Olive / Ash Blue', images: ['/images/track-striped-olive-ash-blue.jpg'] },
     ],
   },
 ];

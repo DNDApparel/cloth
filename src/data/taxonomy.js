@@ -52,6 +52,13 @@ export const COLOR_SWATCHES = {
   'Grey / Orange': ['#5a564f', '#f08a1c'],
   'Blue / White': ['#3d4760', '#f2efe8'],
   'Black / Red': ['#2a2724', '#c8303c'],
+  'Black / Yellow': ['#2b2a28', '#f2c80f'],
+  'Ash / Orange': ['#5f5f5f', '#f4761c'],
+  'Melange / Red': ['#4e4b48', '#e02231'],
+  'Navy / White': ['#3b4455', '#f4f2ed'],
+  'Olive / Ash Blue': ['#5f6348', '#c9d6e4'],
+  'Light Blue / White': ['#54607a', '#dce6f2'],
+
 
   Oat: '#e3d9c6',
   Bone: '#f0ece2',

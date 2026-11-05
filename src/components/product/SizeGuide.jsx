@@ -71,8 +71,16 @@ export function SizeGuide({ product }) {
 
           <div className="space-y-2 text-xs text-ink-500">
             <p>All measurements are taken flat, in inches, and may vary by up to ½".</p>
-            <p>Between sizes? For {product.fabric.toLowerCase()} we recommend sizing up.</p>
+            {rows.length > 1 ? (
+              <p>Between sizes? For {product.fabric.toLowerCase()} we recommend sizing up.</p>
+            ) : (
+              <p>
+                This style is made in {rows[0][0]} only. Compare the measurements above with a
+                garment you already own for the closest match.
+              </p>
+            )}
           </div>
+
         </div>
       </Modal>
     </>

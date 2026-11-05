@@ -99,48 +99,50 @@
       "reviews": 0,
       "colors": [
         {
-          "name": "Olive",
+          "name": "Ash / Orange",
           "images": [
-            "/images/shorts-tigers.jpg"
+            "/images/shorts-striped-ash-orange.jpg"
           ],
-          "image": "/images/shorts-tigers.jpg"
+          "image": "/images/shorts-striped-ash-orange.jpg"
         },
         {
-          "name": "Moss",
-          "images": [],
-          "image": ""
+          "name": "Black / Yellow",
+          "images": [
+            "/images/shorts-striped-black-yellow.jpg"
+          ],
+          "image": "/images/shorts-striped-black-yellow.jpg"
         },
         {
-          "name": "Ink",
-          "images": [],
-          "image": ""
+          "name": "Melange / Red",
+          "images": [
+            "/images/shorts-striped-melange-red.jpg"
+          ],
+          "image": "/images/shorts-striped-melange-red.jpg"
         },
         {
-          "name": "Navy",
-          "images": [],
-          "image": ""
+          "name": "Navy / White",
+          "images": [
+            "/images/shorts-striped-navy-white.jpg"
+          ],
+          "image": "/images/shorts-striped-navy-white.jpg"
         },
         {
-          "name": "Charcoal",
-          "images": [],
-          "image": ""
-        },
-        {
-          "name": "Sand",
-          "images": [],
-          "image": ""
+          "name": "Olive / Ash Blue",
+          "images": [
+            "/images/shorts-striped-olive-ash-blue.jpg"
+          ],
+          "image": "/images/shorts-striped-olive-ash-blue.jpg"
         }
       ],
       "sizes": [
         "XXL"
       ],
       "stock": {
-        "Olive::XXL": 100,
-        "Moss::XXL": 100,
-        "Ink::XXL": 100,
-        "Navy::XXL": 100,
-        "Charcoal::XXL": 100,
-        "Sand::XXL": 100
+        "Ash / Orange::XXL": 100,
+        "Black / Yellow::XXL": 100,
+        "Melange / Red::XXL": 100,
+        "Navy / White::XXL": 100,
+        "Olive / Ash Blue::XXL": 100
       },
       "slug": "p-102-side-striped-shorts",
       "care": [
@@ -353,48 +355,58 @@
       "reviews": 0,
       "colors": [
         {
-          "name": "Navy",
+          "name": "Black / Red",
           "images": [
-            "/images/pant-polar-deer.jpg"
+            "/images/track-striped-black-red.jpg"
           ],
-          "image": "/images/pant-polar-deer.jpg"
+          "image": "/images/track-striped-black-red.jpg"
         },
         {
-          "name": "Ink",
-          "images": [],
-          "image": ""
+          "name": "Black / Yellow",
+          "images": [
+            "/images/track-striped-black-yellow.jpg"
+          ],
+          "image": "/images/track-striped-black-yellow.jpg"
         },
         {
-          "name": "Charcoal",
-          "images": [],
-          "image": ""
+          "name": "Blue / White",
+          "images": [
+            "/images/track-striped-blue-white.jpg"
+          ],
+          "image": "/images/track-striped-blue-white.jpg"
         },
         {
-          "name": "Slate",
-          "images": [],
-          "image": ""
+          "name": "Grey / Orange",
+          "images": [
+            "/images/track-striped-grey-orange.jpg"
+          ],
+          "image": "/images/track-striped-grey-orange.jpg"
         },
         {
-          "name": "Maroon",
-          "images": [],
-          "image": ""
+          "name": "Light Blue / White",
+          "images": [
+            "/images/track-striped-light-blue-white.jpg"
+          ],
+          "image": "/images/track-striped-light-blue-white.jpg"
         },
         {
-          "name": "Olive",
-          "images": [],
-          "image": ""
+          "name": "Olive / Ash Blue",
+          "images": [
+            "/images/track-striped-olive-ash-blue.jpg"
+          ],
+          "image": "/images/track-striped-olive-ash-blue.jpg"
         }
       ],
       "sizes": [
         "XXL"
       ],
       "stock": {
-        "Navy::XXL": 100,
-        "Ink::XXL": 100,
-        "Charcoal::XXL": 100,
-        "Slate::XXL": 100,
-        "Maroon::XXL": 100,
-        "Olive::XXL": 100
+        "Black / Red::XXL": 100,
+        "Black / Yellow::XXL": 100,
+        "Blue / White::XXL": 100,
+        "Grey / Orange::XXL": 100,
+        "Light Blue / White::XXL": 100,
+        "Olive / Ash Blue::XXL": 100
       },
       "slug": "p-105-side-striped-track-pant",
       "care": [

@@ -36,6 +36,9 @@ export function FilterSidebar({ filters, facets, onChange, onClear, activeCount 
         )}
       </div>
 
+      {/* Nothing to refine while the range is a single size — the filter only
+          appears once the store stocks more than one. */}
+      {SIZES.length > 1 && (
       <FilterGroup legend="Size">
         <div className="flex flex-wrap gap-2">
           {SIZES.map((size) => {
@@ -62,6 +65,7 @@ export function FilterSidebar({ filters, facets, onChange, onClear, activeCount 
           })}
         </div>
       </FilterGroup>
+      )}
 
       <FilterGroup legend="Colour">
         <div className="grid grid-cols-2 gap-2">

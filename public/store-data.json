@@ -175,11 +175,10 @@
       "wholesalePrice": 95,
       "bulkMinQuantity": 10,
       "bulkNote": "Wholesale rate applies to XXL, minimum 10 pieces.",
+      "soldOut": true,
       "fit": "regular",
       "fabric": "Lycra blend",
-      "tags": [
-        "new"
-      ],
+      "tags": [],
       "blurb": "A smooth lycra-blend pant with a clean straight leg and an elasticated waist.",
       "released": "2026-10-19",
       "sold": 0,
@@ -220,11 +219,11 @@
         "XXL"
       ],
       "stock": {
-        "Slate::XXL": 100,
-        "Maroon::XXL": 100,
-        "Ink::XXL": 100,
-        "Navy::XXL": 100,
-        "Charcoal::XXL": 100
+        "Slate::XXL": 0,
+        "Maroon::XXL": 0,
+        "Ink::XXL": 0,
+        "Navy::XXL": 0,
+        "Charcoal::XXL": 0
       },
       "slug": "p-103-lycra-stretch-pant",
       "care": [

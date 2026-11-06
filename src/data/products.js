@@ -128,9 +128,11 @@ const RAW = [
     bulkMinQuantity: 10,
     // Wholesale is quoted per size on this style — 10 pieces each in XXL.
     bulkNote: 'Wholesale rate applies to XXL, minimum 10 pieces.',
+    // Out of stock — see the note on p-101.
+    soldOut: true,
     fit: 'regular',
     fabric: 'Lycra blend',
-    tags: ['new'],
+    tags: [],
     blurb: 'A smooth lycra-blend pant with a clean straight leg and an elasticated waist.',
     released: '2026-10-19',
     sold: 0,
